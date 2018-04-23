@@ -10,7 +10,6 @@ public class Ship {
 	
 	//constructor
 	public Ship(String name, int size, Coord startCoord, Coord endCoord, ArrayList<Coord> coordHit) {
-		super();
 		this.name = name;
 		this.size = size;
 		this.startCoord = startCoord;
@@ -111,11 +110,42 @@ public class Ship {
 		}
 	}
 
+	
+	//checking
+	public boolean checkNotDiagonal(){
+		boolean check = false; 
+		
+		if (isVertical()){
+			check = true;
+		} else {
+			if (this.startCoord.CompareLine(this.endCoord)){
+				check = true;
+			}
+		}
+		return check;
+	}
+	
+	public boolean checkSizeCoord(){
+		
+		int sizeCoord = 0;
+		
+		if (isVertical()){
+			sizeCoord = this.endCoord.getLine() - this.startCoord.getLine() + 1;
+		} else {
+			for (char i=this.startCoord.getColumn(); i<=this.endCoord.getColumn(); i++){
+				sizeCoord = sizeCoord + 1;
+			}
+		}
+		
+		if (sizeCoord==this.size){
+			return true;
+		} else {
+			return false;
+		}
+	}
 	//override
 	public String toString(){
 		return "bateau " + this.name + " de taille " + this.size + ", touché " + this.coordHit.size() + " fois, "
 				+ "detruit : " + this.isDestroyed();
 	}
-	
-
 }

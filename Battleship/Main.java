@@ -13,6 +13,9 @@ public class Main {
 		String end = scanner.nextLine(); 
 		Coord endCoord = new Coord(end);
 		
+		System.out.println("startCoord : " + startCoord.checkCoord());
+		System.out.println("endCoord : " + endCoord.checkCoord());
+		
 		ArrayList<Coord> list = new ArrayList<Coord>();
 		
 		Ship test = new Ship("carrier", 5, startCoord, endCoord, list);

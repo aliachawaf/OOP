@@ -34,7 +34,7 @@ public class Coord {
 	
 	//methods
 	public boolean CompareColumn (Coord c){
-		if ( Character.toUpperCase(this.getColumn()) == Character.toUpperCase(c.getColumn()) ){
+		if ( Character.toUpperCase(this.column) == Character.toUpperCase(c.getColumn()) ){
 			return true;
 		} else {
 			return false;
@@ -42,7 +42,7 @@ public class Coord {
 	}
 	
 	public boolean CompareLine (Coord c){
-		if (this.getLine() == c.getLine()){
+		if (this.line == c.getLine()){
 			return true;
 		} else {
 			return false;
@@ -58,7 +58,35 @@ public class Coord {
 		}
 	}
 	
+	//checking
+	public boolean checkColumn(){
+		
+		boolean check = false;
+		
+		for (char i='A'; i<='J'; i++){
+			if (Character.toUpperCase(this.column) == i){
+				check = true;
+			}
+		}
+		return check;
+	}
 	
+	public boolean checkLine(){
+		
+		boolean check = false;
+		
+		for (int i=1; i<=10; i++){
+			if (this.line == i){
+				check = true;
+			}
+		}
+		return check;
+	}
+	
+	public boolean checkCoord(){
+		
+		return (checkColumn() && checkLine() );
+	}
 	
 	
 	
