@@ -1,0 +1,69 @@
+public class Display {
+
+	private Player player;
+	private char gameBoard[][];
+
+	// constructor
+	public Display(Player player, int mapSize) {
+		this.player = player;
+		this.gameBoard = new char[mapSize - 1][mapSize - 1];
+	}
+
+	// getters & setters
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public char[][] getGameBoard() {
+		return gameBoard;
+	}
+
+	public void setGameBoard(char[][] gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
+	// methods
+	/*
+	 * static public String displayGameBoard(){
+	 * 
+	 * 
+	 * 
+	 * String display = "  ";
+	 * 
+	 * for (char i='A'; i<='J'; i++){ display = display + i + " "; }
+	 * 
+	 * display = display + "\n1";
+	 * 
+	 * for (char i='A'; i<='J'; i++){ Coord c = new Coord(i, 1);
+	 * 
+	 * if (this.player.) } return display;
+	 */
+
+	public char[][] initBoard() {
+
+		for (int i = 0; i < this.gameBoard.length; i++) {
+			for (char j = 'A'; j <= 'J'; i++) {
+				this.gameBoard[0][i] = j;
+			}
+		return this.gameBoard;
+
+		}
+/*
+		for (int i = 0; i < this.gameBoard.length; i++) {
+			for (int j = 0; j < this.gameBoard[i].length; i++) {
+				this.gameBoard[i][j] = "blablablablablablaa";
+			}
+		}*/
+
+	}
+
+	/*
+	 * afficher map actuel du joueur afficher map des tirs du joueurs sur la
+	 * carte adverse
+	 */
+
+}

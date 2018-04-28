@@ -1,0 +1,40 @@
+public class Display {
+
+	private Player player;
+	private int gameBoard[][];
+
+	// constructor
+	public Display(Player player, int[][] gameBoard) {
+		this.player = player;
+		this.gameBoard = gameBoard;
+	}
+
+	//getters & setters
+	
+	
+	// methods
+
+	static public String displayPlayerMap(){
+		
+		String display = "  ";
+		
+		for (char i='A'; i<='J'; i++){
+			display = display + i + " ";
+		}
+		
+		display = display + "\n1";
+		
+		for (char i='A'; i<='J'; i++){
+			Coord c = new Coord(i, 1);
+			
+			if (this.player.)
+		}
+		return display;
+	}
+
+	/*
+	 * afficher map actuel du joueur afficher map des tirs du joueurs sur la
+	 * carte adverse
+	 */
+
+}

@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+	private static Scanner scanner;
+
+	public static void main(String[] args) {
+		scanner = new Scanner(System.in);
+
+		Ship carrier_1 = new Ship("carrier", 5);
+		Ship battleship_1 = new Ship("battleship", 5);
+		Ship cruiser_1 = new Ship("cruiser", 5);
+		Ship submarine_1 = new Ship("submarine", 5);
+		Ship destroyer_1 = new Ship("destroyer", 5);
+		
+		Ship carrier_2 = new Ship("carrier", 5);
+		Ship battleship_2 = new Ship("battleship", 5);
+		Ship cruiser_2= new Ship("cruiser", 5);
+		Ship submarine_2 = new Ship("submarine", 5);
+		Ship destroyer_2 = new Ship("destroyer", 5);
+		
+		ArrayList<Ship> player1_ships = new ArrayList(Arrays.asList(carrier_1, battleship_1, cruiser_1, submarine_1, destroyer_1));
+		ArrayList<Ship> player2_ships = new ArrayList(Arrays.asList(carrier_2, battleship_2, cruiser_2, submarine_2, destroyer_2));
+		
+		Player player1 = new Player(1, player1_ships);
+		Player player2 = new Player(2, player2_ships);
+		
+		System.out.println("player 1 : enter start coord : ");
+		String carrier_1_start = scanner.nextLine();
+		Coord carrier_1_startCoord = new Coord(carrier_1_start);
+
+		System.out.println("player 1 : enter end coord : ");
+		String carrier_1_end = scanner.nextLine();
+		Coord carrier_1_endCoord = new Coord(carrier_1_end);
+		
+		carrier_1.setStartCoord(carrier_1_startCoord);
+		carrier_1.setEndCoord(carrier_1_endCoord);
+
+		System.out.println("vertical : " + carrier_1.isVertical());
+
+		Coord Hit = new Coord("a3");
+		System.out.println("ishit : " + carrier_1.isHit(Hit));
+
+		System.out.println(carrier_1.toString());
+
+		System.out.println(carrier_1.shipListCoord());
+
+		System.out.println("check size coord : " + carrier_1.checkSizeCoord());
+		
+		System.out.println("plaer1 listshiphit : " + player1.listShipHit());
+	}
+
+}

@@ -1,0 +1,7 @@
+
+public class Display {
+	
+	private Player player;
+	
+
+}
