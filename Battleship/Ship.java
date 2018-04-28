@@ -1,28 +1,35 @@
 import java.util.ArrayList;
 
 public class Ship {
-	
+
 	private String name;
 	private int size;
 	private Coord startCoord;
 	private Coord endCoord;
 	private ArrayList<Coord> coordHit;
-	
-	//constructor
-	public Ship(String name, int size, Coord startCoord, Coord endCoord, ArrayList<Coord> coordHit) {
+
+	// constructors
+	public Ship(String name, int size, Coord startCoord, Coord endCoord) {
 		this.name = name;
 		this.size = size;
 		this.startCoord = startCoord;
 		this.endCoord = endCoord;
-		this.coordHit = coordHit;
+		this.coordHit = new ArrayList<Coord>();
 	}
 
+	public Ship(String name, int size) {
+		this.name = name;
+		this.size = size;
+		this.startCoord = new Coord("A1");
+		this.endCoord = new Coord("A1");
+		this.coordHit = new ArrayList<Coord>();
+	}
 
-	//getters & setters
+	// getters & setters
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -39,7 +46,8 @@ public class Ship {
 		return startCoord;
 	}
 
-	public void setStartCoord(Coord startCoord) {
+	public void setStartCoord(String start) {
+		Coord startCoord = new Coord(start);
 		this.startCoord = startCoord;
 	}
 
@@ -47,7 +55,8 @@ public class Ship {
 		return endCoord;
 	}
 
-	public void setEndCoord(Coord endCoord) {
+	public void setEndCoord(String end) {
+		Coord endCoord = new Coord(end);
 		this.endCoord = endCoord;
 	}
 
@@ -59,93 +68,113 @@ public class Ship {
 		this.coordHit = coordHit;
 	}
 
-
-	//methods
-	public boolean isVertical(){
-		//ship in vertical if same column from the beginning to the end
-		if (this.startCoord.CompareColumn(this.endCoord)){
+	// methods
+	public boolean isVertical() {
+		// ship in vertical if same column from the beginning to the end
+		if (this.startCoord.CompareColumn(this.endCoord)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean isHit(Coord missileCoord){
-		
+
+	public boolean isHit(Coord missileCoord) {
+
 		boolean hit = false;
-		Coord shipCoord = this.startCoord;
-		
-		//if ship in vertical, comparison is done line by line
-		if (isVertical()){
-			
-			for (int i=this.startCoord.getLine(); i<= this.endCoord.getLine(); i++){
-					
-				if (shipCoord.CompareCoord(missileCoord)){
-						hit = true;
-						this.coordHit.add(missileCoord);
-					}
-				shipCoord.setLine(i+1);	//next line
-			}	
-		} 
-		//if not in vertical, comparison is done column by column
+
+		Coord shipCoord = new Coord(this.startCoord.getColumn(),
+				this.startCoord.getLine());
+
+		// if ship in vertical, comparison is done line by line
+		if (isVertical()) {
+
+			for (int i = this.startCoord.getLine(); i <= this.endCoord
+					.getLine(); i++) {
+
+				if (shipCoord.CompareCoord(missileCoord)) {
+					hit = true;
+					this.coordHit.add(missileCoord);
+				}
+				shipCoord.setLine(i + 1); // next line
+			}
+		}
+		// if not in vertical, comparison is done column by column
 		else {
-			for (char i=this.startCoord.getColumn(); i<= this.endCoord.getColumn(); i++){
-					if (shipCoord.CompareCoord(missileCoord)){
-						hit = true;
-						this.coordHit.add(missileCoord);
-					}
-					shipCoord.setColumn(i++); //next column
-			}	
+			for (char i = this.startCoord.getColumn(); i <= this.endCoord
+					.getColumn(); i++) {
+				if (shipCoord.CompareCoord(missileCoord)) {
+					hit = true;
+					this.coordHit.add(missileCoord);
+				}
+				shipCoord.setColumn(i++); // next column
+			}
 		}
 		return hit;
 	}
-	
-	public boolean isDestroyed(){
-		//ship has sunk when the number of coord hit is equal to his size
-		if (this.coordHit.size() == this.size){
+
+	public boolean isDestroyed() {
+		// ship has sunk when the number of coord hit is equal to his size
+		if (this.coordHit.size() == this.size) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
 
-	
-	//checking
-	public boolean checkNotDiagonal(){
-		boolean check = false; 
-		
-		if (isVertical()){
+	public ArrayList<Coord> shipListCoord() {
+
+		// we construct a list containing the coord which compose the ship
+
+		ArrayList<Coord> list = new ArrayList<Coord>();
+
+		// if ship in vertical, same letter of column but different lines
+		if (isVertical()) {
+
+			for (int i = this.startCoord.getLine(); i <= this.endCoord
+					.getLine(); i++) {
+
+				Coord c = new Coord(this.startCoord.getColumn(), i);
+				list.add(c);
+			}
+		} else {
+			for (char i = this.startCoord.getColumn(); i <= this.endCoord
+					.getColumn(); i++) {
+
+				Coord c = new Coord(i, this.startCoord.getLine());
+				list.add(c);
+			}
+		}
+		return list;
+	}
+
+	// checking
+	public boolean checkNotDiagonal() {
+		boolean check = false;
+
+		if (isVertical()) {
 			check = true;
 		} else {
-			if (this.startCoord.CompareLine(this.endCoord)){
+			if (this.startCoord.CompareLine(this.endCoord)) {
 				check = true;
 			}
 		}
 		return check;
 	}
-	
-	public boolean checkSizeCoord(){
-		
-		int sizeCoord = 0;
-		
-		if (isVertical()){
-			sizeCoord = this.endCoord.getLine() - this.startCoord.getLine() + 1;
-		} else {
-			for (char i=this.startCoord.getColumn(); i<=this.endCoord.getColumn(); i++){
-				sizeCoord = sizeCoord + 1;
-			}
-		}
-		
-		if (sizeCoord==this.size){
+
+	public boolean checkSizeCoord() {
+		/* checks if ship's coord correspond with its size */
+
+		if (this.shipListCoord().size() == this.size) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	//override
-	public String toString(){
-		return "bateau " + this.name + " de taille " + this.size + ", touché " + this.coordHit.size() + " fois, "
-				+ "detruit : " + this.isDestroyed();
+
+	// override
+	public String toString() {
+		return this.name + " touché "
+				+ this.coordHit.size() + " fois " + "detruit : "
+				+ this.isDestroyed();
 	}
 }

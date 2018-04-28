@@ -1,8 +1,9 @@
 
 public class Coord {
 
-	public char column;
-	public int line;
+	private char column;
+	private int line;
+	private int mapSize;
 	
 	//constructors
 	public Coord(char column, int line) {
@@ -33,6 +34,7 @@ public class Coord {
 	}
 	
 	//methods
+	
 	public boolean CompareColumn (Coord c){
 		if ( Character.toUpperCase(this.column) == Character.toUpperCase(c.getColumn()) ){
 			return true;
@@ -75,7 +77,7 @@ public class Coord {
 		
 		boolean check = false;
 		
-		for (int i=1; i<=10; i++){
+		for (int i=1; i<=this.mapSize; i++){
 			if (this.line == i){
 				check = true;
 			}
@@ -88,6 +90,9 @@ public class Coord {
 		return (checkColumn() && checkLine() );
 	}
 	
-	
+	//override
+	public String toString(){
+		return Character.toUpperCase(this.column) + Integer.toString(this.line);
+	}
 	
 }
