@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.awt.Color;
 
 public class Main {
 
@@ -24,10 +22,19 @@ public class Main {
 		Ship destroyer_2 = new Ship("destroyer", 2);
 
 		// set up a shipList for each player
-		ArrayList<Ship> player1_ships = new ArrayList(Arrays.asList(carrier_1,
-				battleship_1, cruiser_1, submarine_1, destroyer_1));
-		ArrayList<Ship> player2_ships = new ArrayList(Arrays.asList(carrier_2,
-				battleship_2, cruiser_2, submarine_2, destroyer_2));
+		ArrayList<Ship> player1_ships = new ArrayList<Ship>();
+		player1_ships.add(carrier_1);
+		player1_ships.add(battleship_1);
+		player1_ships.add(cruiser_1);
+		player1_ships.add(submarine_1);
+		player1_ships.add(destroyer_1);
+
+		ArrayList<Ship> player2_ships = new ArrayList<Ship>();
+		player2_ships.add(carrier_2);
+		player2_ships.add(battleship_2);
+		player2_ships.add(cruiser_2);
+		player2_ships.add(submarine_2);
+		player2_ships.add(destroyer_2);
 
 		// set up 2 players
 		Player player1 = new Player(1, player1_ships);
@@ -49,11 +56,13 @@ public class Main {
 		p2_board_attack.initBoard();
 
 		// variables
-		String start;
-		String end;
-		String missile;
-		boolean hit = false;
-		int l;
+		String start, end, missile;
+		boolean hit = false; // used when a player is attacking
+		boolean checkSizeCoord, checkNotDiagonal; // used when players are
+													// placing their ships
+		boolean checkStartCoord, checkEndCoord, checkMissileCoord;
+		int l; // used only for loops 'for'
+		Coord missileCoord;
 
 		// ask player 1 then 2 to place his ships
 		for (int a = 0; a < 2; a++) {
@@ -69,28 +78,53 @@ public class Main {
 
 			for (int i = 0; i < game.getCurrentPlayer().getPlayerShips().size(); i++) {
 
-				do {
+				System.out
+						.println("enter first and last position for your ship "
+								+ game.getCurrentPlayer().getPlayerShips()
+										.get(i).getName()
+								+ " (size "
+								+ game.getCurrentPlayer().getPlayerShips()
+										.get(i).getSize() + ") :");
 
-					System.out
-							.println("enter first and last position for your ship "
-									+ game.getCurrentPlayer().getPlayerShips()
-											.get(i).getName()
-									+ " (size "
-									+ game.getCurrentPlayer().getPlayerShips()
-											.get(i).getSize() + ") :");
+				do {
 
 					// input coord
 					start = scanner.nextLine();
 					end = scanner.nextLine();
 
+					Coord startCoord = new Coord(start);
+					Coord endCoord = new Coord(end);
+
 					// update ship coord
 					game.getCurrentPlayer().getPlayerShips().get(i)
-							.setStartCoord(start);
+							.setStartCoord(startCoord);
 					game.getCurrentPlayer().getPlayerShips().get(i)
-							.setEndCoord(end);
+							.setEndCoord(endCoord);
 
-				} while (!(game.getCurrentPlayer().getPlayerShips().get(i)
-						.checkSizeCoord()));
+					checkSizeCoord = game.getCurrentPlayer().getPlayerShips()
+							.get(i).checkSizeCoord();
+					checkNotDiagonal = game.getCurrentPlayer().getPlayerShips()
+							.get(i).checkNotDiagonal();
+
+					// checks
+					checkStartCoord = startCoord.checkCoord();
+					checkEndCoord = endCoord.checkCoord();
+
+					if (!(checkStartCoord) || !(checkEndCoord)) {
+						System.out
+								.println("Coords you've entered are not in the right format !");
+						System.out
+								.println("Columns must be between A-J, and lines between 1-10. Re-enter them : ");
+					} else if (!(checkSizeCoord)) {
+						System.out
+								.println("those coord do not match with the ship's size, re-enter them : ");
+					} else if (!(checkNotDiagonal)) {
+						System.out
+								.println("you can't place this ship in diagonal ! re-enter coords : ");
+					}
+
+				} while (!(checkSizeCoord)
+						|| !(checkNotDiagonal || !(checkStartCoord) || !(checkEndCoord)));
 
 				// update and display new board
 				if (game.getCurrentPlayer() == player1) {
@@ -123,8 +157,19 @@ public class Main {
 
 			// input missile position
 			System.out.println("choose a missile position to attack : ");
-			missile = scanner.nextLine();
-			Coord missileCoord = new Coord(missile);
+			do {
+				missile = scanner.nextLine();
+				missileCoord = new Coord(missile);
+				checkMissileCoord = missileCoord.checkCoord();
+
+				if (!(checkMissileCoord)) {
+					System.out
+							.println("Missile position you've entered is not in the right format !");
+					System.out
+							.println("Column must be between A-J, and line between 1-10. Re-enter them : ");
+				}
+
+			} while (!(checkMissileCoord));
 
 			// for each opponent's ship, check if one of them is hit and then
 			// destroyed
@@ -138,12 +183,12 @@ public class Main {
 
 					// update and display boards
 					if (game.getCurrentPlayer() == player1) {
-						p2_board.updateBoardHit(missileCoord);
-						p1_board_attack.updateBoardHit(missileCoord);
+						p2_board.updateBoardAttack(missileCoord, 1);
+						p1_board_attack.updateBoardAttack(missileCoord, 1);
 						p1_board_attack.displayBoard();
 					} else {
-						p1_board.updateBoardHit(missileCoord);
-						p2_board_attack.updateBoardHit(missileCoord);
+						p1_board.updateBoardAttack(missileCoord, 1);
+						p2_board_attack.updateBoardAttack(missileCoord, 1);
 						p2_board_attack.displayBoard();
 					}
 
@@ -156,6 +201,10 @@ public class Main {
 							+ game.opponentPlayer().getPlayerShips().get(i)
 									.getName() + " !");
 				}
+
+				for (l = 0; l <= 25; l++) {
+					System.out.println();
+				}
 			}
 
 			if (!hit) {
@@ -164,25 +213,23 @@ public class Main {
 
 				// update boards
 				if (game.getCurrentPlayer() == player1) {
-					p2_board.updateBoardNotHit(missileCoord);
-					p1_board_attack.updateBoardNotHit(missileCoord);
+					p1_board_attack.updateBoardAttack(missileCoord, 0);
 					p1_board_attack.displayBoard();
 				} else {
-					p1_board.updateBoardNotHit(missileCoord);
-					p2_board_attack.updateBoardNotHit(missileCoord);
+					p2_board_attack.updateBoardAttack(missileCoord, 0);
 					p2_board_attack.displayBoard();
+				}
+				for (l = 0; l <= 25; l++) {
+					System.out.println();
 				}
 			}
 
 			hit = false;
 
-			for (l = 0; l <= 5; l++) {
-				System.out.println();
-			}
-
 			game.changePlayer();
 		}
 
-		System.out.println(" Game ended ! The winner is " + game.winnerEndGame() + " !");
+		System.out.println(" Game ended ! The winner is "
+				+ game.winnerEndGame() + " !");
 	}
 }

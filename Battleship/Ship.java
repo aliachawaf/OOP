@@ -46,8 +46,7 @@ public class Ship {
 		return startCoord;
 	}
 
-	public void setStartCoord(String start) {
-		Coord startCoord = new Coord(start);
+	public void setStartCoord(Coord startCoord) {
 		this.startCoord = startCoord;
 	}
 
@@ -55,8 +54,7 @@ public class Ship {
 		return endCoord;
 	}
 
-	public void setEndCoord(String end) {
-		Coord endCoord = new Coord(end);
+	public void setEndCoord(Coord endCoord) {
 		this.endCoord = endCoord;
 	}
 

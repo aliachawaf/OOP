@@ -29,6 +29,8 @@ public class Display {
 	// methods
 	public void initBoard() {
 
+		// initializes the board with letters for columns, line numbers and dots
+		// all over it
 		this.gameBoard[0][0] = ' ';
 		char i = 'A';
 
@@ -56,37 +58,45 @@ public class Display {
 
 	public void updateBoard(Ship s) {
 
-		// ships placed on the board is registered with 'o' instead of dots
+		// ship s placed on the board is registered with many 'o' instead of dots
 
 		int column, line;
 
 		for (int i = 0; i < s.shipListCoord().size(); i++) {
 
-			column = (int) s.shipListCoord().get(i).getColumn() - 96;
+			column = (int) Character.toLowerCase(s.shipListCoord().get(i)
+					.getColumn()) - 96;
 			line = s.shipListCoord().get(i).getLine();
 
 			this.gameBoard[line][column] = 'o';
 		}
 	}
 
-	public void updateBoardHit(Coord missile) {
+	public void updateBoardAttack(Coord missile, int hit) {
 
-		// ship's coord hit is registered with an 'x' instead of a dot
+		// updates boards attack when a player has sent a missile
 
-		this.gameBoard[missile.getLine()][(int)Character.toLowerCase(missile.getColumn()) - 96] = 'x';
-
-	}
-	
-	public void updateBoardNotHit(Coord missile) {
-
-		// ship's coord hit is registered with an 'o' instead of a dot
-
-		this.gameBoard[missile.getLine()][(int)Character.toLowerCase(missile.getColumn()) - 96] = 'o';
-
+		/*
+		 * hit==1 means the player attacking has hit a ship. Then, this ship is
+		 * registered with an 'x' instead of a dot on missile position
+		 */
+		if (hit == 1) {
+			this.gameBoard[missile.getLine()][(int) Character
+					.toLowerCase(missile.getColumn()) - 96] = 'x';
+		}
+		/*
+		 * else, hit==0 means the player attacking hasn't hit a ship. Then, an
+		 * 'o' is put instead of a dot on missile position
+		 */
+		else {
+			this.gameBoard[missile.getLine()][(int) Character
+					.toLowerCase(missile.getColumn()) - 96] = 'o';
+		}
 	}
 
 	public void displayBoard() {
 
+		// displays the board on console for the players
 		for (int k = 0; k < this.gameBoard.length; k++) {
 			System.out.println();
 			for (int l = 0; l < this.gameBoard[k].length; l++) {
@@ -96,10 +106,4 @@ public class Display {
 		System.out.println();
 		System.out.println();
 	}
-
-	/*
-	 * afficher map actuel du joueur afficher map des tirs du joueurs sur la
-	 * carte adverse
-	 */
-
 }

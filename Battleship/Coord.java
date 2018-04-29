@@ -3,7 +3,6 @@ public class Coord {
 
 	private char column;
 	private int line;
-	private int mapSize;
 	
 	//constructors
 	public Coord(char column, int line) {
@@ -77,7 +76,7 @@ public class Coord {
 		
 		boolean check = false;
 		
-		for (int i=1; i<=this.mapSize; i++){
+		for (int i=1; i<=10; i++){
 			if (this.line == i){
 				check = true;
 			}
