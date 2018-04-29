@@ -56,10 +56,10 @@ public class Display {
 
 	public void updateBoard(Ship s) {
 
-		// ship s placed on the board is registered with 'o' instead of dots
-		
+		// ships placed on the board is registered with 'o' instead of dots
+
 		int column, line;
-		
+
 		for (int i = 0; i < s.shipListCoord().size(); i++) {
 
 			column = (int) s.shipListCoord().get(i).getColumn() - 96;
@@ -67,6 +67,22 @@ public class Display {
 
 			this.gameBoard[line][column] = 'o';
 		}
+	}
+
+	public void updateBoardHit(Coord missile) {
+
+		// ship's coord hit is registered with an 'x' instead of a dot
+
+		this.gameBoard[missile.getLine()][(int)Character.toLowerCase(missile.getColumn()) - 96] = 'x';
+
+	}
+	
+	public void updateBoardNotHit(Coord missile) {
+
+		// ship's coord hit is registered with an 'o' instead of a dot
+
+		this.gameBoard[missile.getLine()][(int)Character.toLowerCase(missile.getColumn()) - 96] = 'o';
+
 	}
 
 	public void displayBoard() {
@@ -80,10 +96,9 @@ public class Display {
 		System.out.println();
 		System.out.println();
 	}
-	
+
 	/*
-	 * afficher map actuel du joueur 
-	 * afficher map des tirs du joueurs sur la
+	 * afficher map actuel du joueur afficher map des tirs du joueurs sur la
 	 * carte adverse
 	 */
 
