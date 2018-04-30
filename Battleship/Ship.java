@@ -141,8 +141,8 @@ public class Ship {
 			return false;
 		}
 	}
-	
-	public boolean checkPlaceFree(Ship ship) {
+		
+	public boolean checkPlaceFree(ArrayList<Ship> list) {
 
 		boolean check = true;
 
@@ -150,14 +150,17 @@ public class Ship {
 		for (int i = 0; i < this.shipListCoord().size(); i++) {
 
 			// for each ship of shipList
-			for (int j = 0; j < ship.shipListCoord().size(); j++) {
-
-				// check if this ship's coord is in one listCoord of shipList
-				if (this.shipListCoord().get(i).CompareCoord(ship.shipListCoord().get(j))) {
-					check = false;
+			for (int j =0; j<list.size(); j++){
+				
+				// for each coord of list's ship
+				for (int k = 0; k < list.get(j).shipListCoord().size(); k++){
+					
+					// compare coord of this ship and coord of list's ship
+					if (this.shipListCoord().get(i).CompareCoord(list.get(j).shipListCoord().get(k))){
+						check = false;
+					}
 				}
 			}
-
 		}
 		return check;
 	}
