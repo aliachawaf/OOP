@@ -65,40 +65,21 @@ public class Ship {
 			return false;
 		}
 	}
-
-	public boolean isHit(Coord missileCoord) {
-
+	
+	public boolean isHit(Coord missileCoord){
+		
 		boolean hit = false;
-
-		Coord shipCoord = new Coord(this.startCoord.getColumn(),
-				this.startCoord.getLine(), this.startCoord.getMapSize());
-
-		// if ship in vertical, comparison is done line by line
-		if (isVertical()) {
-
-			for (int i = this.startCoord.getLine(); i <= this.endCoord
-					.getLine(); i++) {
-
-				if (shipCoord.CompareCoord(missileCoord)) {
-					hit = true;
-					this.coordHit.add(missileCoord);
-				}
-				shipCoord.setLine(i + 1); // next line
-			}
-		}
-		// if not in vertical, comparison is done column by column
-		else {
-			for (char i = this.startCoord.getColumn(); i <= this.endCoord
-					.getColumn(); i++) {
-				if (shipCoord.CompareCoord(missileCoord)) {
-					hit = true;
-					this.coordHit.add(missileCoord);
-				}
-				shipCoord.setColumn(i++); // next column
+		
+		for (int i = 0; i<this.shipListCoord().size(); i++){
+			if (this.shipListCoord().get(i).CompareCoord(missileCoord)){
+				hit = true;
+				this.coordHit.add(missileCoord);
 			}
 		}
 		return hit;
 	}
+	
+	
 
 	public boolean isDestroyed() {
 		// ship has sunk when the number of coord hit is equal to his size
@@ -160,10 +141,30 @@ public class Ship {
 			return false;
 		}
 	}
+	
+	public boolean checkPlaceFree(Ship ship) {
 
+		boolean check = true;
+
+		// for each coord of this ship
+		for (int i = 0; i < this.shipListCoord().size(); i++) {
+
+			// for each ship of shipList
+			for (int j = 0; j < ship.shipListCoord().size(); j++) {
+
+				// check if this ship's coord is in one listCoord of shipList
+				if (this.shipListCoord().get(i).CompareCoord(ship.shipListCoord().get(j))) {
+					check = false;
+				}
+			}
+
+		}
+		return check;
+	}
+	
+	
 	// override
 	public String toString() {
-		return this.name + " touché " + this.coordHit.size() + " fois "
-				+ "detruit : " + this.isDestroyed();
+		return this.name;
 	}
 }

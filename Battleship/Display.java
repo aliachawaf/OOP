@@ -1,11 +1,11 @@
 public class Display {
 
-	private Player player;
+	//private Player player;
 	private char gameBoard[][];
 
 	// constructor
-	public Display(Player player, int mapSize) {
-		this.player = player;
+	public Display(int mapSize) {
+		//this.player = player;
 		this.gameBoard = new char[mapSize + 1][mapSize + 2];
 		/*
 		 * we add one more line to display the letters we add 2 more columns to
@@ -14,13 +14,13 @@ public class Display {
 	}
 
 	// getters & setters
-	public Player getPlayer() {
+	/*public Player getPlayer() {
 		return player;
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
+	}*/
 
 	public char[][] getGameBoard() {
 		return gameBoard;

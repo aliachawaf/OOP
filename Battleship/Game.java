@@ -6,7 +6,6 @@ public class Game {
 
 	// contructor : by default, current player is player1
 	public Game(Player player1, Player player2) {
-		super();
 		this.player1 = player1;
 		this.player2 = player2;
 		this.currentPlayer = player1;
@@ -54,7 +53,7 @@ public class Game {
 	public boolean gameNotEnded() {
 
 		// if (this.currentPlayer().listShipDestroyed().size()==5 ????
-
+/*
 		if (this.player1.listShipDestroyed().size() < 5
 				|| this.player2.listShipDestroyed().size() < 5) {
 
@@ -62,6 +61,12 @@ public class Game {
 
 		} else {
 			return false;
+		}*/
+		
+		if (this.getCurrentPlayer().listShipDestroyed().size()==5){
+			return false;
+		} else {
+			return true;
 		}
 
 	}

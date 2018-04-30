@@ -4,13 +4,15 @@ public class Player {
 
 	private int playerNumber; // 1 or 2
 	private ArrayList<Ship> playerShips;
-	private ArrayList<Ship> playerShipsPlaced;
+	private Display boardGame;
+	private Display boardAttack;
 
 	// constructor
-	public Player(int playerNumber, ArrayList<Ship> playerShips) {
+	public Player(int playerNumber, ArrayList<Ship> playerShips, int mapSize) {
 		this.playerNumber = playerNumber;
 		this.playerShips = playerShips;
-		this.playerShipsPlaced = new ArrayList<Ship>();
+		this.boardGame = new Display(mapSize);
+		this.boardAttack = new Display(mapSize);
 	}
 
 	// getters & setters
@@ -30,12 +32,20 @@ public class Player {
 		this.playerShips = playerShips;
 	}
 
-	public ArrayList<Ship> getPlayerShipsPlaced() {
-		return playerShipsPlaced;
+	public Display getBoardGame() {
+		return boardGame;
 	}
 
-	public void setPlayerShipsPlaced(ArrayList<Ship> playerShipsPlaced) {
-		this.playerShipsPlaced = playerShipsPlaced;
+	public void setBoardGame(Display boardGame) {
+		this.boardGame = boardGame;
+	}
+
+	public Display getBoardAttack() {
+		return boardAttack;
+	}
+
+	public void setBoardAttack(Display boardAttack) {
+		this.boardAttack = boardAttack;
 	}
 
 	// methods
@@ -60,6 +70,42 @@ public class Player {
 			}
 		}
 		return list;
+	}
+
+	public boolean shipsAreHit(Coord missileCoord) {
+
+		// return true if one of player's ships is hit by missile
+
+		boolean hit = false;
+
+		// for each ship, we see if it is hit by the missile
+		for (int i = 0; i < this.getPlayerShips().size(); i++) {
+
+			if (this.getPlayerShips().get(i).isHit(missileCoord)) {
+				hit = true;
+			}
+		}
+		return hit;
+	}
+
+	public boolean shipsAreDestroyed(Coord missileCoord) {
+
+		// return true if one of the ships is destroyed by the missile
+		boolean destroyed = false;
+
+		for (int i = 0; i < this.getPlayerShips().size(); i++) {
+			// if not already destroyed
+			if (!(this.getPlayerShips().get(i).isDestroyed())) {
+				// but hit by missile
+				if (this.getPlayerShips().get(i).isHit(missileCoord)) {
+					// and now destroyed because of this missile
+					if (this.getPlayerShips().get(i).isDestroyed()) {
+						destroyed = true;
+					}
+				}
+			}
+		}
+		return destroyed;
 	}
 
 	public ArrayList<Ship> listShipDestroyed() {

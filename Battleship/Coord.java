@@ -68,6 +68,7 @@ public class Coord {
 		}
 	}
 
+	
 	public void interchangeCoord(Coord c) {
 
 		Coord i = new Coord(this.getColumn(), this.getLine(), this.mapSize);
@@ -125,6 +126,7 @@ public class Coord {
 
 		return (checkColumn() && checkLine());
 	}
+	
 
 	// override
 	public String toString() {
