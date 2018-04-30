@@ -1,27 +1,29 @@
-
 public class Coord {
 
 	private char column;
 	private int line;
-	
-	//constructors
-	public Coord(char column, int line) {
-		this.column = column;
+	private int mapSize;
+
+	// constructors
+	public Coord(char column, int line, int mapSize) {
+		this.column = Character.toUpperCase(column);
 		this.line = line;
+		this.mapSize = mapSize;
 	}
 
-	public Coord(String coord){
-		this.column = coord.charAt(0);
+	public Coord(String coord, int mapSize) {
+		this.column = Character.toUpperCase(coord.charAt(0));
 		this.line = Integer.parseInt(coord.substring(1));
+		this.mapSize = mapSize;
 	}
 
-	//getters & setters
+	// getters & setters
 	public char getColumn() {
-		return column;
+		return Character.toUpperCase(column);
 	}
 
 	public void setColumn(char column) {
-		this.column = column;
+		this.column = Character.toUpperCase(column);
 	}
 
 	public int getLine() {
@@ -31,67 +33,101 @@ public class Coord {
 	public void setLine(int line) {
 		this.line = line;
 	}
-	
-	//methods
-	
-	public boolean CompareColumn (Coord c){
-		if ( Character.toUpperCase(this.column) == Character.toUpperCase(c.getColumn()) ){
+
+	public int getMapSize() {
+		return mapSize;
+	}
+
+	public void setMapSize(int mapSize) {
+		this.mapSize = mapSize;
+	}
+
+	// methods
+	public boolean CompareColumn(Coord c) {
+		if (this.column == c.getColumn()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean CompareLine (Coord c){
-		if (this.line == c.getLine()){
+
+	public boolean CompareLine(Coord c) {
+		if (this.line == c.getLine()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean CompareCoord (Coord c){
-		
-		if (this.CompareColumn(c) && this.CompareLine(c)){
+
+	public boolean CompareCoord(Coord c) {
+
+		if (this.CompareColumn(c) && this.CompareLine(c)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	//checking
-	public boolean checkColumn(){
-		
+
+	public void interchangeCoord(Coord c) {
+
+		Coord i = new Coord(this.getColumn(), this.getLine(), this.mapSize);
+
+		this.setColumn(c.getColumn());
+		this.setLine(c.getLine());
+
+		c.setColumn(i.getColumn());
+		c.setLine(i.getLine());
+
+	}
+
+	public void putCoordInOrder(Coord end) {
+
+		/*
+		 * if user has entered start and end coord not in the right way (from
+		 * the right to the left, or from the bottom to the top), we interchange
+		 * the 2 coords.
+		 */
+
+		if ((this.getColumn() > end.getColumn() && this.CompareLine(end))
+				|| (this.getLine() > end.getLine() && this.CompareColumn(end))) {
+
+			this.interchangeCoord(end);
+		}
+	}
+
+	// checking
+	public boolean checkColumn() {
+
 		boolean check = false;
-		
-		for (char i='A'; i<='J'; i++){
-			if (Character.toUpperCase(this.column) == i){
+
+		for (char i = 'A'; i <= Character
+				.toUpperCase((char) (this.mapSize + 65)); i++) {
+			if (this.column == i) {
 				check = true;
 			}
 		}
 		return check;
 	}
-	
-	public boolean checkLine(){
-		
+
+	public boolean checkLine() {
+
 		boolean check = false;
-		
-		for (int i=1; i<=10; i++){
-			if (this.line == i){
+
+		for (int i = 1; i <= this.mapSize; i++) {
+			if (this.line == i) {
 				check = true;
 			}
 		}
 		return check;
 	}
-	
-	public boolean checkCoord(){
-		
-		return (checkColumn() && checkLine() );
+
+	public boolean checkCoord() {
+
+		return (checkColumn() && checkLine());
 	}
-	
-	//override
-	public String toString(){
-		return Character.toUpperCase(this.column) + Integer.toString(this.line);
+
+	// override
+	public String toString() {
+		return this.column + Integer.toString(this.line);
 	}
-	
 }

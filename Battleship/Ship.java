@@ -9,19 +9,9 @@ public class Ship {
 	private ArrayList<Coord> coordHit;
 
 	// constructors
-	public Ship(String name, int size, Coord startCoord, Coord endCoord) {
-		this.name = name;
-		this.size = size;
-		this.startCoord = startCoord;
-		this.endCoord = endCoord;
-		this.coordHit = new ArrayList<Coord>();
-	}
-
 	public Ship(String name, int size) {
 		this.name = name;
 		this.size = size;
-		this.startCoord = new Coord("A1");
-		this.endCoord = new Coord("A1");
 		this.coordHit = new ArrayList<Coord>();
 	}
 
@@ -81,7 +71,7 @@ public class Ship {
 		boolean hit = false;
 
 		Coord shipCoord = new Coord(this.startCoord.getColumn(),
-				this.startCoord.getLine());
+				this.startCoord.getLine(), this.startCoord.getMapSize());
 
 		// if ship in vertical, comparison is done line by line
 		if (isVertical()) {
@@ -131,14 +121,16 @@ public class Ship {
 			for (int i = this.startCoord.getLine(); i <= this.endCoord
 					.getLine(); i++) {
 
-				Coord c = new Coord(this.startCoord.getColumn(), i);
+				Coord c = new Coord(this.startCoord.getColumn(), i,
+						this.startCoord.getMapSize());
 				list.add(c);
 			}
 		} else {
 			for (char i = this.startCoord.getColumn(); i <= this.endCoord
 					.getColumn(); i++) {
 
-				Coord c = new Coord(i, this.startCoord.getLine());
+				Coord c = new Coord(i, this.startCoord.getLine(),
+						this.startCoord.getMapSize());
 				list.add(c);
 			}
 		}
@@ -171,8 +163,7 @@ public class Ship {
 
 	// override
 	public String toString() {
-		return this.name + " touché "
-				+ this.coordHit.size() + " fois " + "detruit : "
-				+ this.isDestroyed();
+		return this.name + " touché " + this.coordHit.size() + " fois "
+				+ "detruit : " + this.isDestroyed();
 	}
 }

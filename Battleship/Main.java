@@ -8,6 +8,14 @@ public class Main {
 	public static void main(String[] args) {
 		scanner = new Scanner(System.in);
 
+		// input mapSize
+		int mapSize;
+		do {
+			System.out.print("Enter the map size you want (between 5-25) : ");
+			mapSize = scanner.nextInt();
+			scanner.nextLine();
+		} while (mapSize < 5 || mapSize > 25);
+
 		// set up 5 ships for each player
 		Ship carrier_1 = new Ship("carrier", 5);
 		Ship battleship_1 = new Ship("battleship", 4);
@@ -43,11 +51,11 @@ public class Main {
 		// set up a game
 		Game game = new Game(player1, player2);
 
-		// set up 2 displays of game board (size 10) for each player
-		Display p1_board = new Display(player1, 10);
-		Display p1_board_attack = new Display(player1, 10);
-		Display p2_board = new Display(player2, 10);
-		Display p2_board_attack = new Display(player2, 10);
+		// set up 2 displays of game board for each player
+		Display p1_board = new Display(player1, mapSize);
+		Display p1_board_attack = new Display(player1, mapSize);
+		Display p2_board = new Display(player2, mapSize);
+		Display p2_board_attack = new Display(player2, mapSize);
 
 		// initialization of boards
 		p1_board.initBoard();
@@ -78,13 +86,12 @@ public class Main {
 
 			for (int i = 0; i < game.getCurrentPlayer().getPlayerShips().size(); i++) {
 
-				System.out
-						.println("enter first and last position for your ship "
-								+ game.getCurrentPlayer().getPlayerShips()
-										.get(i).getName()
-								+ " (size "
-								+ game.getCurrentPlayer().getPlayerShips()
-										.get(i).getSize() + ") :");
+				System.out.println("enter extreme positions for your ship "
+						+ game.getCurrentPlayer().getPlayerShips().get(i)
+								.getName()
+						+ " (size "
+						+ game.getCurrentPlayer().getPlayerShips().get(i)
+								.getSize() + ") :");
 
 				do {
 
@@ -92,8 +99,12 @@ public class Main {
 					start = scanner.nextLine();
 					end = scanner.nextLine();
 
-					Coord startCoord = new Coord(start);
-					Coord endCoord = new Coord(end);
+					Coord startCoord = new Coord(start, mapSize);
+					Coord endCoord = new Coord(end, mapSize);
+
+					// interchange start and end coord if not in the right
+					// direction
+					startCoord.putCoordInOrder(endCoord);
 
 					// update ship coord
 					game.getCurrentPlayer().getPlayerShips().get(i)
@@ -114,7 +125,7 @@ public class Main {
 						System.out
 								.println("Coords you've entered are not in the right format !");
 						System.out
-								.println("Columns must be between A-J, and lines between 1-10. Re-enter them : ");
+								.println("Look at the board game columns' and lines' label. Re-enter them : ");
 					} else if (!(checkSizeCoord)) {
 						System.out
 								.println("those coord do not match with the ship's size, re-enter them : ");
@@ -159,7 +170,7 @@ public class Main {
 			System.out.println("choose a missile position to attack : ");
 			do {
 				missile = scanner.nextLine();
-				missileCoord = new Coord(missile);
+				missileCoord = new Coord(missile, mapSize);
 				checkMissileCoord = missileCoord.checkCoord();
 
 				if (!(checkMissileCoord)) {
@@ -231,5 +242,8 @@ public class Main {
 
 		System.out.println(" Game ended ! The winner is "
 				+ game.winnerEndGame() + " !");
+
+		scanner.close();
 	}
+
 }

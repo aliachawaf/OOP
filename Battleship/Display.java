@@ -6,7 +6,11 @@ public class Display {
 	// constructor
 	public Display(Player player, int mapSize) {
 		this.player = player;
-		this.gameBoard = new char[mapSize + 1][mapSize + 1];
+		this.gameBoard = new char[mapSize + 1][mapSize + 2];
+		/*
+		 * we add one more line to display the letters we add 2 more columns to
+		 * display line numbers
+		 */
 	}
 
 	// getters & setters
@@ -32,10 +36,11 @@ public class Display {
 		// initializes the board with letters for columns, line numbers and dots
 		// all over it
 		this.gameBoard[0][0] = ' ';
+		this.gameBoard[0][1] = ' ';
 		char i = 'A';
 
 		// first line : letters
-		for (int j = 1; j < this.gameBoard.length; j++) {
+		for (int j = 2; j <= this.gameBoard.length; j++) {
 			this.gameBoard[0][j] = i;
 			i++;
 		}
@@ -43,12 +48,16 @@ public class Display {
 		// others lines : dots with the number of line at the beginning
 		for (int k = 1; k < this.gameBoard.length; k++) {
 
-			for (int l = 0; l < this.gameBoard.length; l++) {
+			for (int l = 0; l <= this.gameBoard.length; l++) {
 
-				if (l == 0 && k != 10) {
-					this.gameBoard[k][l] = Integer.toString(k).charAt(0);
-				} else if (l == 0 && k == 10) {
+				if (l == 0 && k < 10) {
 					this.gameBoard[k][l] = ' ';
+				} else if (l == 0 && k >= 10) {
+					this.gameBoard[k][l] = Integer.toString(k).charAt(0);
+				} else if (l == 1 && k < 10) {
+					this.gameBoard[k][l] = Integer.toString(k).charAt(0);
+				} else if (l == 1 && k >= 10) {
+					this.gameBoard[k][l] = Integer.toString(k).charAt(1);
 				} else {
 					this.gameBoard[k][l] = '.';
 				}
@@ -58,14 +67,16 @@ public class Display {
 
 	public void updateBoard(Ship s) {
 
-		// ship s placed on the board is registered with many 'o' instead of dots
+		// ship s placed on the board is registered with many 'o' instead of
+		// dots
 
 		int column, line;
 
 		for (int i = 0; i < s.shipListCoord().size(); i++) {
 
 			column = (int) Character.toLowerCase(s.shipListCoord().get(i)
-					.getColumn()) - 96;
+					.getColumn()) - 96 + 1; // we add 1 because we use 2 columns
+											// to display line number
 			line = s.shipListCoord().get(i).getLine();
 
 			this.gameBoard[line][column] = 'o';
@@ -82,7 +93,7 @@ public class Display {
 		 */
 		if (hit == 1) {
 			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96] = 'x';
+					.toLowerCase(missile.getColumn()) - 96 + 1] = 'x';
 		}
 		/*
 		 * else, hit==0 means the player attacking hasn't hit a ship. Then, an
@@ -90,7 +101,7 @@ public class Display {
 		 */
 		else {
 			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96] = 'o';
+					.toLowerCase(missile.getColumn()) - 96 + 1] = 'o';
 		}
 	}
 

@@ -76,10 +76,8 @@ public class Player {
 		return list;
 	}
 
-	
-	
 	// overrides
-	public String toString(){
+	public String toString() {
 		return "player" + this.playerNumber;
 	}
 
