@@ -132,7 +132,7 @@ public class Ship {
 		return check;
 	}
 
-	public boolean checkSizeCoord() {
+	public boolean checkCoordsMatcheWithSize() {
 		/* checks if ship's coord correspond with its size */
 
 		if (this.shipListCoord().size() == this.size) {
@@ -142,7 +142,7 @@ public class Ship {
 		}
 	}
 		
-	public boolean checkPlaceFree(ArrayList<Ship> list) {
+	public boolean checkPlaceIsFree(ArrayList<Ship> list) {
 
 		boolean check = true;
 

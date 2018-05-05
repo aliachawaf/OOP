@@ -8,12 +8,13 @@ public class Player {
 	private Display boardAttack;
 
 	// constructor
-	public Player(int playerNumber, ArrayList<Ship> playerShips, int mapSize) {
+	public Player(int playerNumber, int mapSize) {
 		this.playerNumber = playerNumber;
-		this.playerShips = playerShips;
+		this.playerShips = new ArrayList<Ship>();
 		this.boardGame = new Display(mapSize);
 		this.boardAttack = new Display(mapSize);
 	}
+
 
 	// getters & setters
 	public int getPlayerNumber() {
@@ -102,6 +103,8 @@ public class Player {
 		return list;
 	}
 
+	
+	
 	// overrides
 	public String toString() {
 		return "player" + this.playerNumber;

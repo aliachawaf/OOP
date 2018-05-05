@@ -50,7 +50,7 @@ public class Game {
 		this.currentPlayer = this.opponentPlayer();
 	}
 
-	public boolean gameNotEnded() {
+	public boolean NotEnded() {
 
 		if (this.getCurrentPlayer().listShipDestroyed().size() == 5) {
 			return false;

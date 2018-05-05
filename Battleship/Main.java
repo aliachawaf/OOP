@@ -9,21 +9,35 @@ public class Main {
 		scanner = new Scanner(System.in);
 
 		/* input mapSize */
-		int mapSize;
+		int mapSize = 10;
+		boolean checkNotException = false;
 
-		try {
+		System.out.print("Enter the map size you want (between 5-25) : ");
 
-			do {
+		while (!checkNotException) {
+			try {
+				do {
+					mapSize = scanner.nextInt();
+					scanner.nextLine();
+
+					if (mapSize < 5 || mapSize > 25) {
+						System.out
+								.print("\nThe size you've entered is not between 5 and 25 ! Re-enter it : ");
+					}
+
+				} while (mapSize < 5 || mapSize > 25);
+
+				checkNotException = true;
+
+			} catch (java.util.InputMismatchException e) {
 				System.out
-						.print("Enter the map size you want (between 5-25) : ");
-				mapSize = scanner.nextInt();
+						.print("\nThe size you've entered is not a number ! Re-enter it : ");
 				scanner.nextLine();
-			} while (mapSize < 5 || mapSize > 25);
+			} catch (StringIndexOutOfBoundsException e){
+				System.out.print("Map size is missing. Re-enter it :");
+				scanner.nextLine();
+			}
 
-		} catch (java.util.InputMismatchException e) {
-			System.out.println("\nThe size you have entered is not a number.");
-			System.out.println("So, map size is put at 10. ");
-			mapSize = 10;
 		}
 
 		/* set up 5 ships for each player */
@@ -55,29 +69,49 @@ public class Main {
 		player2_ships.add(destroyer_2);
 
 		/* set up 2 players */
-		Player player1 = new Player(1, player1_ships, mapSize);
-		Player player2 = new Player(2, player2_ships, mapSize);
+		Player player1 = new Player(1, mapSize);
+		Player player2 = new Player(2, mapSize);
 
 		/* set up a game */
-		Game game = new Game(player1, player2);
+		Game game = new Game(player1, player2); //by default, current player is player1
 
-		/* initialization of boards display */
+		/* initialization of boards' display */
 		player1.getBoardGame().initBoard();
 		player1.getBoardAttack().initBoard();
 		player2.getBoardGame().initBoard();
 		player2.getBoardAttack().initBoard();
 
-		/* variables for input */
-		String start, end, missile;
-		int l; // used only for loops
-		Coord missileCoord;
+		/* variables used for input */
+		String start = null;
+		String end = null;
+		String missile = null;
+		Coord startCoord = null;
+		Coord endCoord = null;
+		Coord missileCoord = null;
+		int indexShipToPlace = 1; // used to ask which ship to place
 
-		/* variables for checking */
-		boolean checkSizeCoord, checkNotDiagonal, checkStartCoord, checkEndCoord;
-		boolean checkMissileCoord, checkPlaceFree;
+		/* variable used for loops */
+		int l;
 
-		/* ask player 1 then 2 to place his ships */
-		for (l = 0; l < 2; l++) {
+		/* variables used for checking */
+		boolean checkCoordsMatcheWithSize, checkNotDiagonal, checkStartCoord, checkEndCoord;
+		boolean checkMissileCoord, checkPlaceIsFree;
+
+		ArrayList<Ship> listShipNotPlacedYet = new ArrayList<Ship>();
+
+		
+		// ********* SET UP SHIPS ON THE BOARDS *********//
+
+		/* asking player 1 then 2 to place his ships in the order they want */
+		for (int p = 0; p < 2; p++) {
+
+			/* initialize the list of ships not placed yet for current player */
+
+			if (game.getCurrentPlayer() == player1) {
+				listShipNotPlacedYet = player1_ships;
+			} else {
+				listShipNotPlacedYet = player2_ships;
+			}
 
 			/* display game board for current player */
 			game.getCurrentPlayer().getBoardGame().displayBoard();
@@ -85,74 +119,147 @@ public class Main {
 			System.out.println("********* PLAYER "
 					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
 
-		
-			/* ask coord for each ship */
-			for (int i = 0; i < game.getCurrentPlayer().getPlayerShips().size(); i++) {
+			for (int i = 0; i < 5; i++) {
 
-				Ship currentShip = game.getCurrentPlayer().getPlayerShips()
-						.get(i);
+				System.out.println("Ships not placed on the board : "
+						+ listShipNotPlacedYet);
 
-				System.out.println("enter extreme positions for your ship "
-						+ currentShip.getName() + " (size "
-						+ currentShip.getSize() + ") :");
+				/*
+				 * ask player which ship he want to place now (only if there is
+				 * more than one ship not placed)
+				 */
+				if (listShipNotPlacedYet.size() > 1) {
+
+					System.out.println("\nWhich one do you want to place now ? ");
+					System.out.print("Enter its number in this list (1,2,3,4,5): ");
+
+					checkNotException = false;
+
+					while (!checkNotException) {
+						try {
+							do {
+								indexShipToPlace = scanner.nextInt();
+								scanner.nextLine();
+
+								if (indexShipToPlace < 1
+										|| indexShipToPlace > listShipNotPlacedYet
+												.size()) {
+									System.out
+											.print("\nThe list doesn't contains the position you've entered ! Re-enter it : ");
+								}
+							} while (indexShipToPlace < 1
+									|| indexShipToPlace > listShipNotPlacedYet
+											.size());
+
+							checkNotException = true;
+
+						} catch (java.util.InputMismatchException e) {
+							System.out
+									.print("\nYour input is not a number ! Re-enter it : ");
+							scanner.nextLine();
+						}
+					}
+
+				} else {
+					indexShipToPlace = 1; // if there is only one ship not
+											// placed, index is 1 by default
+				}
+
+				Ship currentShipToPlace = listShipNotPlacedYet
+						.get(indexShipToPlace - 1);
+
+				System.out
+						.println("Enter start and end positions for the ship "
+								+ currentShipToPlace.getName()
+								+ " (size "
+								+ currentShipToPlace.getSize() + ") :");
 
 				do {
-					/* input coord */
-					start = scanner.nextLine();
-					end = scanner.nextLine();
 
-					Coord startCoord = new Coord(start, mapSize);
-					Coord endCoord = new Coord(end, mapSize);
+					/* input coord for the ship chosen */
 
-					/* interchange the 2 coord if not in the right direction */
+					checkNotException = false;
+
+					while (!checkNotException) {
+						try {
+							start = scanner.nextLine();
+							end = scanner.nextLine();
+							startCoord = new Coord(start, mapSize);
+							endCoord = new Coord(end, mapSize);
+							
+							checkNotException = true;
+
+						} catch (NumberFormatException e) {
+							System.out.print("\nOne of the lines you've entered is not a number !");
+							System.out.print(" Re-enter the 2 coords : ");
+							scanner.nextLine();
+						} catch (StringIndexOutOfBoundsException e){
+							System.out.print("One of the 2 coords is missing. Re-enter them : ");
+							scanner.nextLine();
+						}
+					}
+
+					
+					/* interchange the 2 coord if not in the right direction (bottom to top / right to left) */
 					startCoord.putCoordInOrder(endCoord);
 
 					/* update ship's coord with the inputs */
-					currentShip.setStartCoord(startCoord);
-					currentShip.setEndCoord(endCoord);
+					currentShipToPlace.setStartCoord(startCoord);
+					currentShipToPlace.setEndCoord(endCoord);
 
 					/* check */
 					checkStartCoord = startCoord.checkCoord();
 					checkEndCoord = endCoord.checkCoord();
 
-					checkSizeCoord = currentShip.checkSizeCoord();
+					checkCoordsMatcheWithSize = currentShipToPlace
+							.checkCoordsMatcheWithSize();
 
-					checkNotDiagonal = currentShip.checkNotDiagonal();
+					checkNotDiagonal = currentShipToPlace.checkNotDiagonal();
 
 					/*
 					 * we check with all previous ships placed if the place
 					 * chosen is free
 					 */
-					ArrayList<Ship> alreadyPlaced = new ArrayList<Ship>(game
-							.getCurrentPlayer().getPlayerShips().subList(0, i));
-					checkPlaceFree = currentShip.checkPlaceFree(alreadyPlaced);
+					/*
+					 * nb : current player ships list contains only the ships
+					 * which are already placed on the board
+					 */
+					checkPlaceIsFree = currentShipToPlace.checkPlaceIsFree(game
+							.getCurrentPlayer().getPlayerShips());
 
-					if (!(checkPlaceFree)) {
-						System.out
-								.println("The place you've chosen is not free ! Re-enter coords : ");
+					if (!(checkPlaceIsFree)) {
+						System.out.println("The place you've chosen is not free !");
+						System.out.print(" Re-enter coords : ");
 					} else if (!(checkStartCoord) || !(checkEndCoord)) {
-						System.out
-								.println("Coords you've entered are not in the right format !");
-						System.out
-								.println("Look at the board game columns' and lines' label. Re-enter them : ");
-					} else if (!(checkSizeCoord)) {
-						System.out
-								.println("those coord do not match with the ship's size, re-enter them : ");
+						System.out.println("Coords you've entered are not in the right format !");
+						System.out.print("Look at the board game columns' and lines' label.");
+						System.out.print(" Re-enter them : ");
+					} else if (!(checkCoordsMatcheWithSize)) {
+						System.out.print("Those coord do not match with the ship's size !");
+						System.out.print(" Re-enter them : ");
 					} else if (!(checkNotDiagonal)) {
-						System.out
-								.println("you can't place this ship in diagonal ! re-enter coords : ");
+						System.out.print("You can't place this ship in diagonal !");
+						System.out.print(" Re-enter coords : ");
 					}
 
-				} while (!(checkPlaceFree)
-						|| !(checkSizeCoord)
+				} while (!(checkPlaceIsFree)
+						|| !(checkCoordsMatcheWithSize)
 						|| !(checkNotDiagonal || !(checkStartCoord) || !(checkEndCoord)));
 
 				/*
-				 * one coord are chosen, update and display new board with the
-				 * ship placed
+				 * once coord for the ship are chosen and correct, we add this
+				 * ship to the player's list ships placed
 				 */
-				game.getCurrentPlayer().getBoardGame().updateBoard(currentShip);
+				game.getCurrentPlayer().getPlayerShips()
+						.add(currentShipToPlace);
+
+				/* update and display new board with the ship placed */
+				game.getCurrentPlayer().getBoardGame()
+						.updateBoard(currentShipToPlace);
 				game.getCurrentPlayer().getBoardGame().displayBoard();
+
+				/* remove the ship placed from the list of ships not placed yet */
+				listShipNotPlacedYet.remove(indexShipToPlace - 1);
 			}
 
 			game.changePlayer();
@@ -162,8 +269,9 @@ public class Main {
 			}
 		}
 
-		/* ATTACK */
-		while (game.gameNotEnded()) {
+		// ********* ATTACK *********//
+
+		while (game.NotEnded()) {
 
 			System.out.println(" ********* PLAYER "
 					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
@@ -174,16 +282,35 @@ public class Main {
 
 			/* input missile position */
 			System.out.print("choose a missile position to attack : ");
+			
 			do {
-				missile = scanner.nextLine();
-				missileCoord = new Coord(missile, mapSize);
-				checkMissileCoord = missileCoord.checkCoord();
+				
+				checkNotException = false;
 
+				while (!checkNotException) {
+					try {
+						missile = scanner.nextLine();
+						missileCoord = new Coord(missile, mapSize);
+												
+						checkNotException = true;
+
+					} catch (NumberFormatException e) {
+						System.out
+								.print("\nThe lines of the missile position you've entered is not a number ! Re-enter it : ");
+						scanner.nextLine();
+					} catch (StringIndexOutOfBoundsException e){
+						System.out.print("Missile coord is missing. Re-enter it :");
+						scanner.nextLine();
+					}
+				}
+				
+				checkMissileCoord = missileCoord.checkCoord();
+				
 				if (!(checkMissileCoord)) {
 					System.out
 							.println("Missile position you've entered is not in the right format !");
 					System.out
-							.println("Look at labels of colums and lines. Re-enter it : ");
+							.print("Look at labels of colums and lines. Re-enter it : ");
 				}
 			} while (!(checkMissileCoord));
 
@@ -228,7 +355,7 @@ public class Main {
 			game.changePlayer();
 		}
 
-		System.out.println(" ************ Game ended ! ************ ");
+		System.out.println(" ************ Game ended ! ************ \n");
 		System.out.println("The winner is " + game.winnerEndGame() + " !");
 
 		scanner.close();
