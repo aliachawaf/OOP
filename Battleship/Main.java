@@ -8,15 +8,25 @@ public class Main {
 	public static void main(String[] args) {
 		scanner = new Scanner(System.in);
 
-		// input mapSize
+		/* input mapSize */
 		int mapSize;
-		do {
-			System.out.print("Enter the map size you want (between 5-25) : ");
-			mapSize = scanner.nextInt();
-			scanner.nextLine();
-		} while (mapSize < 5 || mapSize > 25);
 
-		// set up 5 ships for each player
+		try {
+
+			do {
+				System.out
+						.print("Enter the map size you want (between 5-25) : ");
+				mapSize = scanner.nextInt();
+				scanner.nextLine();
+			} while (mapSize < 5 || mapSize > 25);
+
+		} catch (java.util.InputMismatchException e) {
+			System.out.println("\nThe size you have entered is not a number.");
+			System.out.println("So, map size is put at 10. ");
+			mapSize = 10;
+		}
+
+		/* set up 5 ships for each player */
 		Ship carrier_1 = new Ship("carrier", 5);
 		Ship battleship_1 = new Ship("battleship", 4);
 		Ship cruiser_1 = new Ship("cruiser", 3);
@@ -29,7 +39,7 @@ public class Main {
 		Ship submarine_2 = new Ship("submarine", 3);
 		Ship destroyer_2 = new Ship("destroyer", 2);
 
-		// set up a shipList for each player
+		/* set up a list of ships for each player */
 		ArrayList<Ship> player1_ships = new ArrayList<Ship>();
 		player1_ships.add(carrier_1);
 		player1_ships.add(battleship_1);
@@ -44,37 +54,39 @@ public class Main {
 		player2_ships.add(submarine_2);
 		player2_ships.add(destroyer_2);
 
-		// set up 2 players
+		/* set up 2 players */
 		Player player1 = new Player(1, player1_ships, mapSize);
 		Player player2 = new Player(2, player2_ships, mapSize);
 
-		// set up a game
+		/* set up a game */
 		Game game = new Game(player1, player2);
 
-		// initialization of boards
+		/* initialization of boards display */
 		player1.getBoardGame().initBoard();
 		player1.getBoardAttack().initBoard();
 		player2.getBoardGame().initBoard();
 		player2.getBoardAttack().initBoard();
 
-		// variables
+		/* variables for input */
 		String start, end, missile;
-		boolean checkSizeCoord, checkNotDiagonal; // used when players are
-													// placing their ships
-		boolean checkStartCoord, checkEndCoord, checkMissileCoord, checkPlaceFree;
-		int l; // used only for loops 'for'
+		int l; // used only for loops
 		Coord missileCoord;
 
-		// ask player 1 then 2 to place his ships
-		for (int a = 0; a < 2; a++) {
+		/* variables for checking */
+		boolean checkSizeCoord, checkNotDiagonal, checkStartCoord, checkEndCoord;
+		boolean checkMissileCoord, checkPlaceFree;
 
-			// display game board for current player
+		/* ask player 1 then 2 to place his ships */
+		for (l = 0; l < 2; l++) {
+
+			/* display game board for current player */
 			game.getCurrentPlayer().getBoardGame().displayBoard();
 
 			System.out.println("********* PLAYER "
 					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
 
-			// ask coord for each ship
+		
+			/* ask coord for each ship */
 			for (int i = 0; i < game.getCurrentPlayer().getPlayerShips().size(); i++) {
 
 				Ship currentShip = game.getCurrentPlayer().getPlayerShips()
@@ -85,21 +97,21 @@ public class Main {
 						+ currentShip.getSize() + ") :");
 
 				do {
-					// input coord
+					/* input coord */
 					start = scanner.nextLine();
 					end = scanner.nextLine();
 
 					Coord startCoord = new Coord(start, mapSize);
 					Coord endCoord = new Coord(end, mapSize);
 
-					// interchange the 2 coord if not in the right direction
+					/* interchange the 2 coord if not in the right direction */
 					startCoord.putCoordInOrder(endCoord);
 
-					// update ship's coord with the inputs
+					/* update ship's coord with the inputs */
 					currentShip.setStartCoord(startCoord);
 					currentShip.setEndCoord(endCoord);
 
-					// check
+					/* check */
 					checkStartCoord = startCoord.checkCoord();
 					checkEndCoord = endCoord.checkCoord();
 
@@ -107,15 +119,17 @@ public class Main {
 
 					checkNotDiagonal = currentShip.checkNotDiagonal();
 
-					/* we check with all previous ships placed if the place
-					chosen is free */
+					/*
+					 * we check with all previous ships placed if the place
+					 * chosen is free
+					 */
 					ArrayList<Ship> alreadyPlaced = new ArrayList<Ship>(game
 							.getCurrentPlayer().getPlayerShips().subList(0, i));
 					checkPlaceFree = currentShip.checkPlaceFree(alreadyPlaced);
-					
-					
-					if (!(checkPlaceFree)){
-						System.out.println("The place you've chosen is not free ! Re-enter coords : ");
+
+					if (!(checkPlaceFree)) {
+						System.out
+								.println("The place you've chosen is not free ! Re-enter coords : ");
 					} else if (!(checkStartCoord) || !(checkEndCoord)) {
 						System.out
 								.println("Coords you've entered are not in the right format !");
@@ -129,14 +143,18 @@ public class Main {
 								.println("you can't place this ship in diagonal ! re-enter coords : ");
 					}
 
-				} while (!(checkPlaceFree) || !(checkSizeCoord)
+				} while (!(checkPlaceFree)
+						|| !(checkSizeCoord)
 						|| !(checkNotDiagonal || !(checkStartCoord) || !(checkEndCoord)));
 
-				// update and display new board
+				/*
+				 * one coord are chosen, update and display new board with the
+				 * ship placed
+				 */
 				game.getCurrentPlayer().getBoardGame().updateBoard(currentShip);
 				game.getCurrentPlayer().getBoardGame().displayBoard();
 			}
-			
+
 			game.changePlayer();
 
 			for (l = 0; l <= 25; l++) {
@@ -144,16 +162,17 @@ public class Main {
 			}
 		}
 
+		/* ATTACK */
 		while (game.gameNotEnded()) {
 
 			System.out.println(" ********* PLAYER "
 					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
 
-			// display board attack
+			/* display board attack */
 			System.out.println("Your current board attack : ");
 			game.getCurrentPlayer().getBoardAttack().displayBoard();
 
-			// input missile position
+			/* input missile position */
 			System.out.print("choose a missile position to attack : ");
 			do {
 				missile = scanner.nextLine();
@@ -164,71 +183,36 @@ public class Main {
 					System.out
 							.println("Missile position you've entered is not in the right format !");
 					System.out
-							.println("Column must be between A-J, and line between 1-10. Re-enter them : ");
+							.println("Look at labels of colums and lines. Re-enter it : ");
 				}
-
 			} while (!(checkMissileCoord));
 
-			// for each opponent's ship, check if one of them is hit and then
-			// destroyed
-			/*
-			 * for (int i = 0; i <
-			 * game.opponentPlayer().getPlayerShips().size(); i++) {
-			 * 
-			 * if (game.opponentPlayer().getPlayerShips().get(i)
-			 * .isHit(missileCoord)) {
-			 * 
-			 * System.out
-			 * .println("You've hit a ship ! Your new board attack : ");
-			 * 
-			 * // update and display boards
-			 * game.getCurrentPlayer().getBoardAttack()
-			 * .updateBoardAttack(missileCoord, 1);
-			 * game.opponentPlayer().getBoardGame()
-			 * .updateBoardAttack(missileCoord, 1);
-			 * game.getCurrentPlayer().getBoardAttack().displayBoard();
-			 * 
-			 * hit = true; }
-			 * 
-			 * if (game.opponentPlayer().getPlayerShips().get(i).isDestroyed())
-			 * {
-			 * 
-			 * System.out.println("You've DESTROYED the ship " +
-			 * game.opponentPlayer().getPlayerShips().get(i) .getName() +
-			 * " (size " + game.opponentPlayer().getPlayerShips().get(i)
-			 * .getSize() + ") !"); }
-			 * 
-			 * }
-			 */
+			/* number of opponent's ships destroyed before attacking */
+			int n = game.opponentPlayer().listShipDestroyed().size();
 
-			/*
-			 * if (game.opponentPlayer().shipsAreDestroyed(missileCoord)) {
-			 * System.out.println("You've DESTROYED the ship "); }
-			 */
+			if (game.opponentPlayer().isAnyoneHit(missileCoord)) {
 
-			// number of opponent's ships destroyed before attacking
-			int nb = game.opponentPlayer().listShipDestroyed().size();
-
-			if (game.opponentPlayer().shipsAreHit(missileCoord)) {
 				System.out
 						.println("You've hit a ship ! Your new board attack : ");
 
-				// update and display boards
+				/* update and display boards */
 				game.getCurrentPlayer().getBoardAttack()
 						.updateBoardAttack(missileCoord, 1);
 				game.opponentPlayer().getBoardGame()
 						.updateBoardAttack(missileCoord, 1);
 				game.getCurrentPlayer().getBoardAttack().displayBoard();
 
-				// check if ship is destroyed (one more ship in the list)
-				if (game.opponentPlayer().listShipDestroyed().size() > nb) {
+				/* check if ship is destroyed (one more ship in the list) */
+				if (game.opponentPlayer().listShipDestroyed().size() > n) {
 					System.out.println("You've DESTROYED the ship. ");
 				}
-			} else {
+			}
+
+			else {
 				System.out
 						.println("You haven't hit any ship. Your new board attack : ");
 
-				// update and display board attack
+				/* update and display board attack */
 				game.getCurrentPlayer().getBoardAttack()
 						.updateBoardAttack(missileCoord, 0);
 				game.getCurrentPlayer().getBoardAttack().displayBoard();
@@ -244,10 +228,9 @@ public class Main {
 			game.changePlayer();
 		}
 
-		System.out.println(" Game ended ! The winner is "
-				+ game.winnerEndGame() + " !");
+		System.out.println(" ************ Game ended ! ************ ");
+		System.out.println("The winner is " + game.winnerEndGame() + " !");
 
 		scanner.close();
 	}
-
 }

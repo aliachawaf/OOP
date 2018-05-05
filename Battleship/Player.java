@@ -72,7 +72,7 @@ public class Player {
 		return list;
 	}
 
-	public boolean shipsAreHit(Coord missileCoord) {
+	public boolean isAnyoneHit(Coord missileCoord) {
 
 		// return true if one of player's ships is hit by missile
 
@@ -87,27 +87,7 @@ public class Player {
 		}
 		return hit;
 	}
-
-	public boolean shipsAreDestroyed(Coord missileCoord) {
-
-		// return true if one of the ships is destroyed by the missile
-		boolean destroyed = false;
-
-		for (int i = 0; i < this.getPlayerShips().size(); i++) {
-			// if not already destroyed
-			if (!(this.getPlayerShips().get(i).isDestroyed())) {
-				// but hit by missile
-				if (this.getPlayerShips().get(i).isHit(missileCoord)) {
-					// and now destroyed because of this missile
-					if (this.getPlayerShips().get(i).isDestroyed()) {
-						destroyed = true;
-					}
-				}
-			}
-		}
-		return destroyed;
-	}
-
+	
 	public ArrayList<Ship> listShipDestroyed() {
 
 		ArrayList<Ship> list = new ArrayList<Ship>();

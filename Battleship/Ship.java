@@ -168,6 +168,6 @@ public class Ship {
 	
 	// override
 	public String toString() {
-		return this.name;
+		return this.name + " (size " + this.size + ")";
 	}
 }

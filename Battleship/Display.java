@@ -1,27 +1,17 @@
 public class Display {
 
-	//private Player player;
 	private char gameBoard[][];
 
 	// constructor
 	public Display(int mapSize) {
-		//this.player = player;
 		this.gameBoard = new char[mapSize + 1][mapSize + 2];
 		/*
-		 * we add one more line to display the letters we add 2 more columns to
-		 * display line numbers
+		 * we add one more line to display the letters ( on 1st line) we add 2
+		 * more columns to display line numbers (on 1st and 2nd columns)
 		 */
 	}
 
 	// getters & setters
-	/*public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}*/
-
 	public char[][] getGameBoard() {
 		return gameBoard;
 	}
@@ -33,8 +23,10 @@ public class Display {
 	// methods
 	public void initBoard() {
 
-		// initializes the board with letters for columns, line numbers and dots
-		// all over it
+		/*
+		 * initializes the board with letters for columns, line numbers and dots
+		 * all over it
+		 */
 		this.gameBoard[0][0] = ' ';
 		this.gameBoard[0][1] = ' ';
 		char i = 'A';
@@ -67,8 +59,10 @@ public class Display {
 
 	public void updateBoard(Ship s) {
 
-		// ship s placed on the board is registered with many 'o' instead of
-		// dots
+		/*
+		 * the ship s placed on the board is registered with many 'o' instead of
+		 * dots
+		 */
 
 		int column, line;
 
@@ -85,7 +79,7 @@ public class Display {
 
 	public void updateBoardAttack(Coord missile, int hit) {
 
-		// updates boards attack when a player has sent a missile
+		// updates board attack when a player has sent a missile
 
 		/*
 		 * hit==1 means the player attacking has hit a ship. Then, this ship is
@@ -96,8 +90,8 @@ public class Display {
 					.toLowerCase(missile.getColumn()) - 96 + 1] = 'x';
 		}
 		/*
-		 * else, hit==0 means the player attacking hasn't hit a ship. Then, an
-		 * 'o' is put instead of a dot on missile position
+		 * else, hit==0 means the player attacking hasn't hit any ship. 
+		 * Then, an 'o' is put instead of a dot on missile position
 		 */
 		else {
 			this.gameBoard[missile.getLine()][(int) Character

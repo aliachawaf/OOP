@@ -52,23 +52,11 @@ public class Game {
 
 	public boolean gameNotEnded() {
 
-		// if (this.currentPlayer().listShipDestroyed().size()==5 ????
-/*
-		if (this.player1.listShipDestroyed().size() < 5
-				|| this.player2.listShipDestroyed().size() < 5) {
-
-			return true;
-
-		} else {
-			return false;
-		}*/
-		
-		if (this.getCurrentPlayer().listShipDestroyed().size()==5){
+		if (this.getCurrentPlayer().listShipDestroyed().size() == 5) {
 			return false;
 		} else {
 			return true;
 		}
-
 	}
 
 	public Player winnerEndGame() {
@@ -78,7 +66,5 @@ public class Game {
 		} else {
 			return this.player1;
 		}
-
 	}
-
 }
