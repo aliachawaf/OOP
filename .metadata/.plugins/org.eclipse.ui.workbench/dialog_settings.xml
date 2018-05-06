@@ -3,8 +3,12 @@
 	<section name="ShowViewDialog">
 		<item value="378" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
-		<item value="443" key="DIALOG_HEIGHT"/>
+		<item value="org.eclipse.ui.console.ConsoleView" key="ShowViewDialog.STORE_SELECTED_VIEW_ID"/>
+		<item value="415" key="DIALOG_HEIGHT"/>
 		<item value="290" key="DIALOG_X_ORIGIN"/>
 		<item value="91" key="DIALOG_Y_ORIGIN"/>
+		<list key="ShowViewDialog.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.ui"/>
+		</list>
 	</section>
 </section>

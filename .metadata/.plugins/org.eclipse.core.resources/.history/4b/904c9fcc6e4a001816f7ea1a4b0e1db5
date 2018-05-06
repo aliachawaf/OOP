@@ -1,8 +1,0 @@
-public class PlayerAction {
-
-	private Player player;
-	private Coord startCoord;
-	private Coord endCoord;
-
-	
-}
