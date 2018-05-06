@@ -101,8 +101,8 @@ public class Coord {
 
 		boolean check = false;
 
-		for (char i = 'A'; i <= Character
-				.toUpperCase((char) (this.mapSize + 65)); i++) {
+		for (char i = 'A'; i < Character
+				.toUpperCase((char)(this.mapSize + 65)); i++) {
 			if (this.column == i) {
 				check = true;
 			}

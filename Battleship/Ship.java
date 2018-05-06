@@ -65,21 +65,19 @@ public class Ship {
 			return false;
 		}
 	}
-	
-	public boolean isHit(Coord missileCoord){
-		
+
+	public boolean isHit(Coord missileCoord) {
+
 		boolean hit = false;
-		
-		for (int i = 0; i<this.shipListCoord().size(); i++){
-			if (this.shipListCoord().get(i).CompareCoord(missileCoord)){
+
+		for (int i = 0; i < this.shipListCoord().size(); i++) {
+			if (this.shipListCoord().get(i).CompareCoord(missileCoord)) {
 				hit = true;
 				this.coordHit.add(missileCoord);
 			}
 		}
 		return hit;
 	}
-	
-	
 
 	public boolean isDestroyed() {
 		// ship has sunk when the number of coord hit is equal to his size
@@ -118,6 +116,7 @@ public class Ship {
 		return list;
 	}
 
+
 	// checking
 	public boolean checkNotDiagonal() {
 		boolean check = false;
@@ -132,7 +131,7 @@ public class Ship {
 		return check;
 	}
 
-	public boolean checkCoordsMatcheWithSize() {
+	public boolean checkCoordsMatchWithSize() {
 		/* checks if ship's coord correspond with its size */
 
 		if (this.shipListCoord().size() == this.size) {
@@ -141,7 +140,7 @@ public class Ship {
 			return false;
 		}
 	}
-		
+
 	public boolean checkPlaceIsFree(ArrayList<Ship> list) {
 
 		boolean check = true;
@@ -150,13 +149,14 @@ public class Ship {
 		for (int i = 0; i < this.shipListCoord().size(); i++) {
 
 			// for each ship of shipList
-			for (int j =0; j<list.size(); j++){
-				
+			for (int j = 0; j < list.size(); j++) {
+
 				// for each coord of list's ship
-				for (int k = 0; k < list.get(j).shipListCoord().size(); k++){
-					
+				for (int k = 0; k < list.get(j).shipListCoord().size(); k++) {
+
 					// compare coord of this ship and coord of list's ship
-					if (this.shipListCoord().get(i).CompareCoord(list.get(j).shipListCoord().get(k))){
+					if (this.shipListCoord().get(i)
+							.CompareCoord(list.get(j).shipListCoord().get(k))) {
 						check = false;
 					}
 				}
@@ -164,8 +164,7 @@ public class Ship {
 		}
 		return check;
 	}
-	
-	
+
 	// override
 	public String toString() {
 		return this.name + " (size " + this.size + ")";
