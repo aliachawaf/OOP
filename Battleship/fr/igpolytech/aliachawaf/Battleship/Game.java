@@ -1,3 +1,4 @@
+package fr.igpolytech.aliachawaf.Battleship;
 public class Game {
 
 	private Player player1;

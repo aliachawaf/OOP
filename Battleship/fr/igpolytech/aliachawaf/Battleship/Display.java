@@ -1,3 +1,4 @@
+package fr.igpolytech.aliachawaf.Battleship;
 public class Display {
 
 	private char gameBoard[][];
@@ -22,16 +23,21 @@ public class Display {
 
 	// methods
 	public void initBoard() {
-
+		
 		/*
 		 * initializes the board with letters for columns, line numbers and dots
 		 * all over it
 		 */
+		
+		/* 1st line is used to display letters
+		 * 1st and 2nd columns are used to display line number
+		 * So there is a blank on 1st and 2nd column of the 1st line
+		 */
 		this.gameBoard[0][0] = ' ';
 		this.gameBoard[0][1] = ' ';
-		char i = 'A';
-
+		
 		// first line : letters
+		char i = 'A';
 		for (int j = 2; j <= this.gameBoard.length; j++) {
 			this.gameBoard[0][j] = i;
 			i++;
@@ -44,9 +50,7 @@ public class Display {
 
 				if (l == 0 && k < 10) {
 					this.gameBoard[k][l] = ' ';
-				} else if (l == 0 && k >= 10) {
-					this.gameBoard[k][l] = Integer.toString(k).charAt(0);
-				} else if (l == 1 && k < 10) {
+				} else if ((l == 0 && k >= 10) || (l == 1 && k < 10)) {
 					this.gameBoard[k][l] = Integer.toString(k).charAt(0);
 				} else if (l == 1 && k >= 10) {
 					this.gameBoard[k][l] = Integer.toString(k).charAt(1);
@@ -65,7 +69,7 @@ public class Display {
 		 */
 
 		int column, line;
-
+		
 		for (int i = 0; i < s.shipListCoord().size(); i++) {
 
 			column = (int) Character.toLowerCase(s.shipListCoord().get(i)
@@ -73,7 +77,7 @@ public class Display {
 											// to display line number
 			line = s.shipListCoord().get(i).getLine();
 
-			this.gameBoard[line][column] = 'o';
+			this.gameBoard[line][column] = '\u25ef';
 		}
 	}
 
@@ -87,7 +91,7 @@ public class Display {
 		 */
 		if (hit == 1) {
 			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96 + 1] = 'x';
+					.toLowerCase(missile.getColumn()) - 96 + 1] = '\u26d2';
 		}
 		/*
 		 * else, hit==0 means the player attacking hasn't hit any ship. 
@@ -95,20 +99,26 @@ public class Display {
 		 */
 		else {
 			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96 + 1] = 'o';
+					.toLowerCase(missile.getColumn()) - 96 + 1] = '\u274c';
 		}
 	}
 
-	public void displayBoard() {
+	//override
+	public String ToString() {
 
-		// displays the board on console for the players
+		String boardDisplay = "";
+		
 		for (int k = 0; k < this.gameBoard.length; k++) {
-			System.out.println();
+			boardDisplay = boardDisplay.concat("\n");
 			for (int l = 0; l < this.gameBoard[k].length; l++) {
-				System.out.print(" " + this.gameBoard[k][l]);
+				if (l==1){
+					boardDisplay = boardDisplay.concat("" + this.gameBoard[k][l]);}
+				else {
+					boardDisplay = boardDisplay.concat(" " + this.gameBoard[k][l]);
+				}
 			}
 		}
-		System.out.println();
-		System.out.println();
+		boardDisplay = boardDisplay.concat("\n\n");
+		return boardDisplay;
 	}
 }

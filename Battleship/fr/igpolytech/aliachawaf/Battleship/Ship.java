@@ -1,3 +1,4 @@
+package fr.igpolytech.aliachawaf.Battleship;
 import java.util.ArrayList;
 
 public class Ship {
@@ -73,6 +74,7 @@ public class Ship {
 		for (int i = 0; i < this.shipListCoord().size(); i++) {
 			if (this.shipListCoord().get(i).CompareCoord(missileCoord)) {
 				hit = true;
+				// update list of coord hit
 				this.coordHit.add(missileCoord);
 			}
 		}
@@ -80,7 +82,7 @@ public class Ship {
 	}
 
 	public boolean isDestroyed() {
-		// ship has sunk when the number of coord hit is equal to his size
+		// ship has sunk when the number of coord hit is equal to its size
 		if (this.coordHit.size() == this.size) {
 			return true;
 		} else {
@@ -90,7 +92,7 @@ public class Ship {
 
 	public ArrayList<Coord> shipListCoord() {
 
-		// we construct a list containing the coord which compose the ship
+		// returns the list of all the coord which compose the ship
 
 		ArrayList<Coord> list = new ArrayList<Coord>();
 
@@ -132,7 +134,7 @@ public class Ship {
 	}
 
 	public boolean checkCoordsMatchWithSize() {
-		/* checks if ship's coord correspond with its size */
+		/* checks if the number of ship's coord matches with its size */
 
 		if (this.shipListCoord().size() == this.size) {
 			return true;
@@ -143,15 +145,16 @@ public class Ship {
 
 	public boolean checkPlaceIsFree(ArrayList<Ship> list) {
 
+		/* list should contains the ships already placed on board. 
+		 * So for each coord of our ship, we check if one of the ships in list
+		 * has the same coord. In this case, place is not free */
+		
 		boolean check = true;
 
-		// for each coord of this ship
 		for (int i = 0; i < this.shipListCoord().size(); i++) {
 
-			// for each ship of shipList
 			for (int j = 0; j < list.size(); j++) {
 
-				// for each coord of list's ship
 				for (int k = 0; k < list.get(j).shipListCoord().size(); k++) {
 
 					// compare coord of this ship and coord of list's ship

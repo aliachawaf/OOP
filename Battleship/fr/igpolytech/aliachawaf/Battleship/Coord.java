@@ -1,3 +1,4 @@
+package fr.igpolytech.aliachawaf.Battleship;
 public class Coord {
 
 	private char column;

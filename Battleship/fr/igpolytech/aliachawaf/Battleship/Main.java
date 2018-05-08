@@ -1,3 +1,4 @@
+package fr.igpolytech.aliachawaf.Battleship;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		scanner = new Scanner(System.in);
-
+		
 		/* input mapSize */
 		int mapSize = 10;
 		boolean checkNotException = false;
@@ -41,7 +42,6 @@ public class Main {
 			}
 		}
 		
-		System.out.println("mapsize : " + (char)(mapSize + 64));
 
 		/* set up 5 ships for each player */
 		Ship carrier_1 = new Ship("carrier", 5);
@@ -118,11 +118,13 @@ public class Main {
 			}
 
 			/* display game board for current player */
-			game.getCurrentPlayer().getBoardGame().displayBoard();
+			System.out.println(game.getCurrentPlayer().getBoardGame().ToString());
 
-			System.out.println("********* PLAYER "
-					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
+			System.out.println("*************** PLAYER "
+					+ game.getCurrentPlayer().getPlayerNumber() + " **************\n");
 
+			System.out.println("You have to place your 5 ships on your board in the order you want.\n");
+			
 			for (int i = 0; i < 5; i++) {
 
 				System.out.println("Ships not placed on the board : "
@@ -203,10 +205,10 @@ public class Main {
 						.get(indexShipToPlace);
 
 				System.out
-						.println("\nEnter start and end positions for the ship "
+						.println("\nWrite start and end positions for the ship "
 								+ currentShipToPlace.getName()
 								+ " (size "
-								+ currentShipToPlace.getSize() + ") :");
+								+ currentShipToPlace.getSize() + ") :     (press ENTER after each one)");
 
 				do {
 
@@ -249,8 +251,6 @@ public class Main {
 					checkStartCoord = startCoord.checkCoord();
 					checkEndCoord = endCoord.checkCoord();
 					
-					System.out.println("check start and end coord : " + checkStartCoord + checkEndCoord );
-
 					checkCoordsMatchWithSize = currentShipToPlace
 							.checkCoordsMatchWithSize();
 
@@ -288,8 +288,6 @@ public class Main {
 					}
 
 				} while (!(checkPlaceIsFree) || !(checkCoordsMatchWithSize) || !(checkNotDiagonal) || !(checkStartCoord) || !(checkEndCoord));
-
-				System.out.print("je suis la ");
 				
 				/*
 				 * once coord for the ship are chosen and correct, we add this
@@ -301,7 +299,7 @@ public class Main {
 				/* update and display new board with the ship placed */
 				game.getCurrentPlayer().getBoardGame()
 						.updateBoard(currentShipToPlace);
-				game.getCurrentPlayer().getBoardGame().displayBoard();
+				System.out.println(game.getCurrentPlayer().getBoardGame().ToString());
 
 				/* remove the ship placed from the list of ships not placed yet */
 				listShipNotPlacedYet.remove(indexShipToPlace);
@@ -318,12 +316,12 @@ public class Main {
 
 		while (game.NotEnded()) {
 
-			System.out.println(" ********* PLAYER "
-					+ game.getCurrentPlayer().getPlayerNumber() + " *********");
+			System.out.println(" *************** PLAYER "
+					+ game.getCurrentPlayer().getPlayerNumber() + " **************");
 
 			/* display board attack */
 			System.out.println("Your current board attack : ");
-			game.getCurrentPlayer().getBoardAttack().displayBoard();
+			System.out.println(game.getCurrentPlayer().getBoardAttack().ToString());
 
 			/* input missile position */
 			System.out.print("Choose a missile position to attack : ");
@@ -366,14 +364,14 @@ public class Main {
 			if (game.opponentPlayer().isAnyoneHit(missileCoord)) {
 
 				System.out
-						.println(" [ YES !!! ] \n You've hit a ship ! Your new board attack : ");
+						.println("\n  YES !!!  \n\n You've hit a ship ! Your new board attack : ");
 
 				/* update and display boards */
 				game.getCurrentPlayer().getBoardAttack()
 						.updateBoardAttack(missileCoord, 1);
 				game.opponentPlayer().getBoardGame()
 						.updateBoardAttack(missileCoord, 1);
-				game.getCurrentPlayer().getBoardAttack().displayBoard();
+				System.out.println(game.getCurrentPlayer().getBoardAttack().ToString());
 
 				/* check if ship is destroyed (one more ship in the list) */
 				if (game.opponentPlayer().listShipDestroyed().size() > n) {
@@ -383,12 +381,12 @@ public class Main {
 
 			else {
 				System.out
-						.println(" [ NO !!! ]\n You haven't hit any ship. Your new board attack : ");
+						.println("\n  NO !!! \n\n You haven't hit any ship. Your new board attack : ");
 
 				/* update and display board attack */
 				game.getCurrentPlayer().getBoardAttack()
 						.updateBoardAttack(missileCoord, 0);
-				game.getCurrentPlayer().getBoardAttack().displayBoard();
+				System.out.println(game.getCurrentPlayer().getBoardAttack().ToString());
 			}
 
 			System.out.println("ships destroyed : "

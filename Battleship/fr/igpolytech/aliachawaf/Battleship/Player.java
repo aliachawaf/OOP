@@ -1,11 +1,12 @@
+package fr.igpolytech.aliachawaf.Battleship;
 import java.util.ArrayList;
 
 public class Player {
 
-	private int playerNumber; // 1 or 2
+	private int playerNumber;
 	private ArrayList<Ship> playerShips;
 	private Display boardGame;
-	private Display boardAttack;
+	private Display boardAttack;  
 
 	// constructor
 	public Player(int playerNumber, int mapSize) {
