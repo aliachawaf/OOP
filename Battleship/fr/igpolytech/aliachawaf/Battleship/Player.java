@@ -1,36 +1,28 @@
 package fr.igpolytech.aliachawaf.Battleship;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class Player {
+public abstract class Player {
 
-	private int playerNumber;
-	private ArrayList<Ship> playerShips;
-	private Display boardGame;
-	private Display boardAttack;  
+	protected List<Ship> playerShips;
+	protected Display boardGame;
+	protected Display boardAttack;
 
 	// constructor
-	public Player(int playerNumber, int mapSize) {
-		this.playerNumber = playerNumber;
+	public Player(int mapSize) {
 		this.playerShips = new ArrayList<Ship>();
 		this.boardGame = new Display(mapSize);
 		this.boardAttack = new Display(mapSize);
 	}
 
-
 	// getters & setters
-	public int getPlayerNumber() {
-		return playerNumber;
-	}
-
-	public void setPlayerNumber(int playerNumber) {
-		this.playerNumber = playerNumber;
-	}
-
-	public ArrayList<Ship> getPlayerShips() {
+	public List<Ship> getPlayerShips() {
 		return playerShips;
 	}
 
-	public void setPlayerShips(ArrayList<Ship> playerShips) {
+	public void setPlayerShips(List<Ship> playerShips) {
 		this.playerShips = playerShips;
 	}
 
@@ -52,63 +44,80 @@ public class Player {
 
 	// methods
 
-	public ArrayList<Ship> listShipHit() {
+	public List<Ship> listShipHit() {
 
 		/*
 		 * for each player's ship, we see if its list CoordHit is empty. If not,
 		 * that means the ship is hit and we add it in the list returned
 		 * 
-		 * nb : only ships hit are returned (and not destroyed !)
+		 * NB : only ships hit are returned (and not destroyed !)
 		 */
 
-		ArrayList<Ship> list = new ArrayList<Ship>();
+		List<Ship> list = new ArrayList<Ship>();
 
-		for (int i = 0; i < this.playerShips.size(); i++) {
+		Iterator<Ship> it = this.playerShips.iterator();
+		Ship next;
+		
+		while (it.hasNext()) {
+			next = it.next();
+			if (!(next.getCoordHit().isEmpty())
+					&& !(next.isDestroyed())) {
 
-			if (!(this.playerShips.get(i).getCoordHit().isEmpty())
-					&& !(this.playerShips.get(i).isDestroyed())) {
-
-				list.add(this.playerShips.get(i));
+				list.add(next);
 			}
 		}
+
 		return list;
 	}
 
 	public boolean isAnyoneHit(Coord missileCoord) {
 
 		// return true if one of player's ships is hit by missile
-
 		boolean hit = false;
 
-		// for each ship, we see if it is hit by the missile
-		for (int i = 0; i < this.getPlayerShips().size(); i++) {
+		Iterator<Ship> it = this.getPlayerShips().iterator();
 
-			if (this.getPlayerShips().get(i).isHit(missileCoord)) {
+		// for each ship, we see if it is hit by the missile
+		while (it.hasNext()) {
+			if (it.next().isHit(missileCoord)) {
 				hit = true;
 			}
 		}
+
 		return hit;
 	}
-	
-	public ArrayList<Ship> listShipDestroyed() {
 
-		ArrayList<Ship> list = new ArrayList<Ship>();
+	public List<Ship> listShipDestroyed() {
 
-		for (int i = 0; i < this.playerShips.size(); i++) {
+		List<Ship> list = new ArrayList<Ship>();
 
-			if (this.playerShips.get(i).isDestroyed()) {
+		Iterator<Ship> it = this.playerShips.iterator();
+		Ship next;
 
-				list.add(this.playerShips.get(i));
+		while (it.hasNext()) {
+			next = it.next();
+			if (next.isDestroyed()) {
+
+				list.add(next);
 			}
 		}
+
 		return list;
 	}
 
-	
-	
-	// overrides
-	public String toString() {
-		return "player" + this.playerNumber;
+	public List<Coord> listCoordTaken(){
+		
+		/* for each ship, we add all his coord in the list of Coord taken returned */
+		
+		List<Coord> list = new ArrayList<Coord>();
+		
+		Iterator<Ship> it = this.getPlayerShips().iterator();
+		
+		while (it.hasNext()){
+			
+			list.addAll(it.next().shipListCoord());
+						
+		}
+		return list;
 	}
-
 }

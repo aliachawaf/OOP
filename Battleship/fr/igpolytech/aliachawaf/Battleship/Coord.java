@@ -1,4 +1,8 @@
 package fr.igpolytech.aliachawaf.Battleship;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Coord {
 
 	private char column;
@@ -15,6 +19,10 @@ public class Coord {
 	public Coord(String coord, int mapSize) {
 		this.column = Character.toUpperCase(coord.charAt(0));
 		this.line = Integer.parseInt(coord.substring(1));
+		this.mapSize = mapSize;
+	}
+	
+	public Coord(int mapSize) {
 		this.mapSize = mapSize;
 	}
 
@@ -44,7 +52,7 @@ public class Coord {
 	}
 
 	// methods
-	public boolean CompareColumn(Coord c) {
+	public boolean compareColumn(Coord c) {
 		if (this.column == c.getColumn()) {
 			return true;
 		} else {
@@ -52,7 +60,7 @@ public class Coord {
 		}
 	}
 
-	public boolean CompareLine(Coord c) {
+	public boolean compareLine(Coord c) {
 		if (this.line == c.getLine()) {
 			return true;
 		} else {
@@ -60,9 +68,9 @@ public class Coord {
 		}
 	}
 
-	public boolean CompareCoord(Coord c) {
+	public boolean compareCoord(Coord c) {
 
-		if (this.CompareColumn(c) && this.CompareLine(c)) {
+		if (this.compareColumn(c) && this.compareLine(c)) {
 			return true;
 		} else {
 			return false;
@@ -90,13 +98,26 @@ public class Coord {
 		 * the 2 coords.
 		 */
 
-		if ((this.getColumn() > end.getColumn() && this.CompareLine(end))
-				|| (this.getLine() > end.getLine() && this.CompareColumn(end))) {
+		if ((this.getColumn() > end.getColumn() && this.compareLine(end))
+				|| (this.getLine() > end.getLine() && this.compareColumn(end))) {
 
 			this.interchangeCoord(end);
 		}
 	}
 
+	public List<Coord> coordAroundaCoord(){
+		
+		//returns all the coords that circle this coord 
+		
+		List<Coord> list = new ArrayList<Coord>();
+		
+		//to doooooooooooooooo !
+		
+		return list;
+		
+	}
+	
+	
 	// checking
 	public boolean checkColumn() {
 
@@ -129,8 +150,35 @@ public class Coord {
 	}
 	
 
-	// override
+	@Override
 	public String toString() {
 		return this.column + Integer.toString(this.line);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + column;
+		result = prime * result + line;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Coord))
+			return false;
+		Coord other = (Coord) obj;
+		if (column != other.column)
+			return false;
+		if (line != other.line)
+			return false;
+		return true;
+	}
+	
+
 }

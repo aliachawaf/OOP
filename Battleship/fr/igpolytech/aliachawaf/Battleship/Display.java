@@ -90,8 +90,7 @@ public class Display {
 		 * registered with an 'x' instead of a dot on missile position
 		 */
 		if (hit == 1) {
-			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96 + 1] = '\u26d2';
+			this.gameBoard[missile.getLine()][(int)Character.toLowerCase(missile.getColumn()) - 96 + 1] = '\u26d2';
 		}
 		/*
 		 * else, hit==0 means the player attacking hasn't hit any ship. 
@@ -99,12 +98,12 @@ public class Display {
 		 */
 		else {
 			this.gameBoard[missile.getLine()][(int) Character
-					.toLowerCase(missile.getColumn()) - 96 + 1] = '\u274c';
+					.toLowerCase(missile.getColumn()) - 96 + 1] = '\u26cc';
 		}
 	}
 
-	//override
-	public String ToString() {
+	@Override
+	public String toString() {
 
 		String boardDisplay = "";
 		

@@ -1,5 +1,8 @@
 package fr.igpolytech.aliachawaf.Battleship;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Ship {
 
@@ -7,7 +10,7 @@ public class Ship {
 	private int size;
 	private Coord startCoord;
 	private Coord endCoord;
-	private ArrayList<Coord> coordHit;
+	private List<Coord> coordHit;
 
 	// constructors
 	public Ship(String name, int size) {
@@ -21,16 +24,8 @@ public class Ship {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public int getSize() {
 		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
 	}
 
 	public Coord getStartCoord() {
@@ -49,18 +44,15 @@ public class Ship {
 		this.endCoord = endCoord;
 	}
 
-	public ArrayList<Coord> getCoordHit() {
+	public List<Coord> getCoordHit() {
 		return coordHit;
 	}
 
-	public void setCoordHit(ArrayList<Coord> coordHit) {
-		this.coordHit = coordHit;
-	}
-
+	
 	// methods
 	public boolean isVertical() {
 		// ship in vertical if same column from the beginning to the end
-		if (this.startCoord.CompareColumn(this.endCoord)) {
+		if (this.startCoord.compareColumn(this.endCoord)) {
 			return true;
 		} else {
 			return false;
@@ -70,12 +62,16 @@ public class Ship {
 	public boolean isHit(Coord missileCoord) {
 
 		boolean hit = false;
+		Iterator<Coord> it = this.shipListCoord().iterator();
 
-		for (int i = 0; i < this.shipListCoord().size(); i++) {
-			if (this.shipListCoord().get(i).CompareCoord(missileCoord)) {
+		while (it.hasNext()) {
+
+			if (it.next().compareCoord(missileCoord)) {
 				hit = true;
 				// update list of coord hit
-				this.coordHit.add(missileCoord);
+				if (!(this.coordHit.contains(missileCoord))) {
+					this.coordHit.add(missileCoord);
+				}
 			}
 		}
 		return hit;
@@ -90,11 +86,11 @@ public class Ship {
 		}
 	}
 
-	public ArrayList<Coord> shipListCoord() {
+	public List<Coord> shipListCoord() {
 
 		// returns the list of all the coord which compose the ship
 
-		ArrayList<Coord> list = new ArrayList<Coord>();
+		List<Coord> list = new ArrayList<Coord>();
 
 		// if ship in vertical, same letter of column but different lines
 		if (isVertical()) {
@@ -118,7 +114,6 @@ public class Ship {
 		return list;
 	}
 
-
 	// checking
 	public boolean checkNotDiagonal() {
 		boolean check = false;
@@ -126,7 +121,7 @@ public class Ship {
 		if (isVertical()) {
 			check = true;
 		} else {
-			if (this.startCoord.CompareLine(this.endCoord)) {
+			if (this.startCoord.compareLine(this.endCoord)) {
 				check = true;
 			}
 		}
@@ -143,33 +138,29 @@ public class Ship {
 		}
 	}
 
-	public boolean checkPlaceIsFree(ArrayList<Ship> list) {
+	public boolean checkPlaceIsFree(List<Coord> listCoordTaken) {
 
-		/* list should contains the ships already placed on board. 
-		 * So for each coord of our ship, we check if one of the ships in list
-		 * has the same coord. In this case, place is not free */
-		
+		/*
+		 * So for each coord of our ship, we check if it is contained but the
+		 * list of coord already taken. If yes, place is not free
+		 */
+
 		boolean check = true;
 
-		for (int i = 0; i < this.shipListCoord().size(); i++) {
+		Iterator<Coord> it = this.shipListCoord().iterator();
 
-			for (int j = 0; j < list.size(); j++) {
+		while (it.hasNext()) {
 
-				for (int k = 0; k < list.get(j).shipListCoord().size(); k++) {
-
-					// compare coord of this ship and coord of list's ship
-					if (this.shipListCoord().get(i)
-							.CompareCoord(list.get(j).shipListCoord().get(k))) {
-						check = false;
-					}
-				}
+			if (listCoordTaken.contains(it.next())) {
+				check = false;
 			}
 		}
 		return check;
 	}
 
-	// override
+	@Override
 	public String toString() {
 		return this.name + " (size " + this.size + ")";
 	}
+
 }
