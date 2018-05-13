@@ -1,0 +1,11 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+public interface ArtificialIntelligence {
+
+	public void placeOneShip(Ship s);
+	
+	public void placeAllShips();
+	
+	public Coord sendMissile();
+	
+}

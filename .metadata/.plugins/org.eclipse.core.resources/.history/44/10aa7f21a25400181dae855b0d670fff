@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package fr.igpolytech.aliachawaf.Battleship;
+
+/**
+ * @author loulou
+ *
+ */
+public interface ArtificialIntelligence {
+
+}

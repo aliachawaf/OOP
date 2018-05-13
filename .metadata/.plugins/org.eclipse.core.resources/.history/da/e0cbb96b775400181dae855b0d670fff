@@ -1,0 +1,116 @@
+package fr.igpolytech.aliachawaf.Battleship;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player {
+
+	//private int playerNumber;
+	private String playerName;
+	private List<Ship> playerShips;
+	private Display boardGame;
+	private Display boardAttack;  
+
+	// constructor
+	public Player(String playerName, int mapSize) {
+		this.playerName = playerName;
+		this.playerShips = new ArrayList<Ship>();
+		this.boardGame = new Display(mapSize);
+		this.boardAttack = new Display(mapSize);
+	}
+
+
+	// getters & setters
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerNumber(String playerName) {
+		this.playerName = playerName;
+	}
+
+	public List<Ship> getPlayerShips() {
+		return playerShips;
+	}
+
+	public void setPlayerShips(List<Ship> playerShips) {
+		this.playerShips = playerShips;
+	}
+
+	public Display getBoardGame() {
+		return boardGame;
+	}
+
+	public void setBoardGame(Display boardGame) {
+		this.boardGame = boardGame;
+	}
+
+	public Display getBoardAttack() {
+		return boardAttack;
+	}
+
+	public void setBoardAttack(Display boardAttack) {
+		this.boardAttack = boardAttack;
+	}
+
+	// methods
+
+	public List<Ship> listShipHit() {
+
+		/*
+		 * for each player's ship, we see if its list CoordHit is empty. If not,
+		 * that means the ship is hit and we add it in the list returned
+		 * 
+		 * nb : only ships hit are returned (and not destroyed !)
+		 */
+
+		List<Ship> list = new ArrayList<Ship>();
+
+		for (int i = 0; i < this.playerShips.size(); i++) {
+
+			if (!(this.playerShips.get(i).getCoordHit().isEmpty())
+					&& !(this.playerShips.get(i).isDestroyed())) {
+
+				list.add(this.playerShips.get(i));
+			}
+		}
+		return list;
+	}
+
+	public boolean isAnyoneHit(Coord missileCoord) {
+
+		// return true if one of player's ships is hit by missile
+
+		boolean hit = false;
+
+		// for each ship, we see if it is hit by the missile
+		for (int i = 0; i < this.getPlayerShips().size(); i++) {
+
+			if (this.getPlayerShips().get(i).isHit(missileCoord)) {
+				hit = true;
+			}
+		}
+		return hit;
+	}
+	
+	public List<Ship> listShipDestroyed() {
+
+		List<Ship> list = new ArrayList<Ship>();
+
+		for (int i = 0; i < this.playerShips.size(); i++) {
+
+			if (this.playerShips.get(i).isDestroyed()) {
+
+				list.add(this.playerShips.get(i));
+			}
+		}
+		return list;
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "player " + this.playerName;
+	}
+
+}

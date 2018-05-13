@@ -1,0 +1,23 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+public class ArtificialPlayer1 extends Player implements ArtificialIntelligence {
+
+	private int playerNumber;
+	
+	public ArtificialPlayer0(int playerNumber, int mapSize) {
+		super(mapSize);
+		this.playerNumber = playerNumber;
+	}
+
+	// getters & setters
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
+
+	public void setPlayerNumber(int playerNumber) {
+		this.playerNumber = playerNumber;
+	}
+	
+	
+
+}

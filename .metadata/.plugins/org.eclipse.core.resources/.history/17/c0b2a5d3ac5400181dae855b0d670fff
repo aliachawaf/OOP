@@ -1,0 +1,20 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+public class HumanVSArtificial {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int randomLine = ThreadLocalRandom.current().nextInt(1, 10 + 1);
+		
+		while (1){
+		System.out.println("random line : " + randomLine);
+		}
+	}
+
+}

@@ -1,0 +1,25 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+public class HumanVSArtificial {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		ArtificialPlayer0 a = new ArtificialPlayer0(1, 10);
+		
+		Coord c = a.choseOneCoord();
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}

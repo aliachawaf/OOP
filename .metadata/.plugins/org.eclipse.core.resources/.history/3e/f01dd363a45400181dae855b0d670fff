@@ -1,0 +1,92 @@
+/**
+ * 
+ */
+package fr.igpolytech.aliachawaf.Battleship;
+
+public interface ArtificialIntelligence {
+	
+	int mapSize;
+
+	public void placeOneShipOnBoard(Ship s){
+		
+		do {
+
+			boolean checkNotException = false;
+
+			while (!checkNotException) {
+				try {
+					start = scanner.nextLine();
+					end = scanner.nextLine();
+					startCoord = new Coord(start, mapSize);
+					endCoord = new Coord(end, mapSize);
+
+					checkNotException = true;
+
+				} catch (NumberFormatException e) {
+					System.out
+							.print("\nOne of the lines you've entered is not a number !");
+					System.out.print(" Re-enter the 2 coords : ");
+					scanner.nextLine();
+				} catch (StringIndexOutOfBoundsException e) {
+					System.out
+							.print("One of the 2 coords is missing. Re-enter them : ");
+					scanner.nextLine();
+				}
+			}
+
+			/*
+			 * interchange the 2 coord if not in the right direction
+			 * (bottom to top / right to left)
+			 */
+			startCoord.putCoordInOrder(endCoord);
+
+			/* update ship's coord with the inputs */
+			currentShipToPlace.setStartCoord(startCoord);
+			currentShipToPlace.setEndCoord(endCoord);
+
+			/* check */
+			checkStartCoord = startCoord.checkCoord();
+			checkEndCoord = endCoord.checkCoord();
+			
+			checkCoordsMatchWithSize = currentShipToPlace
+					.checkCoordsMatchWithSize();
+
+			checkNotDiagonal = currentShipToPlace.checkNotDiagonal();
+
+			/*
+			 * we check with all previous ships placed if the place
+			 * chosen is free
+			 */
+			/*
+			 * nb : current player ships list contains only the ships
+			 * which are already placed on the board
+			 */
+			checkPlaceIsFree = currentShipToPlace.checkPlaceIsFree(game
+					.getCurrentPlayer().getPlayerShips());
+
+			if (!(checkPlaceIsFree)) {
+				System.out
+						.println("The place you've chosen is not free !");
+				System.out.println(" Re-enter coords : ");
+			} else if (!(checkStartCoord) || !(checkEndCoord)) {
+				System.out
+						.println("Coords you've entered are not in the right format !");
+				System.out
+						.print("Look at the board game columns' and lines' label.");
+				System.out.println(" Re-enter them : ");
+			} else if (!(checkCoordsMatchWithSize)) {
+				System.out
+						.print("Those coord do not match with the ship's size !");
+				System.out.println(" Re-enter them : ");
+			} else if (!(checkNotDiagonal)) {
+				System.out
+						.print("You can't place this ship in diagonal !");
+				System.out.println(" Re-enter coords : ");
+			}
+
+		} while (!(checkPlaceIsFree) || !(checkCoordsMatchWithSize) || !(checkNotDiagonal) || !(checkStartCoord) || !(checkEndCoord));
+		
+		
+	}
+	
+}

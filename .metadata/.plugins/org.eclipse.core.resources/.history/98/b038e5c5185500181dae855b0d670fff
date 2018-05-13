@@ -1,0 +1,135 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class ArtificialPlayer0 extends Player implements ArtificialIntelligence {
+
+	protected int playerNumber;
+	protected int mapSize;
+
+	public ArtificialPlayer0(int playerNumber, int mapSize) {
+		super(mapSize);
+		this.playerNumber = playerNumber;
+		this.mapSize = mapSize;
+	}
+
+	// getters & setters
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
+
+	public void setPlayerNumber(int playerNumber) {
+		this.playerNumber = playerNumber;
+	}
+
+	public int getMapSize() {
+		return mapSize;
+	}
+
+	public void setMapSize(int mapSize) {
+		this.mapSize = mapSize;
+	}
+
+	// methods
+
+	public Coord choseOneCoord() {
+		// chose randomly a column and a line
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String columnsBoard = alphabet.substring(0, this.mapSize);
+		Random random = new Random();
+		char randomColumn = columnsBoard.charAt(random.nextInt(columnsBoard
+				.length()));
+
+		int randomLine = ThreadLocalRandom.current().nextInt(1,
+				this.mapSize + 1);
+
+		return new Coord(randomColumn, randomLine, this.mapSize);
+	}
+
+	public void placeOneShip(Ship s) {
+
+		// chose randomly start and end coord for the ship
+		
+		int directionRandom;
+		boolean c = false;
+		
+		Coord startCoord = this.choseOneCoord();
+		s.setStartCoord(startCoord);
+		System.out.println("start : " + startCoord);
+		Coord endCoord = new Coord(this.mapSize);
+		boolean checkEndCoord = false;
+		
+		do {
+
+			directionRandom = ThreadLocalRandom.current().nextInt(1, 5);
+			System.out.println("direction : " +  directionRandom);
+			
+			if (directionRandom == 1) {
+				char a = startCoord.getColumn();
+				for (int i =1; i<s.getSize(); i++){
+				a++;
+				}
+				endCoord.setColumn(a);
+				endCoord.setLine(startCoord.getLine());
+				
+			} else if (directionRandom == 2) {
+				char a = startCoord.getColumn();
+				for (int i=1; i<s.getSize(); i++){
+					System.out.print(a+" ");
+				a--;
+				}
+				System.out.println("column : " + a);
+				endCoord.setColumn(a);
+				endCoord.setLine(startCoord.getLine());
+				
+			} else if (directionRandom == 3) {
+				System.out.println("column : " + startCoord.getColumn());
+				endCoord.setColumn(startCoord.getColumn());
+				int z = startCoord.getLine() + s.getSize() -1;
+				System.out.println("line " + z);
+				endCoord.setLine(z);
+				
+			} else if (directionRandom==4){
+				endCoord.setColumn(startCoord.getColumn());
+				int e = startCoord.getLine() - s.getSize() +1;
+				System.out.println("line " + e);
+				endCoord.setLine(e);
+			}
+
+			checkEndCoord = endCoord.checkCoord();
+			System.out.println("end : " + endCoord);
+			
+			
+			startCoord.putCoordInOrder(endCoord);	
+			
+			
+			s.setEndCoord(endCoord);
+			
+
+			if (!(s.checkCoordsMatchWithSize())){
+				startCoord = endCoord;
+			}
+			System.out.println("end : " + endCoord);
+
+		} while (!(s.checkCoordsMatchWithSize()) || !(checkEndCoord) || s.checkPlaceIsFree(this.getPlayerShips()));
+		
+		this.getPlayerShips().add(s);
+		
+	}
+
+	public void placeAllShips() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Coord sendMissile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * placer ses bateaux (random) tirer avec une strategie
+	 */
+
+}

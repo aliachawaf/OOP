@@ -1,0 +1,69 @@
+package fr.igpolytech.aliachawaf.Battleship;
+
+
+public class ArtificialPlayer0 extends Player implements ArtificialIntelligence {
+	
+	private int playerNumber;
+	private int mapSize;
+	
+	public ArtificialPlayer0(int playerNumber, int mapSize) {
+		super(mapSize);
+		this.playerNumber = playerNumber;
+		this.mapSize = mapSize;
+	}
+
+	// getters & setters
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
+
+	public void setPlayerNumber(int playerNumber) {
+		this.playerNumber = playerNumber;
+	}
+
+	
+	//methods
+	public void placeOneShip(Ship s) {
+
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String alphabetMap = alphabet.substring(0, this.mapSize);
+		
+	}
+
+	public void placeAllShips() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Coord sendMissile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// methods
+/*
+	public void placeShipsOnBoard(ArrayList<Ship> list){
+		
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String alphabetMap = alphabet.substring(0, this.mapSize);
+		
+		System.out.println("alphabet : " + alphabetMap);
+		
+		//for each ship
+		for (int i=0; i<list.size(); i++){
+			
+			
+			
+		}
+		
+	}*/
+	
+	/* placer ses bateaux (random)
+	 * tirer avec une strategie
+	 * 
+	 */
+
+}
+
+
+

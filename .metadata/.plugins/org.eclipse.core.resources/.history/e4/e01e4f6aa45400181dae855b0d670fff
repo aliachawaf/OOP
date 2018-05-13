@@ -1,0 +1,13 @@
+/**
+ * 
+ */
+package fr.igpolytech.aliachawaf.Battleship;
+
+public interface ArtificialIntelligence {
+
+	public void placeOneShipOnBoard(Ship s){
+		System.out.print("ji");
+	}
+	
+	
+}
