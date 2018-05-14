@@ -8,18 +8,17 @@ public class HumanVSHuman {
 
 	private static Scanner scanner;
 
-	public static void main(String size, List<Ship> player1_ships, List<Ship> player2_ships) {
+	public static void main(int mapSize, List<Ship> player1_ships, List<Ship> player2_ships) {
 			
-		int mapSize = Integer.parseInt(size.substring(0));
 		boolean checkNotException = false;
 		
 		scanner = new Scanner(System.in);
-		
+
 		/* set up 2 players */
 		String name;
 		System.out.print("Player 1, enter your name : ");
 		name = scanner.nextLine();
-		HumanPlayer player1 = new HumanPlayer(name, mapSize);
+		Player player1 = new HumanPlayer(name, mapSize);
 		
 		System.out.print("Player 2, enter your name : ");
 		name = scanner.nextLine();
@@ -348,7 +347,6 @@ public class HumanVSHuman {
 			for (l = 0; l <= 5; l++) {
 				System.out.println();
 			}
-
 			game.changePlayer();
 		}
 

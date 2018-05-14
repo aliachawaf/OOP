@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HumanVSArtificial {
+public class HumanVSArtificial0 {
 
 	private static Scanner scanner;
 
-	public static void main(String size, List<Ship> player1_ships, List<Ship> player2_ships) {
+	public static void main(int mapSize, List<Ship> player1_ships, List<Ship> player2_ships) {
 
-		int mapSize = Integer.parseInt(size.substring(0));
 		boolean checkNotException = false;
 
 		scanner = new Scanner(System.in);
@@ -19,10 +18,10 @@ public class HumanVSArtificial {
 		String name;
 		System.out.print("\nEnter your name : ");
 		name = scanner.nextLine();
-		HumanPlayer player1 = new HumanPlayer(name, mapSize);
+		Player player1 = new HumanPlayer(name, mapSize);
 
 		ArtificialPlayer0 player2 = new ArtificialPlayer0(2, mapSize);
-
+		
 		/* set up a game */
 		Game game = new Game(player1, player2); // by default, current player is
 												// player1
@@ -247,14 +246,14 @@ public class HumanVSArtificial {
 		for (l = 0; l <= 50; l++) {
 			System.out.println();
 		}
-		
+
 		// ********* ATTACK *********//
 
 		while (game.NotEnded()) {
 
 			System.out.println(" *************** " + game.getCurrentPlayer()
 					+ " **************");
-			
+
 			if (game.getCurrentPlayer() == player1) {
 
 				/* display board attack */
@@ -336,7 +335,8 @@ public class HumanVSArtificial {
 				}
 			} else {
 
-				missileCoord = player2.choseOneCoord();
+				missileCoord = player2.sendMissile();
+				
 				if (player1.isAnyoneHit(missileCoord)) {
 					/* update and display boards */
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 1);
@@ -344,7 +344,7 @@ public class HumanVSArtificial {
 					System.out.println("You've been hit on " + missileCoord
 							+ ". Your new board game : "
 							+ player1.getBoardGame());
-					// System.out.println("AI : " + player2.getBoardGame());
+					
 				} else {
 					/* update and display board attack */
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 0);

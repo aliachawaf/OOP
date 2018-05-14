@@ -1,8 +1,5 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Coord {
 
 	private char column;
@@ -103,18 +100,6 @@ public class Coord {
 
 			this.interchangeCoord(end);
 		}
-	}
-
-	public List<Coord> coordAroundaCoord(){
-		
-		//returns all the coords that circle this coord 
-		
-		List<Coord> list = new ArrayList<Coord>();
-		
-		//to doooooooooooooooo !
-		
-		return list;
-		
 	}
 	
 	

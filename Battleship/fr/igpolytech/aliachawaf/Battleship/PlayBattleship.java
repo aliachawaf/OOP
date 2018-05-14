@@ -1,28 +1,29 @@
 package fr.igpolytech.aliachawaf.Battleship;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import fr.igpolytech.aliachawaf.Battleship.HumanVSHuman;
-import fr.igpolytech.aliachawaf.Battleship.HumanVSArtificial;
 
 public class PlayBattleship {
 
 	private static Scanner scanner;
 
 	public static void main(String[] args) {
-		
+
 		scanner = new Scanner(System.in);
-		
-		System.out.println(" 1 : Human VS Human \n 2 : Human VS ArtificialPlayer \n 3 : Artificial VS Artificial\n");
+
+		System.out
+				.println(" 1 : Human VS Human \n 2 : Human VS ArtificialPlayer \n 3 : Artificial VS Artificial\n");
 		System.out.print("Enter the number of the game you want to play : ");
-		
+
 		int game = scanner.nextInt();
-		
+
 		/* input mapSize */
 		int mapSize = 10;
 		boolean checkNotException = false;
 
-		System.out.print("\nEnter the map size you want between 5-25 (ex : enter 10 to have a map 10x10) : ");
+		System.out
+				.print("\nEnter the map size you want between 5-25 (ex : enter 10 to have a map 10x10) : ");
 
 		while (!checkNotException) {
 			try {
@@ -48,10 +49,7 @@ public class PlayBattleship {
 				scanner.nextLine();
 			}
 		}
-		
-		String size = Integer.toString(mapSize);
-		
-		
+
 		/* set up 5 ships for each player */
 		Ship carrier_1 = new Ship("carrier", 5);
 		Ship battleship_1 = new Ship("battleship", 4);
@@ -80,18 +78,32 @@ public class PlayBattleship {
 		player2_ships.add(submarine_2);
 		player2_ships.add(destroyer_2);
 
-		
-		//System.out.println("Currently, each player has 5 ships : " + player1_ships);
-		
-		//System.out.println("Do you want to add one more ship (yes/no) ? ");
-		
-		if (game == 1){
-			HumanVSHuman.main(size, player1_ships, player2_ships);
-		} else if (game == 2){
-			HumanVSArtificial.main(size, player1_ships, player2_ships);
-		}
-		
+		int level;
+
+		// System.out.println("Currently, each player has 5 ships : " +
+		// player1_ships);
+
+		// System.out.println("Do you want to add one more ship (yes/no) ? ");
+
+		if (game == 1) {
+			HumanVSHuman.main(mapSize, player1_ships, player2_ships);
+		} else if (game == 2) {
+
+			System.out.println(" 0 : easy \n 1 : medium \n 2 : hard\n");
+			System.out
+					.print("Enter the number of difficulty level you want : ");
+
+			level = scanner.nextInt();
+
+			if (level == 0) {
+				HumanVSArtificial0.main(mapSize, player1_ships, player2_ships);
+			} else if (level==1){
+				HumanVSArtificial1.main(mapSize, player1_ships, player2_ships);
+			} else {
+				HumanVSArtificial2.main(mapSize, player1_ships, player2_ships);
+			}
+
+		} //faire le 3eme else
 
 	}
-
 }
