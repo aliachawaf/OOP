@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="14" version="2.0">
+<workbench progressCount="10" version="2.0">
 <workbenchAdvisor/>
 <window height="742" maximized="true" width="947" x="65" y="24">
 <fastViewData fastViewLocation="1024">
@@ -45,30 +45,6 @@
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="/home/loulou/OOP/Battleship/Player.java" title="Player.java" tooltip="Battleship/Player.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="184" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="/home/loulou/OOP/Battleship/Game.java" title="Game.java" tooltip="Battleship/Game.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Game.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1048" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Display.java" partName="Display.java" path="/home/loulou/OOP/Battleship/Display.java" title="Display.java" tooltip="Battleship/Display.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Display.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="38" selectionOffset="1823" selectionTopPixel="675"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Coord.java" partName="Coord.java" path="/home/loulou/OOP/Battleship/Coord.java" title="Coord.java" tooltip="Battleship/Coord.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Coord.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1983" selectionTopPixel="1096"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="/home/loulou/OOP/Battleship/Main.java" title="Main.java" tooltip="Battleship/Main.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Main.java"/>
-<editorState selectionHorizontalPixel="135" selectionLength="0" selectionOffset="10595" selectionTopPixel="2212"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Ship.java" partName="Ship.java" path="/home/loulou/OOP/Battleship/Ship.java" title="Ship.java" tooltip="Battleship/Ship.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/Ship.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2607" selectionTopPixel="1636"/>
-</editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AI.java" partName="AI.java" path="/home/loulou/OOP/Battleship/AI.java" title="AI.java" tooltip="Battleship/AI.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Battleship/AI.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="654" selectionTopPixel="0"/>
@@ -145,7 +121,7 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@56266bda" ratio="0.25925925" ratioLeft="245" ratioRight="700" relationship="2" relative="topLeft">
-<folder appearance="2" expanded="0">
+<folder appearance="2" expanded="2">
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
@@ -192,22 +168,12 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Player.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Game.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/AI.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Coord.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Game.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Display.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Battleship/Ship.java"/>
 </editors>
-<item historyLabel="Ship.java" index="3">
-<position info="not_deleted" x="2348" y="0"/>
-</item>
-<item historyLabel="Coord.java" index="1">
-<position info="not_deleted" x="246" y="0"/>
-</item>
-<item historyLabel="Ship.java" index="3">
-<position info="not_deleted" x="2348" y="0"/>
-</item>
-<item historyLabel="Player.java" index="4">
-<position info="not_deleted" x="184" y="0"/>
-</item>
-<item historyLabel="Display.java" index="0">
-<position info="not_deleted" x="53" y="0"/>
-</item>
 <item historyLabel="Coord.java" index="1">
 <position info="not_deleted" x="246" y="0"/>
 </item>
@@ -340,8 +306,23 @@
 <item historyLabel="AI.java" index="6">
 <position info="not_deleted" x="654" y="0"/>
 </item>
-<item active="true" historyLabel="Player.java" index="4">
+<item historyLabel="Player.java" index="4">
 <position info="not_deleted" x="184" y="0"/>
+</item>
+<item historyLabel="Coord.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Game.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Display.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="Ship.java" index="11">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -351,9 +332,6 @@
 <trimLayout>
 <trimArea IMemento.internal.id="16384">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@56266bda"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@9e96118"/>
 </trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
