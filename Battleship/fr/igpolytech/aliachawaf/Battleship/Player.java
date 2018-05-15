@@ -57,11 +57,10 @@ public abstract class Player {
 
 		Iterator<Ship> it = this.playerShips.iterator();
 		Ship next;
-		
+
 		while (it.hasNext()) {
 			next = it.next();
-			if (!(next.getCoordHit().isEmpty())
-					&& !(next.isDestroyed())) {
+			if (!(next.getCoordHit().isEmpty()) && !(next.isDestroyed())) {
 
 				list.add(next);
 			}
@@ -105,18 +104,21 @@ public abstract class Player {
 		return list;
 	}
 
-	public List<Coord> listCoordTaken(){
-		
-		/* for each ship, we add all his coord in the list of Coord taken returned */
-		
+	public List<Coord> listCoordTaken() {
+
+		/*
+		 * for each ship, we add all his coord in the list of Coord taken
+		 * returned
+		 */
+
 		List<Coord> list = new ArrayList<Coord>();
-		
+
 		Iterator<Ship> it = this.getPlayerShips().iterator();
-		
-		while (it.hasNext()){
-			
+
+		while (it.hasNext()) {
+
 			list.addAll(it.next().shipListCoord());
-						
+
 		}
 		return list;
 	}

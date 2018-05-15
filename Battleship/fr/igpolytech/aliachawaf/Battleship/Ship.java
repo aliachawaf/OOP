@@ -113,6 +113,7 @@ public class Ship {
 		}
 		return list;
 	}
+	
 
 	// checking
 	public boolean checkNotDiagonal() {

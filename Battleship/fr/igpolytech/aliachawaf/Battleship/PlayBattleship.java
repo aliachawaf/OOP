@@ -78,18 +78,48 @@ public class PlayBattleship {
 		player2_ships.add(submarine_2);
 		player2_ships.add(destroyer_2);
 
+		String addShip, nameShipToAdd;
+		int sizeShipToAdd;
+		
+
+		/* ask if want to add a ship to the game */
+		System.out.println("\nCurrently, each player has 5 ships : "
+				+ player1_ships);
+		System.out
+				.print("\nDo you want to add one more ship to each player (yes/no) ? ");
+
+		do {
+			addShip = scanner.nextLine();
+
+			if (!addShip.matches("no") && !addShip.matches("yes")) {
+				System.out
+						.print("Your answer is different of 'no' or 'yes'. Re-enter it : ");
+			}
+
+		} while (!addShip.matches("no") && !addShip.matches("yes"));
+
+		if (addShip.matches("yes")) {
+
+			System.out.print("Enter its name : ");
+			nameShipToAdd = scanner.nextLine();
+
+			System.out.print("Enter its size : ");
+			sizeShipToAdd = scanner.nextInt();
+
+			Ship shipToAdd = new Ship(nameShipToAdd, sizeShipToAdd);
+
+			player1_ships.add(shipToAdd);
+			player2_ships.add(shipToAdd);
+		}
+
+		
 		int level;
-
-		// System.out.println("Currently, each player has 5 ships : " +
-		// player1_ships);
-
-		// System.out.println("Do you want to add one more ship (yes/no) ? ");
-
+		
 		if (game == 1) {
 			HumanVSHuman.main(mapSize, player1_ships, player2_ships);
 		} else if (game == 2) {
 
-			System.out.println(" 0 : easy \n 1 : medium \n 2 : hard\n");
+			System.out.println("\n 0 : easy \n 1 : medium \n 2 : hard\n");
 			System.out
 					.print("Enter the number of difficulty level you want : ");
 
@@ -97,13 +127,14 @@ public class PlayBattleship {
 
 			if (level == 0) {
 				HumanVSArtificial0.main(mapSize, player1_ships, player2_ships);
-			} else if (level==1){
+			} else if (level == 1) {
 				HumanVSArtificial1.main(mapSize, player1_ships, player2_ships);
 			} else {
-				HumanVSArtificial2.main(mapSize, player1_ships, player2_ships);
+				// HumanVSArtificial2.main(mapSize, player1_ships,
+				// player2_ships);
 			}
 
-		} //faire le 3eme else
+		} // faire le 3eme else
 
 	}
 }

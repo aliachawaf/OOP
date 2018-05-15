@@ -34,22 +34,19 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 	}
 
 	// methods
-
 	public Coord choseOneCoord() {
 		// chose randomly a column and a line
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String columnsBoard = alphabet.substring(0, this.mapSize);
+		String columnsGrid = alphabet.substring(0, this.mapSize);
 		Random random = new Random();
-		char randomColumn = columnsBoard.charAt(random.nextInt(columnsBoard
-				.length()));
-
-		int randomLine = ThreadLocalRandom.current().nextInt(1,
-				this.mapSize + 1);
+		char randomColumn = columnsGrid.charAt(random.nextInt(columnsGrid.length()));
+		
+		int randomLine = ThreadLocalRandom.current().nextInt(1, this.mapSize + 1);
 
 		return new Coord(randomColumn, randomLine, this.mapSize);
 	}
 
-	public void placeOneShip(Ship s) {
+	public void placeOneShip(Ship ship) {
 
 		// ship is placed randomly on board game
 
@@ -61,58 +58,62 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 			startCoord = this.choseOneCoord();
 
 			/* check this coord is free */
-			s.setStartCoord(startCoord);
-			s.setEndCoord(startCoord);
-			checkCoordIsFree = s.checkPlaceIsFree(this.listCoordTaken());
+			ship.setStartCoord(startCoord);
+			ship.setEndCoord(startCoord);
+			checkCoordIsFree = ship.checkPlaceIsFree(this.listCoordTaken());
 
 		} while (!(checkCoordIsFree));
 
-		int directionRandom;
+		int randomDirection;
 		boolean checkEndCoord;
 		char column;
 
 		Coord endCoord = new Coord(this.mapSize);
 
+		/* to avoid losing startCoord value */
 		Coord start = new Coord(this.mapSize);
 		start.setColumn(startCoord.getColumn());
 		start.setLine(startCoord.getLine());
 
 		do {
-
 			do {
 
 				/*
-				 * random direction is chosen 1 : left to right 2 : right to
-				 * left 3 : top to bottom 4 : bottom to top
+				 * random direction is chosen 
+				 * 1 : left to right 
+				 * 2 : right to left 
+				 * 3 : top to bottom 
+				 * 4 : bottom to top
 				 */
 
-				directionRandom = ThreadLocalRandom.current().nextInt(1, 5);
+				randomDirection = ThreadLocalRandom.current().nextInt(1, 5);
 
-				if (directionRandom == 1) {
+				if (randomDirection == 1) {
 					/* increment column by ship's size */
 					column = start.getColumn();
-					for (int o = 1; o < s.getSize(); o++) {
+					for (int o = 1; o < ship.getSize(); o++) {
 						column++;
 					}
+					/* set up endCoord according to the randomDirection */
 					endCoord.setColumn(column);
 					endCoord.setLine(start.getLine());
 
-				} else if (directionRandom == 2) {
+				} else if (randomDirection == 2) {
 					/* decrement column by ship's size */
 					column = start.getColumn();
-					for (int l = 1; l < s.getSize(); l++) {
+					for (int l = 1; l < ship.getSize(); l++) {
 						column--;
 					}
 					endCoord.setColumn(column);
 					endCoord.setLine(start.getLine());
 
-				} else if (directionRandom == 3) {
+				} else if (randomDirection == 3) {
 					endCoord.setColumn(start.getColumn());
-					endCoord.setLine(start.getLine() + s.getSize() - 1);
+					endCoord.setLine(start.getLine() + ship.getSize() - 1);
 
-				} else if (directionRandom == 4) {
+				} else if (randomDirection == 4) {
 					endCoord.setColumn(start.getColumn());
-					endCoord.setLine(start.getLine() - s.getSize() + 1);
+					endCoord.setLine(start.getLine() - ship.getSize() + 1);
 				}
 
 				checkEndCoord = endCoord.checkCoord();
@@ -121,8 +122,8 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 
 			startCoord.putCoordInOrder(endCoord);
 
-			s.setStartCoord(startCoord);
-			s.setEndCoord(endCoord);
+			ship.setStartCoord(startCoord);
+			ship.setEndCoord(endCoord);
 
 			/*
 			 * If we have to pass again in while, and start was interchanged
@@ -130,10 +131,11 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 			 */
 			startCoord = start;
 
-		} while (!(s.checkPlaceIsFree(this.listCoordTaken())));
+		} while (!(ship.checkPlaceIsFree(this.listCoordTaken())));
 
-		this.getPlayerShips().add(s);
-		this.getBoardGame().updateBoard(s);
+		this.getPlayerShips().add(ship);
+		this.getBoardGame().updateBoard(ship);
+		
 		System.out.println(this.getBoardGame());
 	}
 

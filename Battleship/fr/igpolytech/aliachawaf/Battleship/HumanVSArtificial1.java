@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HumanVSArtificial0 {
+public class HumanVSArtificial1 {
 
 	private static Scanner scanner;
 
@@ -21,7 +21,7 @@ public class HumanVSArtificial0 {
 		name = scanner.nextLine();
 		Player player1 = new HumanPlayer(name, mapSize);
 
-		ArtificialPlayer0 player2 = new ArtificialPlayer0(2, mapSize);
+		ArtificialPlayer1 player2 = new ArtificialPlayer1(2, mapSize);
 
 		/* set up a game */
 		Game game = new Game(player1, player2); // by default, current player is
@@ -40,6 +40,8 @@ public class HumanVSArtificial0 {
 		Coord startCoord = null;
 		Coord endCoord = null;
 		Coord missileCoord = null;
+		Coord missileCoordHit = null; 
+		
 		int indexShipToPlace = 1; // used to ask which ship to place
 		int sizeShipToPlace = 5;
 
@@ -49,7 +51,9 @@ public class HumanVSArtificial0 {
 		/* variables used for checking */
 		boolean checkCoordsMatchWithSize, checkNotDiagonal, checkStartCoord, checkEndCoord;
 		boolean checkMissileCoord, checkPlaceIsFree;
-
+		boolean hit = false;
+		boolean destroyed = false;
+		
 		List<Ship> listShipNotPlacedYet = new ArrayList<Ship>();
 		listShipNotPlacedYet = player1_ships;
 
@@ -81,7 +85,7 @@ public class HumanVSArtificial0 {
 
 				checkNotException = false;
 
-				do {
+				while (!checkNotException) {
 					try {
 						// ask for the size of the ship he want to place
 						// until !=2,3,4,5
@@ -89,21 +93,35 @@ public class HumanVSArtificial0 {
 							sizeShipToPlace = scanner.nextInt();
 							scanner.nextLine();
 
-							indexShipToPlace = -1;
+							if (sizeShipToPlace != 5 && sizeShipToPlace != 4
+									&& sizeShipToPlace != 3
+									&& sizeShipToPlace != 2) {
+								System.out
+										.print("\nNo ship with this size. Re-enter it : ");
+							}
+							// when size is chosen, we find the index of the
+							// ship with this size in the list
+							else {
 
-							for (int g = 0; g < listShipNotPlacedYet.size(); g++) {
-								if (sizeShipToPlace == listShipNotPlacedYet
-										.get(g).getSize()) {
-									indexShipToPlace = g;
+								indexShipToPlace = -1;
+
+								for (int g = 0; g < listShipNotPlacedYet.size(); g++) {
+									if (sizeShipToPlace == listShipNotPlacedYet
+											.get(g).getSize()) {
+										indexShipToPlace = g;
+									}
+								}
+
+								if (indexShipToPlace == -1) {
+									System.out
+											.print("\nAll your ships with this size are already placed on the board !");
+									System.out.print(" Re-enter it : ");
 								}
 							}
 
-							if (indexShipToPlace == -1) {
-								System.out.print("\nNo ship with this size !");
-								System.out.print(" Re-enter it : ");
-							}
-
-						} while (indexShipToPlace == -1);
+						} while (sizeShipToPlace != 5 && sizeShipToPlace != 4
+								&& sizeShipToPlace != 3 && sizeShipToPlace != 2
+								|| indexShipToPlace == -1);
 
 						checkNotException = true;
 
@@ -116,7 +134,7 @@ public class HumanVSArtificial0 {
 								.print("\nYour input is missing ! Re-enter it : ");
 						scanner.nextLine();
 					}
-				} while (!checkNotException);
+				}
 
 			} else {
 				indexShipToPlace = 0; // if there is only one ship not
@@ -322,7 +340,15 @@ public class HumanVSArtificial0 {
 				}
 			} else {
 
-				missileCoord = player2.sendMissile();
+				if (hit && !destroyed) {
+					missileCoord = player2
+							.sendMissileAroundShipHit(missileCoordHit);
+				} else {
+					missileCoord = player2.sendMissile();
+					destroyed = false;
+				}
+
+				int n2 = player1.listShipDestroyed().size();
 
 				if (player1.isAnyoneHit(missileCoord)) {
 					/* update and display boards */
@@ -331,6 +357,15 @@ public class HumanVSArtificial0 {
 					System.out.println("You've been hit on " + missileCoord
 							+ ". Your new board game : "
 							+ player1.getBoardGame());
+
+					missileCoordHit = missileCoord;
+					
+					hit = true;
+
+					if (player1.listShipDestroyed().size() > n2) {
+						destroyed = true;
+						hit = false;
+					}
 
 				} else {
 					/* update and display board attack */

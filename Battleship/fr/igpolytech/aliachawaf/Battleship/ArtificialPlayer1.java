@@ -10,8 +10,8 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 
 	private int playerNumber;
 	private int mapSize;
-	private List<Coord> listCoordMissileSent; 
-	
+	private List<Coord> listCoordMissileSent;
+
 	public ArtificialPlayer1(int playerNumber, int mapSize) {
 		super(mapSize);
 		this.playerNumber = playerNumber;
@@ -27,7 +27,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 	public void setPlayerNumber(int playerNumber) {
 		this.playerNumber = playerNumber;
 	}
-	
+
 	public List<Coord> getListCoordMissileSent() {
 		return listCoordMissileSent;
 	}
@@ -55,7 +55,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 	}
 
 	public void placeOneShip(Ship s) {
-		
+
 		// ship is placed randomly on board game
 
 		boolean checkCoordIsFree;
@@ -140,35 +140,79 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 		this.getPlayerShips().add(s);
 		this.getBoardGame().updateBoard(s);
 		System.out.println(this.getBoardGame());
-		
-	} 
+
+	}
 
 	public void placeAllShips(List<Ship> list) {
-		
+
 		Iterator<Ship> it = list.iterator();
 
 		while (it.hasNext()) {
 			placeOneShip(it.next());
 		}
-		
+
 	}
 
 	public Coord sendMissile() {
-		
-		//chose a missileCoord randomly which was never sent before
+
+		// chose a missileCoord randomly which was never sent before
 		Coord missileCoord;
-		
+
 		do {
-		missileCoord = this.choseOneCoord();
-		} while(this.listCoordMissileSent.contains(missileCoord));
-		
-		
+			missileCoord = this.choseOneCoord();
+		} while (this.listCoordMissileSent.contains(missileCoord));
+
 		this.listCoordMissileSent.add(missileCoord);
-		return missileCoord;		
+		return missileCoord;
 	}
+
+
+	public Coord sendMissileAroundShipHit(Coord hit) {
+
+		Coord missileCoord = new Coord(this.mapSize);
+		int directionRandom;
+		char column;
+		boolean checkMissileCoord;
+
+		do {
+			/*
+			 * random direction is chosen 1 : left to right 2 : right to left 3
+			 * : top to bottom 4 : bottom to top
+			 */
+
+			directionRandom = ThreadLocalRandom.current().nextInt(1, 5);
+
+			if (directionRandom == 1) {
+				column = hit.getColumn();
+				column++;
+				missileCoord.setColumn(column);
+				missileCoord.setLine(hit.getLine());
+
+			} else if (directionRandom == 2) {
+				column = hit.getColumn();
+				column--;
+				missileCoord.setColumn(column);
+				missileCoord.setLine(hit.getLine());
+
+			} else if (directionRandom == 3) {
+				missileCoord.setColumn(hit.getColumn());
+				missileCoord.setLine(hit.getLine() + 1);
+
+			} else if (directionRandom == 4) {
+				missileCoord.setColumn(hit.getColumn());
+				missileCoord.setLine(hit.getLine() - 1);
+			}
+
+			checkMissileCoord = missileCoord.checkCoord();
+
+		} while (!(checkMissileCoord) && this.listCoordMissileSent.contains(missileCoord));
+
+		return missileCoord;
+	}
+
 	
 	public String toString() {
 		return "Medium Artificial Player";
 	}
-	
+
 }
