@@ -1,7 +1,6 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Ship {
@@ -62,18 +61,17 @@ public class Ship {
 	public boolean isHit(Coord missileCoord) {
 
 		boolean hit = false;
-		Iterator<Coord> it = this.shipListCoord().iterator();
-
-		while (it.hasNext()) {
-
-			if (it.next().compareCoord(missileCoord)) {
+		
+		for (Coord c : this.shipListCoord()){
+			if (c.compareCoord(missileCoord)) {
 				hit = true;
-				// update list of coord hit
+				// update list of coord hit only if not already contained 
 				if (!(this.coordHit.contains(missileCoord))) {
 					this.coordHit.add(missileCoord);
 				}
 			}
 		}
+		
 		return hit;
 	}
 
@@ -148,14 +146,12 @@ public class Ship {
 
 		boolean check = true;
 
-		Iterator<Coord> it = this.shipListCoord().iterator();
-
-		while (it.hasNext()) {
-
-			if (listCoordTaken.contains(it.next())) {
+		for (Coord c : this.shipListCoord()){
+			if (listCoordTaken.contains(c)) {
 				check = false;
 			}
 		}
+		
 		return check;
 	}
 

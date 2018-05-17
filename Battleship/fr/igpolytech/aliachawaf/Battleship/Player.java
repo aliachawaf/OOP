@@ -1,7 +1,6 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public abstract class Player {
@@ -55,14 +54,10 @@ public abstract class Player {
 
 		List<Ship> list = new ArrayList<Ship>();
 
-		Iterator<Ship> it = this.playerShips.iterator();
-		Ship next;
+		for (Ship s : this.getPlayerShips()){
+			if (!(s.getCoordHit().isEmpty()) && !(s.isDestroyed())) {
 
-		while (it.hasNext()) {
-			next = it.next();
-			if (!(next.getCoordHit().isEmpty()) && !(next.isDestroyed())) {
-
-				list.add(next);
+				list.add(s);
 			}
 		}
 
@@ -73,12 +68,9 @@ public abstract class Player {
 
 		// return true if one of player's ships is hit by missile
 		boolean hit = false;
-
-		Iterator<Ship> it = this.getPlayerShips().iterator();
-
-		// for each ship, we see if it is hit by the missile
-		while (it.hasNext()) {
-			if (it.next().isHit(missileCoord)) {
+	
+		for (Ship s : this.getPlayerShips()){
+			if (s.isHit(missileCoord)) {
 				hit = true;
 			}
 		}
@@ -89,15 +81,10 @@ public abstract class Player {
 	public List<Ship> listShipDestroyed() {
 
 		List<Ship> list = new ArrayList<Ship>();
-
-		Iterator<Ship> it = this.playerShips.iterator();
-		Ship next;
-
-		while (it.hasNext()) {
-			next = it.next();
-			if (next.isDestroyed()) {
-
-				list.add(next);
+		
+		for (Ship s : this.getPlayerShips()){
+			if (s.isDestroyed()){
+				list.add(s);
 			}
 		}
 
@@ -113,23 +100,17 @@ public abstract class Player {
 
 		List<Coord> list = new ArrayList<Coord>();
 
-		Iterator<Ship> it = this.getPlayerShips().iterator();
-
-		while (it.hasNext()) {
-
-			list.addAll(it.next().shipListCoord());
-
+		for(Ship s : this.getPlayerShips()){
+			list.addAll(s.shipListCoord());
 		}
+		
 		return list;
 	}
 	
 	public void clearCoordHitAllShips(){
 		
-		Iterator<Ship> it = this.getPlayerShips().iterator();
-		
-		while(it.hasNext()){
-			it.next().getCoordHit().clear();
+		for (Ship s : this.getPlayerShips()){
+			s.getCoordHit().clear();
 		}
-		
 	}
 }

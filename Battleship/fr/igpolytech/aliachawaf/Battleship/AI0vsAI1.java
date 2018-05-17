@@ -4,9 +4,6 @@ import java.util.List;
 
 public class AI0vsAI1 {
 
-	/**
-	 * @param args
-	 */
 	public static void main(List<Ship> player0_ships, List<Ship> player1_ships) {
 
 		int mapSize = 14;

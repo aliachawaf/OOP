@@ -51,8 +51,10 @@ public class TestAI {
 		/* play artificial players game */
 
 		for (int i = 0; i < 100; i++) {
+			System.out.print(i + " ");
 			AI0vsAI1.main(player0_ships, player1_ships);
 		}
+		
 	}
 
 }

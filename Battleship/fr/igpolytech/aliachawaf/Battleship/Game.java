@@ -5,11 +5,9 @@ public class Game {
 	private Player player2;
 	private Player currentPlayer;
 
-	// constructor : by default, current player is player1
 	public Game(Player player1, Player player2) {
 		this.player1 = player1;
 		this.player2 = player2;
-		//this.currentPlayer = player1;
 	}
 
 	// getters & setters
@@ -62,7 +60,7 @@ public class Game {
 
 	public Player winnerEndGame() {
 
-		if (this.player1.listShipDestroyed().size() >= 5) {
+		if (this.player1.listShipDestroyed().size() == this.player1.getPlayerShips().size()) {
 			return this.player2;
 		} else {
 			return this.player1;

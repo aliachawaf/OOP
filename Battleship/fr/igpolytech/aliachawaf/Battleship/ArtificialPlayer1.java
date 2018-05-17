@@ -1,7 +1,6 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -132,13 +131,10 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 	}
 
 	public void placeAllShips(List<Ship> list) {
-
-		Iterator<Ship> it = list.iterator();
-
-		while (it.hasNext()) {
-			placeOneShip(it.next());
+		
+		for (Ship s : list){
+			placeOneShip(s);
 		}
-
 	}
 
 	public Coord sendMissile() {
