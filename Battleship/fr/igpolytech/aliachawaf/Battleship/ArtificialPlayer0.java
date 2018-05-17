@@ -1,6 +1,5 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -43,29 +42,30 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 		boolean checkCoordIsFree;
 		Coord startCoord;
 
-		do {
-			/* random start coord */
-			startCoord = this.choseOneCoord();
-
-			/* check this coord is free */
-			ship.setStartCoord(startCoord);
-			ship.setEndCoord(startCoord);
-			checkCoordIsFree = ship.checkPlaceIsFree(this.listCoordTaken());
-
-		} while (!(checkCoordIsFree));
-
 		int randomDirection;
 		boolean checkEndCoord;
 		char column;
 
 		Coord endCoord = new Coord(this.mapSize);
 
-		/* to avoid losing startCoord value */
-		Coord start = new Coord(this.mapSize);
-		start.setColumn(startCoord.getColumn());
-		start.setLine(startCoord.getLine());
-
 		do {
+			
+			do {
+				/* random start coord */
+				startCoord = this.choseOneCoord();
+
+				/* check this coord is free */
+				ship.setStartCoord(startCoord);
+				ship.setEndCoord(startCoord);
+				checkCoordIsFree = ship.checkPlaceIsFree(this.listCoordTaken());
+
+			} while (!(checkCoordIsFree));
+			
+			/* to avoid losing startCoord value */
+			Coord start = new Coord(this.mapSize);
+			start.setColumn(startCoord.getColumn());
+			start.setLine(startCoord.getLine());
+			
 			do {
 
 				/*
@@ -128,11 +128,9 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 	}
 
 	public void placeAllShips(List<Ship> list) {
-
-		Iterator<Ship> it = list.iterator();
-
-		while (it.hasNext()) {
-			placeOneShip(it.next());
+		
+		for (Ship s : list){
+			placeOneShip(s);
 		}
 	}
 
