@@ -35,7 +35,7 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 
 		return new Coord(randomColumn, randomLine, this.mapSize);
 	}
-
+	
 	public void placeOneShip(Ship ship) {
 
 		// ship is placed randomly on board game

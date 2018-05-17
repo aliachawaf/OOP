@@ -337,6 +337,7 @@ public class HumanVSArtificial0 {
 			} else {
 
 				missileCoord = player2.sendMissile();
+				System.out.println("missile sent : " + missileCoord);
 
 				if (player1.isAnyoneHit(missileCoord)) {
 					/* update and display boards */

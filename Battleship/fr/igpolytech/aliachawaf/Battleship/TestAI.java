@@ -53,8 +53,6 @@ public class TestAI {
 		for (int i = 0; i < 100; i++) {
 			AI0vsAI1.main(player0_ships, player1_ships);
 		}
-		System.out.print("100");
-
 	}
 
 }

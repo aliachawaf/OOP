@@ -144,13 +144,31 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 	public Coord sendMissile() {
 
 		// chose a missileCoord randomly which was never sent before
-		Coord missileCoord;
+		Coord missileCoord = new Coord(this.mapSize);
 
-		do {
-			missileCoord = this.choseOneCoord();
+		int randomLine = ThreadLocalRandom.current().nextInt(1, mapSize+1);
+		int randomColumn;
+		char column = 0;
+		
+		if (randomLine % 2 == 0){
+			
+			do {
+			randomColumn = ThreadLocalRandom.current().nextInt(1, mapSize+1);
+			} while(randomColumn % 2 !=0);
+			
+			column = (char)(randomColumn + 65 - 1) ;
+		}
+		missileCoord.setLine(randomLine);
+		missileCoord.setColumn(column);
+		
+		/*do {
+			//missileCoord = this.choseOneCoord();
+			missileCoord.setLine(randomLine);
+			
+			missileCoord.setColumn(column);
 		} while (this.listCoordMissileSent.contains(missileCoord));
 
-		this.listCoordMissileSent.add(missileCoord);
+		this.listCoordMissileSent.add(missileCoord);*/
 		return missileCoord;
 	}
 
