@@ -9,11 +9,21 @@ public class HumanVSArtificial0 {
 	private static Scanner scanner;
 
 	public static void main(int mapSize, List<Ship> player1_ships,
-			List<Ship> player2_ships) {
+			List<Ship> player2_ships, int currentPlayer) {
 
 		boolean checkNotException = false;
 
 		scanner = new Scanner(System.in);
+
+		/*
+		 * we save players's ships in case they want to play again at the end of
+		 * this game
+		 */
+		List<Ship> p1 = new ArrayList<Ship>();
+		List<Ship> p2 = new ArrayList<Ship>();
+
+		p1.addAll(player1_ships);
+		p2.addAll(player2_ships);
 
 		/* set up 2 players */
 		String name;
@@ -21,11 +31,16 @@ public class HumanVSArtificial0 {
 		name = scanner.nextLine();
 		Player player1 = new HumanPlayer(name, mapSize);
 
-		ArtificialPlayer0 player2 = new ArtificialPlayer0(2, mapSize);
+		ArtificialPlayer0 player2 = new ArtificialPlayer0(mapSize);
 
 		/* set up a game */
-		Game game = new Game(player1, player2); // by default, current player is
-												// player1
+		Game game = new Game(player1, player2);
+
+		if (currentPlayer == 1) {
+			game.setCurrentPlayer(player1);
+		} else {
+			game.setCurrentPlayer(player2);
+		}
 
 		/* initialization of boards' display */
 		player1.getBoardGame().initBoard();
@@ -50,9 +65,6 @@ public class HumanVSArtificial0 {
 		boolean checkCoordsMatchWithSize, checkNotDiagonal, checkStartCoord, checkEndCoord;
 		boolean checkMissileCoord, checkPlaceIsFree;
 
-		List<Ship> listShipNotPlacedYet = new ArrayList<Ship>();
-		listShipNotPlacedYet = player1_ships;
-
 		// ********* SET UP SHIPS ON THE BOARDS *********//
 
 		/* asking player 1 to place his ships in the order he want */
@@ -65,16 +77,18 @@ public class HumanVSArtificial0 {
 		System.out
 				.println("You have to place your 5 ships on your board in the order you want.\n");
 
-		for (int i = 0; i < 5; i++) {
+		int numberOfShips = player1_ships.size();
+
+		for (int i = 0; i < numberOfShips; i++) {
 
 			System.out.println("Ships not placed on the board : "
-					+ listShipNotPlacedYet);
+					+ player1_ships);
 
 			/*
 			 * ask player which ship he want to place now (only if there is more
 			 * than one ship not placed)
 			 */
-			if (listShipNotPlacedYet.size() > 1) {
+			if (player1_ships.size() > 1) {
 
 				System.out.print("\nWhich one do you want to place now ? ");
 				System.out.print("Enter its size : ");
@@ -91,9 +105,9 @@ public class HumanVSArtificial0 {
 
 							indexShipToPlace = -1;
 
-							for (int g = 0; g < listShipNotPlacedYet.size(); g++) {
-								if (sizeShipToPlace == listShipNotPlacedYet
-										.get(g).getSize()) {
+							for (int g = 0; g < player1_ships.size(); g++) {
+								if (sizeShipToPlace == player1_ships.get(g)
+										.getSize()) {
 									indexShipToPlace = g;
 								}
 							}
@@ -123,8 +137,7 @@ public class HumanVSArtificial0 {
 										// placed, index is 1 by default
 			}
 
-			Ship currentShipToPlace = listShipNotPlacedYet
-					.get(indexShipToPlace);
+			Ship currentShipToPlace = player1_ships.get(indexShipToPlace);
 
 			System.out.println("\nWrite start and end positions for the ship "
 					+ currentShipToPlace.getName() + " (size "
@@ -218,10 +231,10 @@ public class HumanVSArtificial0 {
 
 			/* update and display new board with the ship placed */
 			player1.getBoardGame().updateBoard(currentShipToPlace);
-			System.out.println(game.getCurrentPlayer().getBoardGame());
+			System.out.println(player1.getBoardGame());
 
 			/* remove the ship placed from the list of ships not placed yet */
-			listShipNotPlacedYet.remove(indexShipToPlace);
+			player1_ships.remove(indexShipToPlace);
 		}
 
 		for (l = 0; l <= 50; l++) {
@@ -229,6 +242,7 @@ public class HumanVSArtificial0 {
 		}
 
 		player2.placeAllShips(player2_ships);
+		System.out.println(player2.getBoardGame());
 
 		for (l = 0; l <= 50; l++) {
 			System.out.println();
@@ -350,6 +364,24 @@ public class HumanVSArtificial0 {
 
 		System.out.println(" ************ Game ended ! ************ \n");
 		System.out.println("The winner is " + game.winnerEndGame() + " !");
+
+		System.out.print("\nDo you want to play again (yes/no) ?");
+
+		String playAgain = scanner.nextLine();
+
+		if (playAgain.matches("yes")) {
+			
+			game.getPlayer1().clearCoordHitAllShips();
+			game.getPlayer2().clearCoordHitAllShips();
+			
+			if (currentPlayer == 1) {
+				currentPlayer = 2;
+				HumanVSArtificial1.main(mapSize, p1, p2, currentPlayer);
+			} else {
+				currentPlayer = 1;
+				HumanVSArtificial1.main(mapSize, p1, p2, currentPlayer);
+			}
+		}
 
 		scanner.close();
 	}

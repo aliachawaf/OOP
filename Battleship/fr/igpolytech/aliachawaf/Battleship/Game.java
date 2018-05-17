@@ -9,7 +9,7 @@ public class Game {
 	public Game(Player player1, Player player2) {
 		this.player1 = player1;
 		this.player2 = player2;
-		this.currentPlayer = player1;
+		//this.currentPlayer = player1;
 	}
 
 	// getters & setters
@@ -53,7 +53,7 @@ public class Game {
 
 	public boolean NotEnded() {
 
-		if (this.getCurrentPlayer().listShipDestroyed().size() == 5) {
+		if (this.getCurrentPlayer().listShipDestroyed().size() >= 5) {
 			return false;
 		} else {
 			return true;
@@ -62,7 +62,7 @@ public class Game {
 
 	public Player winnerEndGame() {
 
-		if (this.player1.listShipDestroyed().size() == 5) {
+		if (this.player1.listShipDestroyed().size() >= 5) {
 			return this.player2;
 		} else {
 			return this.player1;

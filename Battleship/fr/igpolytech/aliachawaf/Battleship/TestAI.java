@@ -3,11 +3,9 @@ package fr.igpolytech.aliachawaf.Battleship;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestArtificialPlayers {
+public class TestAI {
 
 	public static void main(String[] args) {
-
-		int mapSize = 10;
 
 		/* set up 5 ships for each player */
 		Ship carrier_0 = new Ship("carrier", 5);
@@ -51,11 +49,11 @@ public class TestArtificialPlayers {
 		player2_ships.add(destroyer_2);
 
 		/* play artificial players game */
+
 		for (int i = 0; i < 100; i++) {
-			HumanVSArtificial0.main(mapSize, player0_ships, player1_ships);
-			
-			
+			AI0vsAI1.main(player0_ships, player1_ships);
 		}
+		System.out.print("100");
 
 	}
 

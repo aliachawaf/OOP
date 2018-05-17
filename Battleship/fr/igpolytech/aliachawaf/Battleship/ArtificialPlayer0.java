@@ -7,24 +7,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ArtificialPlayer0 extends Player implements ArtificialIntelligence {
 
-	protected int playerNumber;
 	protected int mapSize;
 
-	public ArtificialPlayer0(int playerNumber, int mapSize) {
+	public ArtificialPlayer0(int mapSize) {
 		super(mapSize);
-		this.playerNumber = playerNumber;
 		this.mapSize = mapSize;
 	}
 
 	// getters & setters
-	public int getPlayerNumber() {
-		return playerNumber;
-	}
-
-	public void setPlayerNumber(int playerNumber) {
-		this.playerNumber = playerNumber;
-	}
-
 	public int getMapSize() {
 		return mapSize;
 	}
@@ -135,8 +125,6 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 
 		this.getPlayerShips().add(ship);
 		this.getBoardGame().updateBoard(ship);
-		
-		System.out.println(this.getBoardGame());
 	}
 
 	public void placeAllShips(List<Ship> list) {
@@ -154,6 +142,6 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 	}
 
 	public String toString() {
-		return "Easy Artificial Player";
+		return "Beginner AI";
 	}
 }

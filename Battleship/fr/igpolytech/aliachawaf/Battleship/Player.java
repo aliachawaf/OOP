@@ -122,4 +122,14 @@ public abstract class Player {
 		}
 		return list;
 	}
+	
+	public void clearCoordHitAllShips(){
+		
+		Iterator<Ship> it = this.getPlayerShips().iterator();
+		
+		while(it.hasNext()){
+			it.next().getCoordHit().clear();
+		}
+		
+	}
 }

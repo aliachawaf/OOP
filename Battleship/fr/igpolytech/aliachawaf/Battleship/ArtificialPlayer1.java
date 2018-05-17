@@ -8,26 +8,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ArtificialPlayer1 extends Player implements ArtificialIntelligence {
 
-	private int playerNumber;
 	private int mapSize;
 	private List<Coord> listCoordMissileSent;
 
-	public ArtificialPlayer1(int playerNumber, int mapSize) {
+	public ArtificialPlayer1(int mapSize) {
 		super(mapSize);
-		this.playerNumber = playerNumber;
 		this.mapSize = mapSize;
 		this.listCoordMissileSent = new ArrayList<Coord>();
 	}
 
 	// getters & setters
-	public int getPlayerNumber() {
-		return playerNumber;
-	}
-
-	public void setPlayerNumber(int playerNumber) {
-		this.playerNumber = playerNumber;
-	}
-
 	public List<Coord> getListCoordMissileSent() {
 		return listCoordMissileSent;
 	}
@@ -72,7 +62,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 
 		} while (!(checkCoordIsFree));
 
-		int directionRandom;
+		int randomDirection;
 		boolean checkEndCoord;
 		char column;
 
@@ -91,9 +81,9 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 				 * left 3 : top to bottom 4 : bottom to top
 				 */
 
-				directionRandom = ThreadLocalRandom.current().nextInt(1, 5);
+				randomDirection = ThreadLocalRandom.current().nextInt(1, 5);
 
-				if (directionRandom == 1) {
+				if (randomDirection == 1) {
 					/* increment column by ship's size */
 					column = start.getColumn();
 					for (int o = 1; o < s.getSize(); o++) {
@@ -102,7 +92,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 					endCoord.setColumn(column);
 					endCoord.setLine(start.getLine());
 
-				} else if (directionRandom == 2) {
+				} else if (randomDirection == 2) {
 					/* decrement column by ship's size */
 					column = start.getColumn();
 					for (int l = 1; l < s.getSize(); l++) {
@@ -111,11 +101,11 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 					endCoord.setColumn(column);
 					endCoord.setLine(start.getLine());
 
-				} else if (directionRandom == 3) {
+				} else if (randomDirection == 3) {
 					endCoord.setColumn(start.getColumn());
 					endCoord.setLine(start.getLine() + s.getSize() - 1);
 
-				} else if (directionRandom == 4) {
+				} else if (randomDirection == 4) {
 					endCoord.setColumn(start.getColumn());
 					endCoord.setLine(start.getLine() - s.getSize() + 1);
 				}
@@ -139,8 +129,6 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 
 		this.getPlayerShips().add(s);
 		this.getBoardGame().updateBoard(s);
-		System.out.println(this.getBoardGame());
-
 	}
 
 	public void placeAllShips(List<Ship> list) {
@@ -170,7 +158,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 	public Coord sendMissileAroundShipHit(Coord hit) {
 
 		Coord missileCoord = new Coord(this.mapSize);
-		int directionRandom;
+		int randomDirection;
 		char column;
 		boolean checkMissileCoord;
 
@@ -180,39 +168,61 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 			 * : top to bottom 4 : bottom to top
 			 */
 
-			directionRandom = ThreadLocalRandom.current().nextInt(1, 5);
+			randomDirection = ThreadLocalRandom.current().nextInt(1, 9);
 
-			if (directionRandom == 1) {
+			if (randomDirection == 1) {
 				column = hit.getColumn();
 				column++;
 				missileCoord.setColumn(column);
 				missileCoord.setLine(hit.getLine());
 
-			} else if (directionRandom == 2) {
+			} else if (randomDirection == 2) {
 				column = hit.getColumn();
 				column--;
 				missileCoord.setColumn(column);
 				missileCoord.setLine(hit.getLine());
 
-			} else if (directionRandom == 3) {
+			} else if (randomDirection == 3) {
 				missileCoord.setColumn(hit.getColumn());
 				missileCoord.setLine(hit.getLine() + 1);
 
-			} else if (directionRandom == 4) {
+			} else if (randomDirection == 4) {
 				missileCoord.setColumn(hit.getColumn());
 				missileCoord.setLine(hit.getLine() - 1);
-			}
+			
+			} else if (randomDirection == 5) {
+				column = hit.getColumn();
+				column++;
+				column++;
+				missileCoord.setColumn(column);
+				missileCoord.setLine(hit.getLine());
 
+			} else if (randomDirection == 6) {
+				column = hit.getColumn();
+				column--;
+				column--;
+				missileCoord.setColumn(column);
+				missileCoord.setLine(hit.getLine());
+
+			} else if (randomDirection == 7) {
+				missileCoord.setColumn(hit.getColumn());
+				missileCoord.setLine(hit.getLine() + 2);
+
+			} else if (randomDirection == 8) {
+				missileCoord.setColumn(hit.getColumn());
+				missileCoord.setLine(hit.getLine() - 2);
+			} 
 			checkMissileCoord = missileCoord.checkCoord();
 
-		} while (!(checkMissileCoord) && this.listCoordMissileSent.contains(missileCoord));
-
+		} while (!(checkMissileCoord) ); //|| this.listCoordMissileSent.contains(missileCoord));
+		
+		this.listCoordMissileSent.add(missileCoord);
 		return missileCoord;
 	}
 
 	
 	public String toString() {
-		return "Medium Artificial Player";
+		return "Medium AI";
 	}
 
 }

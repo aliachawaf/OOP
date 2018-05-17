@@ -91,7 +91,7 @@ public class HumanVSHuman {
 
 					checkNotException = false;
 
-					while (!checkNotException) {
+					do {
 						try {
 							// ask for the size of the ship he want to place
 							// until !=2,3,4,5
@@ -99,39 +99,21 @@ public class HumanVSHuman {
 								sizeShipToPlace = scanner.nextInt();
 								scanner.nextLine();
 
-								if (sizeShipToPlace != 5
-										&& sizeShipToPlace != 4
-										&& sizeShipToPlace != 3
-										&& sizeShipToPlace != 2) {
-									System.out
-											.print("\nSize entered not equal to 2,3,4 or 5. Re-enter it : ");
-								}
-								// when size is chosen, we find the index of the
-								// ship with this size in the list
-								else {
+								indexShipToPlace = -1;
 
-									indexShipToPlace = -1;
-
-									for (int g = 0; g < listShipNotPlacedYet
-											.size(); g++) {
-										if (sizeShipToPlace == listShipNotPlacedYet
-												.get(g).getSize()) {
-											indexShipToPlace = g;
-										}
-									}
-
-									if (indexShipToPlace == -1) {
-										System.out
-												.print("\nAll your ships with this size are already placed on the board !");
-										System.out.print(" Re-enter it : ");
+								for (int g = 0; g < listShipNotPlacedYet.size(); g++) {
+									if (sizeShipToPlace == listShipNotPlacedYet
+											.get(g).getSize()) {
+										indexShipToPlace = g;
 									}
 								}
 
-							} while (sizeShipToPlace != 5
-									&& sizeShipToPlace != 4
-									&& sizeShipToPlace != 3
-									&& sizeShipToPlace != 2
-									|| indexShipToPlace == -1);
+								if (indexShipToPlace == -1) {
+									System.out.print("\nNo ship with this size !");
+									System.out.print(" Re-enter it : ");
+								}
+
+							} while (indexShipToPlace == -1);
 
 							checkNotException = true;
 
@@ -144,7 +126,7 @@ public class HumanVSHuman {
 									.print("\nYour input is missing ! Re-enter it : ");
 							scanner.nextLine();
 						}
-					}
+					} while (!checkNotException);
 
 				} else {
 					indexShipToPlace = 0; // if there is only one ship not

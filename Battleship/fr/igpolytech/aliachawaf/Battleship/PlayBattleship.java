@@ -13,7 +13,7 @@ public class PlayBattleship {
 		scanner = new Scanner(System.in);
 
 		System.out
-				.println(" 1 : Human VS Human \n 2 : Human VS ArtificialPlayer \n 3 : Artificial VS Artificial\n");
+				.println(" 1 : Human VS Human \n 2 : Human VS ArtificialPlayer \n");
 		System.out.print("Enter the number of the game you want to play : ");
 
 		int game = scanner.nextInt();
@@ -23,7 +23,7 @@ public class PlayBattleship {
 		boolean checkNotException = false;
 
 		System.out
-				.print("\nEnter the map size you want between 5-25 (ex : enter 10 to have a map 10x10) : ");
+				.print("\nEnter the map size you want between 10-25 (ex : enter 10 to have a map 10x10) : ");
 
 		while (!checkNotException) {
 			try {
@@ -31,12 +31,12 @@ public class PlayBattleship {
 					mapSize = scanner.nextInt();
 					scanner.nextLine();
 
-					if (mapSize < 5 || mapSize > 25) {
+					if (mapSize < 10 || mapSize > 25) {
 						System.out
 								.print("\nThe size you've entered is not between 5 and 25 ! Re-enter it : ");
 					}
 
-				} while (mapSize < 5 || mapSize > 25);
+				} while (mapSize < 10 || mapSize > 25);
 
 				checkNotException = true;
 
@@ -126,15 +126,14 @@ public class PlayBattleship {
 			level = scanner.nextInt();
 
 			if (level == 0) {
-				HumanVSArtificial0.main(mapSize, player1_ships, player2_ships);
+				HumanVSArtificial0.main(mapSize, player1_ships, player2_ships, 1);
 			} else if (level == 1) {
-				HumanVSArtificial1.main(mapSize, player1_ships, player2_ships);
+				HumanVSArtificial1.main(mapSize, player1_ships, player2_ships, 1);
 			} else {
 				// HumanVSArtificial2.main(mapSize, player1_ships,
 				// player2_ships);
 			}
-
-		} // faire le 3eme else
+		}
 
 	}
 }
