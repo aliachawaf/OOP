@@ -50,11 +50,31 @@ public class TestAI {
 
 		/* play artificial players game */
 
+		int scoreAI0 = 0;
+		int scoreAI1 = 0;
+		int scoreAI2 = 0;
+		int currentPlayer = 0;
+		String winner;
+		
 		for (int i = 0; i < 100; i++) {
 			System.out.print(i + " ");
-			AI0vsAI1.main(player0_ships, player1_ships);
+			winner = AI0vsAI1.main(player0_ships, player1_ships, currentPlayer);
+			
+			
+			if (winner.matches("Medium AI")){
+				scoreAI1++;
+			} else {
+				scoreAI0++;
+			}
+			
+			if (currentPlayer==0){
+				currentPlayer=1;
+			} else {
+				currentPlayer=0;
+			}
 		}
 		
+		System.out.print(scoreAI0 + " " + scoreAI1);
 	}
 
 }

@@ -50,29 +50,32 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 		boolean checkCoordIsFree;
 		Coord startCoord;
 
-		do {
-			/* random start coord */
-			startCoord = this.choseOneCoord();
-
-			/* check this coord is free */
-			s.setStartCoord(startCoord);
-			s.setEndCoord(startCoord);
-			checkCoordIsFree = s.checkPlaceIsFree(this.listCoordTaken());
-
-		} while (!(checkCoordIsFree));
+		
 
 		int randomDirection;
 		boolean checkEndCoord;
 		char column;
 
+		Coord start = new Coord(this.mapSize);
 		Coord endCoord = new Coord(this.mapSize);
 
-		Coord start = new Coord(this.mapSize);
-		start.setColumn(startCoord.getColumn());
-		start.setLine(startCoord.getLine());
 
 		do {
 
+			do {
+				/* random start coord */
+				startCoord = this.choseOneCoord();
+
+				/* check this coord is free */
+				s.setStartCoord(startCoord);
+				s.setEndCoord(startCoord);
+				checkCoordIsFree = s.checkPlaceIsFree(this.listCoordTaken());
+
+			} while (!(checkCoordIsFree));
+						
+			start.setColumn(startCoord.getColumn());
+			start.setLine(startCoord.getLine());
+			
 			do {
 
 				/*
