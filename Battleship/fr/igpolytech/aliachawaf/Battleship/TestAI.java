@@ -57,16 +57,17 @@ public class TestAI {
 		String winner;
 		
 		for (int i = 0; i < 100; i++) {
-			System.out.print(i + " ");
-			winner = AI0vsAI1.main(player0_ships, player1_ships, currentPlayer);
 			
+			winner = AI0vsAI1.playBattleship(player0_ships, player1_ships, currentPlayer);
 			
+			/* update scores */
 			if (winner.matches("Medium AI")){
 				scoreAI1++;
 			} else {
 				scoreAI0++;
 			}
 			
+			/* change first player for next game */
 			if (currentPlayer==0){
 				currentPlayer=1;
 			} else {

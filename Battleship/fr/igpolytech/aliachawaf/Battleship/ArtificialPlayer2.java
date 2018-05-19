@@ -43,36 +43,143 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		return new Coord(randomColumn, randomLine, this.mapSize);
 	}
 
+	public boolean checkDontTouchAShip(Ship s){
+		
+		boolean check = true;
+		Coord c = new Coord(this.mapSize);
+		char column;
+		
+		if (s.isVertical()){
+			
+			c.setColumn(s.getStartCoord().getColumn());
+			
+			/* check if the coord on the top of the ship is free */
+			c.setLine(s.getStartCoord().getLine()-1);
+
+			if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+				check = false;
+			}
+			
+			/* check if the coord on the bottom of the ship is free */
+			c.setLine(s.getEndCoord().getLine()+1);
+			
+			if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+				check = false;
+			}
+			
+			/* check if coords on the right side of the ship are free */
+			column = s.getStartCoord().getColumn();
+			column--;
+			c.setColumn(column);
+			
+			for (Coord shipCoord : s.shipListCoord()){
+				
+				c.setLine(shipCoord.getLine());
+				
+				if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+					check = false;
+				}
+			}
+			
+			/* check if coords on the left side of the ship are free */
+			column = s.getEndCoord().getColumn();
+			column++;
+			c.setColumn(column);
+			
+			for (Coord shipCoord : s.shipListCoord()){
+				
+				c.setLine(shipCoord.getLine());
+				
+				if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+					check = false;
+				}
+			}
+			
+			
+			
+		} else {
+			
+			c.setLine(s.getStartCoord().getLine());
+			
+			/* check if the coord on the left of the ship is free */
+			column = s.getStartCoord().getColumn();
+			column--;
+			c.setColumn(column);
+			
+			if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+				check = false;
+			}
+			
+			/* check if the coord on the right of the ship is free */
+			column = s.getEndCoord().getColumn();
+			column++;
+			c.setColumn(column);
+			
+			if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+				check = false;
+			}
+			
+			/* check if coords on the top side of the ship are free */
+			c.setLine(s.getStartCoord().getLine()-1);
+			
+			for (Coord shipCoord : s.shipListCoord()){
+				
+				c.setColumn(shipCoord.getColumn());
+				
+				if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+					check = false;
+				}
+			}
+			
+			/* check if coords on the bottom side of the ship are free */
+			c.setLine(s.getStartCoord().getLine()+1);
+			
+			for (Coord shipCoord : s.shipListCoord()){
+				
+				c.setColumn(shipCoord.getColumn());
+				
+				if (c.checkCoord() && this.listCoordTaken().contains(c)) {
+					check = false;
+				}
+			}
+		}
+				
+		return check;
+	}
+	
 	public void placeOneShip(Ship s) {
 
 		// ship is placed randomly on board game
 
 		boolean checkCoordIsFree;
+		boolean cc = false;
 		Coord startCoord;
 
-		do {
-			/* random start coord */
-			startCoord = this.choseOneCoord();
-
-			/* check this coord is free */
-			s.setStartCoord(startCoord);
-			s.setEndCoord(startCoord);
-			checkCoordIsFree = s.checkPlaceIsFree(this.listCoordTaken());
-
-		} while (!(checkCoordIsFree));
-
+	
 		int randomDirection;
 		boolean checkEndCoord;
 		char column;
 
 		Coord endCoord = new Coord(this.mapSize);
-
 		Coord start = new Coord(this.mapSize);
-		start.setColumn(startCoord.getColumn());
-		start.setLine(startCoord.getLine());
+		
 
 		do {
 
+			do {
+				/* random start coord */
+				startCoord = this.choseOneCoord();
+
+				/* check this coord is free */
+				s.setStartCoord(startCoord);
+				s.setEndCoord(startCoord);
+				checkCoordIsFree = s.checkPlaceIsFree(this.listCoordTaken());
+
+			} while (!(checkCoordIsFree));
+
+			start.setColumn(startCoord.getColumn());
+			start.setLine(startCoord.getLine());
+			
 			do {
 
 				/*
@@ -123,11 +230,12 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 			 * with end, we give start coord its initial value
 			 */
 			startCoord = start;
-
-		} while (!(s.checkPlaceIsFree(this.listCoordTaken())));
+			
+		} while (!checkDontTouchAShip(s) || !s.checkPlaceIsFree(this.listCoordTaken()));
 
 		this.getPlayerShips().add(s);
 		this.getBoardGame().updateBoard(s);
+		System.out.println(this.getBoardGame());
 	}
 
 	public void placeAllShips(List<Ship> list) {
@@ -136,7 +244,20 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 			placeOneShip(s);
 		}
 	}
+	
+	public Coord sendMissile() {
 
+		// chose a missileCoord randomly which was never sent before
+		Coord missileCoord;
+
+		do {
+			missileCoord = this.choseOneCoord();
+		} while (this.listCoordMissileSent.contains(missileCoord));
+
+		this.listCoordMissileSent.add(missileCoord);
+		return missileCoord;
+	}
+/*
 	public Coord sendMissile() {
 
 		// chose a missileCoord randomly which was never sent before
@@ -157,16 +278,16 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		missileCoord.setLine(randomLine);
 		missileCoord.setColumn(column);
 		
-		/*do {
-			//missileCoord = this.choseOneCoord();
+		do {
+			missileCoord = this.choseOneCoord();
 			missileCoord.setLine(randomLine);
 			
 			missileCoord.setColumn(column);
 		} while (this.listCoordMissileSent.contains(missileCoord));
 
-		this.listCoordMissileSent.add(missileCoord);*/
+		this.listCoordMissileSent.add(missileCoord);
 		return missileCoord;
-	}
+	}*/
 
 
 	public Coord sendMissileAroundShipHit(Coord hit) {
