@@ -79,8 +79,9 @@ public class PlayBattleship {
 		player2_ships.add(destroyer_2);
 
 		String addShip, nameShipToAdd;
-		int sizeShipToAdd;
-		
+		int sizeShipToAdd = 3;
+
+		checkNotException = false;
 
 		/* ask if want to add a ship to the game */
 		System.out.println("\nCurrently, each player has 5 ships : "
@@ -104,7 +105,29 @@ public class PlayBattleship {
 			nameShipToAdd = scanner.nextLine();
 
 			System.out.print("Enter its size : ");
-			sizeShipToAdd = scanner.nextInt();
+
+			do {
+				try {
+					// ask for the size of the ship he want to add
+
+					do {
+						sizeShipToAdd = scanner.nextInt();
+
+						if (sizeShipToAdd < 2 || sizeShipToAdd > 6) {
+							System.out
+									.print("This size is not between 2 and 5. Re-enter it : ");
+						}
+
+					} while (sizeShipToAdd < 2 || sizeShipToAdd > 6);
+					
+					checkNotException = true;
+
+				} catch (java.util.InputMismatchException e) {
+					System.out
+							.print("\nYour input is not a number ! Re-enter it : ");
+					scanner.nextLine();
+				}
+			} while (!checkNotException);
 
 			Ship shipToAddPlayer1 = new Ship(nameShipToAdd, sizeShipToAdd);
 			Ship shipToAddPlayer2 = new Ship(nameShipToAdd, sizeShipToAdd);
@@ -113,9 +136,8 @@ public class PlayBattleship {
 			player2_ships.add(shipToAddPlayer2);
 		}
 
-		
 		int level;
-		
+
 		if (game == 1) {
 			HumanVSHuman.playBattleship(mapSize, player1_ships, player2_ships);
 		} else if (game == 2) {
@@ -127,11 +149,14 @@ public class PlayBattleship {
 			level = scanner.nextInt();
 
 			if (level == 0) {
-				HumanVSArtificial0.playBattleship(mapSize, player1_ships, player2_ships, 1);
+				HumanVSArtificial0.playBattleship(mapSize, player1_ships,
+						player2_ships, 1);
 			} else if (level == 1) {
-				HumanVSArtificial1.playBattleship(mapSize, player1_ships, player2_ships, 1);
+				HumanVSArtificial1.playBattleship(mapSize, player1_ships,
+						player2_ships, 1);
 			} else {
-				HumanVSArtificial2.playBattleship(mapSize, player1_ships, player2_ships, 1);
+				HumanVSArtificial2.playBattleship(mapSize, player1_ships,
+						player2_ships, 1);
 			}
 		}
 

@@ -388,8 +388,18 @@ public class HumanVSArtificial2 {
 		System.out.println("The winner is " + game.winnerEndGame() + " !");
 
 		System.out.print("\nDo you want to play again (yes/no) ? ");
+		String playAgain;
+		
+		do {
+			playAgain = scanner.nextLine();
 
-		String playAgain = scanner.nextLine();
+			if (!playAgain.matches("no") && !playAgain.matches("yes")) {
+				System.out
+						.print("Your answer is different of 'no' or 'yes'. Re-enter it : ");
+			}
+
+		} while (!playAgain.matches("no") && !playAgain.matches("yes"));
+		
 
 		if (playAgain.matches("yes")) {
 			game.getPlayer1().clearCoordHitAllShips();

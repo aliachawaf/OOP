@@ -1,4 +1,4 @@
-package fr.igpolytech.aliachawaf.Battleship;
+	package fr.igpolytech.aliachawaf.Battleship;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ public class HumanVSArtificial1 {
 
 	private static Scanner scanner;
 
-	public static void main(int mapSize, List<Ship> player1_ships,
+	public static void playBattleship(int mapSize, List<Ship> player1_ships,
 			List<Ship> player2_ships, int currentPlayer) {
 
 		/*
@@ -385,9 +385,20 @@ public class HumanVSArtificial1 {
 		System.out.println(" ************ Game ended ! ************ \n");
 		System.out.println("The winner is " + game.winnerEndGame() + " !");
 
-		System.out.print("\nDo you want to play again (yes/no) ?");
 
-		String playAgain = scanner.nextLine();
+		System.out.print("\nDo you want to play again (yes/no) ? ");
+		String playAgain;
+		
+		do {
+			playAgain = scanner.nextLine();
+
+			if (!playAgain.matches("no") && !playAgain.matches("yes")) {
+				System.out
+						.print("Your answer is different of 'no' or 'yes'. Re-enter it : ");
+			}
+
+		} while (!playAgain.matches("no") && !playAgain.matches("yes"));
+
 
 		if (playAgain.matches("yes")) {
 			game.getPlayer1().clearCoordHitAllShips();
@@ -395,10 +406,10 @@ public class HumanVSArtificial1 {
 
 			if (currentPlayer == 1) {
 				currentPlayer = 2;
-				HumanVSArtificial1.main(mapSize, p1, p2, currentPlayer);
+				HumanVSArtificial1.playBattleship(mapSize, p1, p2, currentPlayer);
 			} else {
 				currentPlayer = 1;
-				HumanVSArtificial1.main(mapSize, p1, p2, currentPlayer);
+				HumanVSArtificial1.playBattleship(mapSize, p1, p2, currentPlayer);
 			}
 		}
 

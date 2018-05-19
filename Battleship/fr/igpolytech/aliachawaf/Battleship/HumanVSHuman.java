@@ -8,7 +8,7 @@ public class HumanVSHuman {
 
 	private static Scanner scanner;
 
-	public static void main(int mapSize, List<Ship> player1_ships, List<Ship> player2_ships) {
+	public static void playBattleship(int mapSize, List<Ship> player1_ships, List<Ship> player2_ships, int currentPlayer) {
 			
 		boolean checkNotException = false;
 		
@@ -25,8 +25,13 @@ public class HumanVSHuman {
 		Player player2 = new HumanPlayer(name, mapSize);
 
 		/* set up a game */
-		Game game = new Game(player1, player2); // by default, current player is
-												// player1
+		Game game = new Game(player1, player2); 
+		
+		if (currentPlayer==1){
+			game.setCurrentPlayer(player1);
+		} else {
+			game.setCurrentPlayer(player2);
+		}
 
 		/* initialization of boards' display */
 		player1.getBoardGame().initBoard();
@@ -334,6 +339,34 @@ public class HumanVSHuman {
 
 		System.out.println(" ************ Game ended ! ************ \n");
 		System.out.println("The winner is " + game.winnerEndGame() + " !");
+		
+		System.out.print("\nDo you want to play again (yes/no) ? ");
+		String playAgain;
+		
+		do {
+			playAgain = scanner.nextLine();
+
+			if (!playAgain.matches("no") && !playAgain.matches("yes")) {
+				System.out
+						.print("Your answer is different of 'no' or 'yes'. Re-enter it : ");
+			}
+
+		} while (!playAgain.matches("no") && !playAgain.matches("yes"));
+
+
+		if (playAgain.matches("yes")) {
+			
+			game.getPlayer1().clearCoordHitAllShips();
+			game.getPlayer2().clearCoordHitAllShips();
+			
+			if (currentPlayer == 1) {
+				currentPlayer = 2;
+				HumanVSHuman.playBattleship(mapSize, p1, p2, currentPlayer);
+			} else {
+				currentPlayer = 1;
+				HumanVSHuman.playBattleship(mapSize, p1, p2, currentPlayer);
+			}
+		}
 
 		scanner.close();
 	}
