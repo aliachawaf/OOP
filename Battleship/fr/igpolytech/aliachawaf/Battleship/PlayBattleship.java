@@ -33,7 +33,7 @@ public class PlayBattleship {
 
 					if (mapSize < 10 || mapSize > 25) {
 						System.out
-								.print("\nThe size you've entered is not between 5 and 25 ! Re-enter it : ");
+								.print("\nThe size you've entered is not between 10 and 25 ! Re-enter it : ");
 					}
 
 				} while (mapSize < 10 || mapSize > 25);
@@ -106,17 +106,18 @@ public class PlayBattleship {
 			System.out.print("Enter its size : ");
 			sizeShipToAdd = scanner.nextInt();
 
-			Ship shipToAdd = new Ship(nameShipToAdd, sizeShipToAdd);
+			Ship shipToAddPlayer1 = new Ship(nameShipToAdd, sizeShipToAdd);
+			Ship shipToAddPlayer2 = new Ship(nameShipToAdd, sizeShipToAdd);
 
-			player1_ships.add(shipToAdd);
-			player2_ships.add(shipToAdd);
+			player1_ships.add(shipToAddPlayer1);
+			player2_ships.add(shipToAddPlayer2);
 		}
 
 		
 		int level;
 		
 		if (game == 1) {
-			HumanVSHuman.main(mapSize, player1_ships, player2_ships);
+			HumanVSHuman.playBattleship(mapSize, player1_ships, player2_ships);
 		} else if (game == 2) {
 
 			System.out.println("\n 0 : easy \n 1 : medium \n 2 : hard\n");
@@ -126,12 +127,11 @@ public class PlayBattleship {
 			level = scanner.nextInt();
 
 			if (level == 0) {
-				HumanVSArtificial0.main(mapSize, player1_ships, player2_ships, 1);
+				HumanVSArtificial0.playBattleship(mapSize, player1_ships, player2_ships, 1);
 			} else if (level == 1) {
-				HumanVSArtificial1.main(mapSize, player1_ships, player2_ships, 1);
+				HumanVSArtificial1.playBattleship(mapSize, player1_ships, player2_ships, 1);
 			} else {
-				// HumanVSArtificial2.main(mapSize, player1_ships,
-				// player2_ships);
+				HumanVSArtificial2.playBattleship(mapSize, player1_ships, player2_ships, 1);
 			}
 		}
 

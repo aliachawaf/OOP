@@ -6,7 +6,8 @@ import java.util.List;
 public class TestAI {
 
 	public static void main(String[] args) {
-
+		
+		
 		/* set up 5 ships for each player */
 		Ship carrier_0 = new Ship("carrier", 5);
 		Ship battleship_0 = new Ship("battleship", 4);
@@ -54,28 +55,78 @@ public class TestAI {
 		int scoreAI1 = 0;
 		int scoreAI2 = 0;
 		int currentPlayer = 0;
+		int i;
 		String winner;
 		
-		for (int i = 0; i < 100; i++) {
+//		for( i = 0; i < 100; i++) {
+//			
+//			winner = AI0vsAI1.playBattleship(player0_ships, player1_ships, currentPlayer);
+//			
+//			/* update scores */
+//			if (winner.matches("Medium AI")){
+//				scoreAI1++;
+//			} else {
+//				scoreAI0++;
+//			}
+//			
+//			/* change first player for next game */
+//			if (currentPlayer==0){
+//				currentPlayer=1;
+//			} else {
+//				currentPlayer=0;
+//			}
+//		}
+//		
+//		System.out.println(scoreAI0 + " " + scoreAI1);
+//		
+//		scoreAI0 = 0;
+//		currentPlayer = 0;
+//		
+//		for (i = 0; i < 100; i++) {
+//			
+//			winner = AI0vsAI2.playBattleship(player0_ships, player2_ships, currentPlayer);
+//			
+//			/* update scores */
+//			if (winner.matches("Hard AI")){
+//				scoreAI2++;
+//			} else {
+//				scoreAI0++;
+//			}
+//			
+//			/* change first player for next game */
+//			if (currentPlayer==0){
+//				currentPlayer=2;
+//			} else {
+//				currentPlayer=0;
+//			}
+//		}
+//		
+//		System.out.println(scoreAI0 + " " + scoreAI2);
+		
+		scoreAI0 = 0;
+		currentPlayer = 1;
+		
+		for (i = 0; i < 100; i++) {
 			
-			winner = AI0vsAI1.playBattleship(player0_ships, player1_ships, currentPlayer);
+			winner = AI1vsAI2.playBattleship(player1_ships, player2_ships, currentPlayer);
+			System.out.println(i + " " + winner);
 			
 			/* update scores */
-			if (winner.matches("Medium AI")){
-				scoreAI1++;
+			if (winner.matches("Hard AI")){
+				scoreAI2++;
 			} else {
-				scoreAI0++;
+				scoreAI1++;
 			}
 			
 			/* change first player for next game */
-			if (currentPlayer==0){
-				currentPlayer=1;
+			if (currentPlayer==1){
+				currentPlayer=2;
 			} else {
-				currentPlayer=0;
+				currentPlayer=1;
 			}
 		}
 		
-		System.out.print(scoreAI0 + " " + scoreAI1);
+		System.out.println(scoreAI1 + " " + scoreAI2);
 	}
 
 }
