@@ -26,7 +26,7 @@ public class Battleship {
 		int game = scanner.nextInt();
 
 		/* input gridSize */
-		
+
 		int gridSize = 10;
 		boolean checkNotException = false;
 
@@ -49,7 +49,7 @@ public class Battleship {
 			} catch (java.util.InputMismatchException e) {
 				System.out.print("\nThe size you've entered is not a number ! Re-enter it : ");
 				scanner.nextLine();
-				
+
 			} catch (StringIndexOutOfBoundsException e) {
 				System.out.print("Grid size is missing. Re-enter it :");
 				scanner.nextLine();
@@ -89,9 +89,9 @@ public class Battleship {
 
 		checkNotException = false;
 
-		
+
 		/* ask if want to add a ship to the game */
-		
+
 		System.out.println("\nCurrently, each player has 5 ships : " + player1_ships);
 		System.out.print("\nDo you want to add one more ship to each player (yes/no) ? ");
 
@@ -104,7 +104,7 @@ public class Battleship {
 
 		} while (!addShip.matches("no") && !addShip.matches("yes"));
 
-		
+
 		if (addShip.matches("yes")) {
 
 			System.out.print("Enter its name : ");
@@ -119,11 +119,11 @@ public class Battleship {
 					do {
 						sizeShipToAdd = scanner.nextInt();
 
-						if (sizeShipToAdd < 2 || sizeShipToAdd > 6) {
+						if (sizeShipToAdd < 2 || sizeShipToAdd > 5) {
 							System.out.print("This size is not between 2 and 5. Re-enter it : ");
 						}
 
-					} while (sizeShipToAdd < 2 || sizeShipToAdd > 6);
+					} while (sizeShipToAdd < 2 || sizeShipToAdd > 5);
 
 					checkNotException = true;
 
@@ -147,12 +147,12 @@ public class Battleship {
 			case 1:
 				HumanVSHuman.playBattleship(gridSize, player1_ships, player2_ships,	1);
 			case 2:
-				
+
 				System.out.println("\n 0 : easy \n 1 : medium \n 2 : hard\n");
 				System.out.print("Enter the number of difficulty level you want : ");
-	
+
 				checkNotException = false ;
-				
+
 				do {
 					try {
 						do {
@@ -170,14 +170,14 @@ public class Battleship {
 					} catch (java.util.InputMismatchException e) {
 						System.out.print("\nThe level you've entered is not a number ! Re-enter it : ");
 						scanner.nextLine();
-						
+
 					} catch (StringIndexOutOfBoundsException e) {
 						System.out.print("The level is missing. Re-enter it :");
 						scanner.nextLine();
 					}
 				} while (!checkNotException);
-				
-	
+
+
 				switch (level) {
 					case 0:
 						HumanVSArtificial0.playBattleship(gridSize, player1_ships, player2_ships, 1);
