@@ -2,29 +2,32 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="new Coord" key="selection"/>
+		<item value="MissileSent" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="missileSEnt"/>
+			<item value="map"/>
+			<item value="if (this.startCoord.compareColumn(this.endCoord)) {"/>
+			<item value="player0"/>
+			<item value="listCoordWithLineColumnSameParity"/>
 			<item value="new coord"/>
 			<item value="catch"/>
 			<item value="outof"/>
-			<item value="out"/>
-			<item value="sizecoord"/>
-			<item value="size"/>
-			<item value="coord"/>
-			<item value="notended"/>
 		</list>
 		<list key="replacehistory">
+			<item value="grid"/>
+			<item value="Grid"/>
+			<item value="player1"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="332" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
-		<item value="484" key="DIALOG_HEIGHT"/>
-		<item value="1325" key="DIALOG_X_ORIGIN"/>
-		<item value="456" key="DIALOG_Y_ORIGIN"/>
+		<item value="512" key="DIALOG_HEIGHT"/>
+		<item value="1450" key="DIALOG_X_ORIGIN"/>
+		<item value="394" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

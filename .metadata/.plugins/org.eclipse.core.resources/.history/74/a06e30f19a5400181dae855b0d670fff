@@ -1,7 +1,0 @@
-package fr.igpolytech.aliachawaf.Battleship;
-
-public class HumanPlayer extends Player {
-
-	private 
-	
-}

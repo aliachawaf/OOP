@@ -1,7 +1,0 @@
-package fr.igpolytech.aliachawaf.Battleship;
-
-public class ArtificialPlayer2 extends Player implements ArtificialIntelligence {
-	
-	
-
-}

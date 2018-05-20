@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Battleship/fr/igpolytech/aliachawaf/Battleship/Main.java"/>
+<listEntry value="/Battleship"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="1"/>
+<listEntry value="4"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="fr.igpolytech.aliachawaf.Battleship.Main"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="chawaf.alia.Main"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Battleship"/>
 </launchConfiguration>
