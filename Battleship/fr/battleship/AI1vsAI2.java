@@ -2,11 +2,11 @@ package fr.battleship;
 
 import java.util.List;
 
-import chawaf.alia.ArtificialPlayer1;
-import chawaf.alia.ArtificialPlayer2;
-import chawaf.alia.Coord;
-import chawaf.alia.Game;
-import chawaf.alia.Ship;
+import chawaf.alia.Core.Coord;
+import chawaf.alia.Core.Game;
+import chawaf.alia.Core.Ship;
+import chawaf.alia.Player.AI.ArtificialPlayer1;
+import chawaf.alia.Player.AI.ArtificialPlayer2;
 
 public class AI1vsAI2 {
 
@@ -37,27 +37,21 @@ public class AI1vsAI2 {
 			game.setCurrentPlayer(player2);
 		}
 
-		/* initialization of boards' display */
-		player1.getBoardGame().initBoard();
-		player1.getBoardAttack().initBoard();
-		player2.getBoardGame().initBoard();
-		player2.getBoardAttack().initBoard();
-
-		/* Place all their ships on grid */
+		/* Place all their ships */
 
 		player1.placeAllShips(player1_ships);
 		player2.placeAllShips(player2_ships);
-
-		
 		
 		// ********* ATTACK *********//
 		
 		while (game.NotEnded()) {
+			
 			if (game.getCurrentPlayer() == player1) {
 				
 				if (hitPlayer1 && !destroyedPlayer1) {
-					missileCoord = player1
-							.sendMissileAroundShipHit(missileCoordHitPlayer1);
+					
+					missileCoord = player1.sendMissileAroundShipHit(missileCoordHitPlayer1);
+				
 				} else {
 					missileCoord = player1.sendMissile();
 					destroyedPlayer1 = false;
@@ -66,9 +60,6 @@ public class AI1vsAI2 {
 				int n = player2.listShipDestroyed().size();
 
 				if (player2.isAnyoneHit(missileCoord)) {
-					/* update and display boards */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player2.getBoardGame().updateBoardAttack(missileCoord, 1);
 
 					missileCoordHitPlayer1 = missileCoord;
 
@@ -78,20 +69,11 @@ public class AI1vsAI2 {
 						destroyedPlayer1 = true;
 						hitPlayer1 = false;
 					}
-
-				} else {
-					/* update and display board attack */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 0);
-					player2.getBoardGame().updateBoardAttack(missileCoord, 0);
-
-				}
+				} 
 				
-				//System.out.println("AI0 " + player1.boardAttack);
-
 			} else {
 				if (hitPlayer2 && !destroyedPlayer2) {
-					missileCoord = player2
-							.sendMissileAroundShipHit(missileCoordHitPlayer2);
+					missileCoord = player2.sendMissileAroundShipHit(missileCoordHitPlayer2);
 				} else {
 					missileCoord = player2.sendMissile();
 					destroyedPlayer2 = false;
@@ -100,12 +82,6 @@ public class AI1vsAI2 {
 				int n2 = player1.listShipDestroyed().size();
 
 				if (player1.isAnyoneHit(missileCoord)) {
-					/* update and display boards */
-					player2.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 1);
-					
-					//Coord m = new Coord(missileCoord.getColumn(), missileCoord.getLine(), gridSize);
-					//player2.getListCoordMissileSentHit().add(m);
 					
 					missileCoordHitPlayer2 = missileCoord;
 
@@ -120,16 +96,8 @@ public class AI1vsAI2 {
 				} else {
 					
 					player2.getListCoordMissileSentNotHit().add(missileCoord);
-					//System.out.println("list not hit : " + player2.getListCoordMissileSentNotHit());
-					//System.out.println("list sent : " + player2.getListCoordMissileSent());
-					
-					/* update and display board attack */
-					player2.getBoardAttack().updateBoardAttack(missileCoord, 0);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 0);
 
 				}
-				
-				//System.out.println("AI2 " + player2.boardAttack);
 			}
 			game.changePlayer();
 		}
@@ -141,6 +109,5 @@ public class AI1vsAI2 {
 		player2.clearCoordHitAllShips();
 		
 		return winner;
-
 	}
 }

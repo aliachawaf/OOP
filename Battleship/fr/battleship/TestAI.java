@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import chawaf.alia.Ship;
+import chawaf.alia.Core.Ship;
 
 public class TestAI {
 
@@ -130,7 +130,7 @@ public class TestAI {
 		}
 		
 		try {
-			FileWriter file = new FileWriter("ai_proof.csv");
+			FileWriter file = new FileWriter("fr/battleship/ai_proof.csv");
 			file.append("AI NAME1; score1; AI NAME2; score2\n");
 			file.append("AI Level Beginner; " + score0 + "; Level Medium; " + score1 + "\n" );
 			file.append("AI Level Beginner; " + score2 + "; Level Hard; " + score3 + "\n");
@@ -139,10 +139,5 @@ public class TestAI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(score0 + " " + score1);
-		System.out.println(score2 + " " + score3);
-		System.out.println(score4 + " " + score5);
 	}
-
 }

@@ -51,10 +51,10 @@ public class HumanVSHuman {
 		}
 
 		/* initialization of boards' display */
-		player1.getBoardGame().initBoard();
-		player1.getBoardAttack().initBoard();
-		player2.getBoardGame().initBoard();
-		player2.getBoardAttack().initBoard();
+		player1.getGridGame().initGrid();
+		player1.getGridAttack().initGrid();
+		player2.getGridGame().initGrid();
+		player2.getGridAttack().initGrid();
 
 		/* variables used for input */
 		String start = null;
@@ -89,7 +89,7 @@ public class HumanVSHuman {
 			}
 
 			/* display game board for current player */
-			System.out.println(game.getCurrentPlayer().getBoardGame());
+			System.out.println(game.getCurrentPlayer().getGridGame());
 
 			System.out.println("*************** " + game.getCurrentPlayer() + " **************\n");
 
@@ -254,9 +254,9 @@ public class HumanVSHuman {
 						.add(currentShipToPlace);
 
 				/* update and display new board with the ship placed */
-				game.getCurrentPlayer().getBoardGame()
-						.updateBoard(currentShipToPlace);
-				System.out.println(game.getCurrentPlayer().getBoardGame());
+				game.getCurrentPlayer().getGridGame()
+						.updateGrid(currentShipToPlace);
+				System.out.println(game.getCurrentPlayer().getGridGame());
 
 				/* remove the ship placed from the list of ships not placed yet */
 				listShipNotPlacedYet.remove(indexShipToPlace);
@@ -277,7 +277,7 @@ public class HumanVSHuman {
 
 			/* display board attack */
 			System.out.println("Your current board attack : ");
-			System.out.println(game.getCurrentPlayer().getBoardAttack());
+			System.out.println(game.getCurrentPlayer().getGridAttack());
 
 			/* input missile position */
 			System.out.print("Choose a missile position to attack : ");
@@ -323,11 +323,11 @@ public class HumanVSHuman {
 						.println("\n  YES !!!  \n\n You've hit a ship ! Your new board attack : ");
 
 				/* update and display boards */
-				game.getCurrentPlayer().getBoardAttack()
-						.updateBoardAttack(missileCoord, 1);
-				game.opponentPlayer().getBoardGame()
-						.updateBoardAttack(missileCoord, 1);
-				System.out.println(game.getCurrentPlayer().getBoardAttack());
+				game.getCurrentPlayer().getGridAttack()
+						.updateGridAttack(missileCoord, 1);
+				game.opponentPlayer().getGridGame()
+						.updateGridAttack(missileCoord, 1);
+				System.out.println(game.getCurrentPlayer().getGridAttack());
 
 				/* check if ship is destroyed (one more ship in the list) */
 				if (game.opponentPlayer().listShipDestroyed().size() > n) {
@@ -340,9 +340,9 @@ public class HumanVSHuman {
 						.println("\n  NO !!! \n\n You haven't hit any ship. Your new board attack : ");
 
 				/* update and display board attack */
-				game.getCurrentPlayer().getBoardAttack()
-						.updateBoardAttack(missileCoord, 0);
-				System.out.println(game.getCurrentPlayer().getBoardAttack());
+				game.getCurrentPlayer().getGridAttack()
+						.updateGridAttack(missileCoord, 0);
+				System.out.println(game.getCurrentPlayer().getGridAttack());
 			}
 
 			System.out.println("ships destroyed : "

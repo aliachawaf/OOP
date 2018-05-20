@@ -2,11 +2,11 @@ package fr.battleship;
 
 import java.util.List;
 
-import chawaf.alia.ArtificialPlayer0;
-import chawaf.alia.ArtificialPlayer1;
-import chawaf.alia.Coord;
-import chawaf.alia.Game;
-import chawaf.alia.Ship;
+import chawaf.alia.Core.Coord;
+import chawaf.alia.Core.Game;
+import chawaf.alia.Core.Ship;
+import chawaf.alia.Player.AI.ArtificialPlayer0;
+import chawaf.alia.Player.AI.ArtificialPlayer1;
 
 public class AI0vsAI1 {
 
@@ -32,11 +32,6 @@ public class AI0vsAI1 {
 			game.setCurrentPlayer(player1);
 		}
 
-		/* initialization of boards' display */
-		player0.getBoardGame().initBoard();
-		player0.getBoardAttack().initBoard();
-		player1.getBoardGame().initBoard();
-		player1.getBoardAttack().initBoard();
 
 		/* Place all their ships on grid */
 
@@ -47,19 +42,11 @@ public class AI0vsAI1 {
 		
 		while (game.NotEnded()) {
 			if (game.getCurrentPlayer() == player0) {
+				
 				missileCoord = player0.sendMissile();
 
-				if (player1.isAnyoneHit(missileCoord)) {
-					/* update and display boards */
-					player0.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 1);
+				player1.isAnyoneHit(missileCoord);
 
-				} else {
-					/* update and display board attack */
-					player0.getBoardAttack().updateBoardAttack(missileCoord, 0);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 0);
-
-				}
 
 			} else {
 				if (hit && !destroyed) {
@@ -73,9 +60,9 @@ public class AI0vsAI1 {
 				int n2 = player0.listShipDestroyed().size();
 
 				if (player0.isAnyoneHit(missileCoord)) {
-					/* update and display boards */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player0.getBoardGame().updateBoardAttack(missileCoord, 1);
+					/* update and display grids */
+					player1.getGridAttack().updateGridAttack(missileCoord, 1);
+					player0.getGridGame().updateGridAttack(missileCoord, 1);
 
 					missileCoordHit = missileCoord;
 
@@ -85,13 +72,7 @@ public class AI0vsAI1 {
 						destroyed = true;
 						hit = false;
 					}
-
-				} else {
-					/* update and display board attack */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 0);
-					player0.getBoardGame().updateBoardAttack(missileCoord, 0);
-
-				}
+				} 
 			}
 			game.changePlayer();
 		}

@@ -5,8 +5,8 @@ public class HumanPlayer extends Player {
 	private String name;
 
 	//constructor
-	public HumanPlayer( String name, int mapSize) {
-		super(mapSize);
+	public HumanPlayer( String name, int gridSize) {
+		super(gridSize);
 		this.name = name;
 	}
 
@@ -14,7 +14,6 @@ public class HumanPlayer extends Player {
 	public String getName() {
 		return name;
 	}
-
 	
 	@Override
 	public String toString(){

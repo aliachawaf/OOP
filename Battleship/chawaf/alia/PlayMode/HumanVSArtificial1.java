@@ -11,7 +11,6 @@ import chawaf.alia.Player.HumanPlayer;
 import chawaf.alia.Player.Player;
 import chawaf.alia.Player.AI.ArtificialPlayer1;
 
-
 public class HumanVSArtificial1 {
 
 	private static Scanner scanner;
@@ -50,11 +49,9 @@ public class HumanVSArtificial1 {
 			game.setCurrentPlayer(player2);
 		}
 
-		/* initialization of boards' display */
-		player1.getBoardGame().initBoard();
-		player1.getBoardAttack().initBoard();
-		player2.getBoardGame().initBoard();
-		player2.getBoardAttack().initBoard();
+		/* initialization of grids' display */
+		player1.getGridGame().initGrid();
+		player1.getGridAttack().initGrid();
 
 		/* variables used for input */
 		String start = null;
@@ -81,19 +78,19 @@ public class HumanVSArtificial1 {
 
 		/* asking player 1 to place his ships in the order he want */
 
-		/* display game board for current player */
-		System.out.println(player1.getBoardGame());
+		/* display game grid for current player */
+		System.out.println(player1.getGridGame());
 
 		System.out.println("*************** " + player1 + " **************\n");
 
 		System.out
-				.println("You have to place your 5 ships on your board in the order you want.\n");
+				.println("You have to place your 5 ships on your grid in the order you want.\n");
 
 		int numberOfShips = player1_ships.size();
 
 		for (int i = 0; i < numberOfShips; i++) {
 
-			System.out.println("Ships not placed on the board : "
+			System.out.println("Ships not placed on the grid : "
 					+ player1_ships);
 
 			/*
@@ -207,7 +204,7 @@ public class HumanVSArtificial1 {
 				 */
 				/*
 				 * nb : current player ships list contains only the ships which
-				 * are already placed on the board
+				 * are already placed on the grid
 				 */
 				checkPlaceIsFree = currentShipToPlace.checkPlaceIsFree(player1
 						.listCoordTaken());
@@ -219,7 +216,7 @@ public class HumanVSArtificial1 {
 					System.out
 							.println("Coords you've entered are not in the right format !");
 					System.out
-							.print("Look at the board game columns' and lines' label.");
+							.print("Look at the grid game columns' and lines' label.");
 					System.out.println(" Re-enter them : ");
 				} else if (!(checkCoordsMatchWithSize)) {
 					System.out
@@ -240,10 +237,10 @@ public class HumanVSArtificial1 {
 			 */
 			player1.getPlayerShips().add(currentShipToPlace);
 
-			/* update and display new board with the ship placed */
-			player1.getBoardGame().updateBoard(currentShipToPlace);
+			/* update and display new grid with the ship placed */
+			player1.getGridGame().updateGrid(currentShipToPlace);
 
-			System.out.println(player1.getBoardGame());
+			System.out.println(player1.getGridGame());
 
 			/* remove the ship placed from the list of ships not placed yet */
 			player1_ships.remove(indexShipToPlace);
@@ -254,7 +251,7 @@ public class HumanVSArtificial1 {
 		}
 
 		player2.placeAllShips(player2_ships);
-		System.out.println(player2.getBoardGame());
+		System.out.println(player2.getGridGame());
 
 		for (l = 0; l <= 50; l++) {
 			System.out.println();
@@ -269,9 +266,9 @@ public class HumanVSArtificial1 {
 
 			if (game.getCurrentPlayer() == player1) {
 
-				/* display board attack */
-				System.out.println("Your current board attack : ");
-				System.out.println(game.getCurrentPlayer().getBoardAttack());
+				/* display grid attack */
+				System.out.println("Your current grid attack : ");
+				System.out.println(game.getCurrentPlayer().getGridAttack());
 
 				/* input missile position */
 				System.out.print("Choose a missile position to attack : ");
@@ -314,13 +311,13 @@ public class HumanVSArtificial1 {
 				if (player2.isAnyoneHit(missileCoord)) {
 
 					System.out
-							.println("\n  YES !!!  \n\n You've hit a ship ! Your new board attack : ");
+							.println("\n  YES !!!  \n\n You've hit a ship ! Your new grid attack : ");
 
-					/* update and display boards */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player2.getBoardGame().updateBoardAttack(missileCoord, 1);
-					System.out.println(player1.getBoardAttack());
-					// System.out.println("AI : " + player2.getBoardGame());
+					/* update and display grids */
+					player1.getGridAttack().updateGridAttack(missileCoord, 1);
+					player2.getGridGame().updateGridAttack(missileCoord, 1);
+					System.out.println(player1.getGridAttack());
+					// System.out.println("AI : " + player2.getGridGame());
 
 					/* check if ship is destroyed (one more ship in the list) */
 					if (player2.listShipDestroyed().size() > n) {
@@ -330,12 +327,12 @@ public class HumanVSArtificial1 {
 
 				else {
 					System.out
-							.println("\n  NO !!! \n\n You haven't hit any ship. Your new board attack : ");
+							.println("\n  NO !!! \n\n You haven't hit any ship. Your new grid attack : ");
 
-					/* update and display board attack */
-					player1.getBoardAttack().updateBoardAttack(missileCoord, 0);
+					/* update and display grid attack */
+					player1.getGridAttack().updateGridAttack(missileCoord, 0);
 
-					System.out.println(player1.getBoardAttack());
+					System.out.println(player1.getGridAttack());
 				}
 
 				System.out.println("ships destroyed : "
@@ -357,12 +354,12 @@ public class HumanVSArtificial1 {
 				int n2 = player1.listShipDestroyed().size();
 
 				if (player1.isAnyoneHit(missileCoord)) {
-					/* update and display boards */
-					player2.getBoardAttack().updateBoardAttack(missileCoord, 1);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 1);
+					/* update and display grids */
+					player2.getGridAttack().updateGridAttack(missileCoord, 1);
+					player1.getGridGame().updateGridAttack(missileCoord, 1);
 					System.out.println("You've been hit on " + missileCoord
-							+ ". Your new board game : "
-							+ player1.getBoardGame());
+							+ ". Your new grid game : "
+							+ player1.getGridGame());
 
 					missileCoordHit = missileCoord;
 
@@ -374,12 +371,12 @@ public class HumanVSArtificial1 {
 					}
 
 				} else {
-					/* update and display board attack */
-					player2.getBoardAttack().updateBoardAttack(missileCoord, 0);
-					player1.getBoardGame().updateBoardAttack(missileCoord, 0);
+					/* update and display grid attack */
+					player2.getGridAttack().updateGridAttack(missileCoord, 0);
+					player1.getGridGame().updateGridAttack(missileCoord, 0);
 					System.out
-							.println("You've not been hit. Your new board game : "
-									+ player1.getBoardGame());
+							.println("You've not been hit. Your new grid game : "
+									+ player1.getGridGame());
 				}
 				for (l = 0; l <= 5; l++) {
 					System.out.println();
