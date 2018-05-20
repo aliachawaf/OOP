@@ -9,20 +9,32 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 
 	private int mapSize;
 	private List<Coord> listCoordMissileSent;
+	private List<Coord> listCoordMissileSentNotHit;
+	private List<Coord> listCoordMissileSentHit;
 
 	public ArtificialPlayer2(int mapSize) {
 		super(mapSize);
 		this.mapSize = mapSize;
 		this.listCoordMissileSent = new ArrayList<Coord>();
+		this.listCoordMissileSentNotHit = new ArrayList<Coord>();
+		this.listCoordMissileSentHit = new ArrayList<Coord>();
 	}
 
 	// getters & setters
-	public List<Coord> getListCoordMissileSent() {
-		return listCoordMissileSent;
+	public List<Coord> getListCoordMissileSentNotHit() {
+		return listCoordMissileSentNotHit;
 	}
 
-	public void setListCoordMissileSent(List<Coord> listCoordMissileSent) {
-		this.listCoordMissileSent = listCoordMissileSent;
+	public void setListCoordMissileSentNotHit(List<Coord> listCoordMissileSentNotHit) {
+		this.listCoordMissileSentNotHit = listCoordMissileSentNotHit;
+	}
+	
+	public List<Coord> getListCoordMissileSentHit() {
+		return listCoordMissileSentHit;
+	}
+
+	public void setListCoordMissileSentHit(List<Coord> listCoordMissileSentHit) {
+		this.listCoordMissileSentHit = listCoordMissileSentHit;
 	}
 
 	public int getMapSize() {
@@ -129,7 +141,6 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 
 		this.getPlayerShips().add(s);
 		this.getBoardGame().updateBoard(s);
-		System.out.println(this.getBoardGame());
 	}
 
 	public void placeAllShips(List<Ship> list) {
@@ -139,51 +150,69 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		}
 	}
 
-	// public Coord sendMissile() {
-	//
-	// // chose a missileCoord randomly which was never sent before
-	// Coord missileCoord;
-	//
-	// do {
-	// missileCoord = this.choseOneCoord();
-	// } while (this.listCoordMissileSent.contains(missileCoord));
-	//
-	// this.listCoordMissileSent.add(missileCoord);
-	// return missileCoord;
-	// }
-
 	public Coord sendMissile() {
 
 		/* Send missiles only on 'white' coord of the board (like chess) */
 		Coord missileCoord = new Coord(this.mapSize);
-		boolean lineParity;
-		boolean columnParity;
-		boolean checkLineColumnSameParity;
-		int column;
-		
-		do {
-			//missile chosen randomly until its line and column have the same parity
-			missileCoord = this.choseOneCoord();
 
-			lineParity = (missileCoord.getLine() % 2 == 0);
+		int randomIndex;
 
-			column = (int) Character.toLowerCase(missileCoord.getColumn()) - 96;
-			System.out.println("int column random : " + column);
+		if (this.hasSentMissilesOnAllWhiteCoord()) {
 
-			columnParity = (column % 2 == 0);
+			do {
+				missileCoord = this.choseOneCoord();
+			} while (this.listCoordWithLineColumnSameParity().contains(
+					missileCoord)
+					|| this.listCoordMissileSent.contains(missileCoord)
+					|| !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
 
-			checkLineColumnSameParity = (lineParity & columnParity)
-					|| (!lineParity & !columnParity);
+		} else {
 
-			System.out.println("missile : " + missileCoord + "same parity :"
-					+ checkLineColumnSameParity);
+			do {
+				randomIndex = ThreadLocalRandom.current().nextInt(0,
+						this.listCoordWithLineColumnSameParity().size());
 
-		} while (this.listCoordMissileSent.contains(missileCoord)
-				|| !checkLineColumnSameParity);
+				missileCoord = this.listCoordWithLineColumnSameParity().get(
+						randomIndex);
+
+			} while (this.listCoordMissileSent.contains(missileCoord) || !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
+		}
 
 		this.listCoordMissileSent.add(missileCoord);
 		return missileCoord;
 
+	}
+	
+	public List<Coord> listCoordWithLineColumnSameParity(){
+		
+		/* return all the 'white' coord of the grid (line and column have same parity) */
+		
+		List<Coord> list = new ArrayList<Coord>();
+		
+		boolean lineParity, columnParity, lineColumnSameParity;
+		
+		for (int line=1; line<=this.mapSize; line++){
+			
+			for (int column=1; column<=this.mapSize; column++){
+				
+				lineParity = (line % 2 == 0);
+
+				columnParity = (column % 2 == 0);
+
+				lineColumnSameParity = (lineParity & columnParity)
+						|| (!lineParity & !columnParity);
+				
+				if (lineColumnSameParity){
+					
+					char col = (char)(column+64);
+					Coord c = new Coord(col, line, this.mapSize);
+					list.add(c);
+					
+				}
+			}
+			
+		}
+		return list;
 	}
 
 	public Coord sendMissileAroundShipHit(Coord hit) {
@@ -192,66 +221,188 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		int randomDirection;
 		char column;
 		boolean checkMissileCoord;
+		
+		if (this.hasSentMissilesOnAllWhiteCoord()) {
 
-		do {
-			/*
-			 * random direction is chosen 1 : left to right 2 : right to left 3
-			 * : top to bottom 4 : bottom to top
-			 */
+			do {
+				missileCoord = this.choseOneCoord();
+			} while (this.listCoordWithLineColumnSameParity().contains(
+					missileCoord)
+					|| this.listCoordMissileSent.contains(missileCoord)
+					|| !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
 
-			randomDirection = ThreadLocalRandom.current().nextInt(1, 9);
+		} else {
 
-			if (randomDirection == 1) {
-				column = hit.getColumn();
-				column++;
-				missileCoord.setColumn(column);
-				missileCoord.setLine(hit.getLine());
+			do {
+				/*
+				 * random direction is chosen 1 : left to right 2 : right to
+				 * left 3 : top to bottom 4 : bottom to top
+				 */
 
-			} else if (randomDirection == 2) {
-				column = hit.getColumn();
-				column--;
-				missileCoord.setColumn(column);
-				missileCoord.setLine(hit.getLine());
+				randomDirection = ThreadLocalRandom.current().nextInt(1, 17);
+				
+				if (randomDirection == 1) {
+					column = hit.getColumn();
+					column++;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
 
-			} else if (randomDirection == 3) {
-				missileCoord.setColumn(hit.getColumn());
-				missileCoord.setLine(hit.getLine() + 1);
+				} else if (randomDirection == 2) {
+					column = hit.getColumn();
+					column--;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
 
-			} else if (randomDirection == 4) {
-				missileCoord.setColumn(hit.getColumn());
-				missileCoord.setLine(hit.getLine() - 1);
+				} else if (randomDirection == 3) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() + 1);
 
-			} else if (randomDirection == 5) {
-				column = hit.getColumn();
-				column++;
-				column++;
-				missileCoord.setColumn(column);
-				missileCoord.setLine(hit.getLine());
+				} else if (randomDirection == 4) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() - 1);
 
-			} else if (randomDirection == 6) {
-				column = hit.getColumn();
-				column--;
-				column--;
-				missileCoord.setColumn(column);
-				missileCoord.setLine(hit.getLine());
+				} else if (randomDirection == 5) {
+					column = hit.getColumn();
+					column++;
+					column++;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
 
-			} else if (randomDirection == 7) {
-				missileCoord.setColumn(hit.getColumn());
-				missileCoord.setLine(hit.getLine() + 2);
+				} else if (randomDirection == 6) {
+					column = hit.getColumn();
+					column--;
+					column--;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
 
-			} else if (randomDirection == 8) {
-				missileCoord.setColumn(hit.getColumn());
-				missileCoord.setLine(hit.getLine() - 2);
-			}
+				} else if (randomDirection == 7) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() + 2);
 
-			checkMissileCoord = missileCoord.checkCoord();
+				} else if (randomDirection == 8) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() - 2);
 
-		} while (!(checkMissileCoord)
-				|| this.listCoordMissileSent.contains(missileCoord));
+				} else if (randomDirection == 9) {
+					column = hit.getColumn();
+					column++;
+					column++;
+					column++;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
 
+				} else if (randomDirection == 10) {
+					column = hit.getColumn();
+					column--;
+					column--;
+					column--;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
+
+				} else if (randomDirection == 11) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() + 3);
+				
+				} else if (randomDirection == 12 ) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() - 3);
+
+				} else if (randomDirection == 13 ) {
+					column = hit.getColumn();
+					column++;
+					column++;
+					column++;
+					column++;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
+					
+				} else if (randomDirection == 14 ) {
+					column = hit.getColumn();
+					column--;
+					column--;
+					column--;
+					column--;
+					missileCoord.setColumn(column);
+					missileCoord.setLine(hit.getLine());
+
+				} else if (randomDirection == 15 ) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() + 4);
+
+				} else if (randomDirection == 16) {
+					missileCoord.setColumn(hit.getColumn());
+					missileCoord.setLine(hit.getLine() - 4);
+
+				} 
+				
+				checkMissileCoord = missileCoord.checkCoord();
+
+			} while (!(checkMissileCoord)
+					|| this.listCoordMissileSent.contains(missileCoord)
+					|| !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
+		}
 		this.listCoordMissileSent.add(missileCoord);
 		return missileCoord;
 	}
+	
+	public boolean hasSentMissilesOnAllWhiteCoord(){
+		
+		/* return true if missiles have been sent on all the 'white' coords (like chess) */
+		
+		int numberMissileSentOnWhiteCoord = 0;
+
+		for (Coord c : this.listCoordWithLineColumnSameParity()) {
+
+			if (this.listCoordMissileSent.contains(c)) {
+				numberMissileSentOnWhiteCoord++;
+			}
+
+		}
+		
+		return (numberMissileSentOnWhiteCoord == this.listCoordWithLineColumnSameParity().size()); 
+	
+	}
+
+	public boolean checkCoordIsNotInIntersectionOfMissiles(Coord c){
+		
+		/* checks if the coord is not between 4 missiles sent (right, left, top, bottom) */
+		
+		Coord c2 = new Coord(this.mapSize);
+		
+		boolean check =true;
+		
+		c2.setColumn(c.getColumn());
+		c2.setLine(c.getLine()+1);
+		
+		if (this.getListCoordMissileSentNotHit().contains(c2)){
+			check = false;
+		}
+		
+		c2.setLine(c.getLine()-1);
+		
+		if (this.getListCoordMissileSentNotHit().contains(c2)){
+			check = false;
+		}
+		
+		c2.setLine(c.getLine());
+		
+		char column = c.getColumn();
+		column++;
+		c2.setColumn(column);
+		if (this.getListCoordMissileSentNotHit().contains(c2)){
+			check = false;
+		}
+		
+		column = c.getColumn();
+		column--;
+		c2.setColumn(column);
+		if (this.getListCoordMissileSentNotHit().contains(c2)){
+			check = false;
+		}
+		
+		return check;	
+	}
+	
 
 	public boolean checkDontTouchAShip(Ship s) {
 
