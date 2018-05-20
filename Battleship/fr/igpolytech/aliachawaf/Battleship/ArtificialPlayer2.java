@@ -7,20 +7,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ArtificialPlayer2 extends Player implements ArtificialIntelligence {
 
-	private int mapSize;
+	private int gridSize;
 	private List<Coord> listCoordMissileSent;
 	private List<Coord> listCoordMissileSentNotHit;
 	private List<Coord> listCoordMissileSentHit;
 
-	public ArtificialPlayer2(int mapSize) {
-		super(mapSize);
-		this.mapSize = mapSize;
+	public ArtificialPlayer2(int gridSize) {
+		super(gridSize);
+		this.gridSize = gridSize;
 		this.listCoordMissileSent = new ArrayList<Coord>();
 		this.listCoordMissileSentNotHit = new ArrayList<Coord>();
 		this.listCoordMissileSentHit = new ArrayList<Coord>();
 	}
 
 	// getters & setters
+	public List<Coord> getListCoordMissileSent() {
+		return listCoordMissileSent;
+	}
+	
 	public List<Coord> getListCoordMissileSentNotHit() {
 		return listCoordMissileSentNotHit;
 	}
@@ -37,22 +41,22 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		this.listCoordMissileSentHit = listCoordMissileSentHit;
 	}
 
-	public int getMapSize() {
-		return mapSize;
+	public int getgridSize() {
+		return gridSize;
 	}
 
 	public Coord choseOneCoord() {
 		// chose randomly a column and a line
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String columnsBoard = alphabet.substring(0, this.mapSize);
+		String columnsBoard = alphabet.substring(0, this.gridSize);
 		Random random = new Random();
 		char randomColumn = columnsBoard.charAt(random.nextInt(columnsBoard
 				.length()));
 
 		int randomLine = ThreadLocalRandom.current().nextInt(1,
-				this.mapSize + 1);
+				this.gridSize + 1);
 
-		return new Coord(randomColumn, randomLine, this.mapSize);
+		return new Coord(randomColumn, randomLine, this.gridSize);
 	}
 
 	public void placeOneShip(Ship s) {
@@ -66,8 +70,8 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		boolean checkEndCoord;
 		char column;
 
-		Coord endCoord = new Coord(this.mapSize);
-		Coord start = new Coord(this.mapSize);
+		Coord endCoord = new Coord(this.gridSize);
+		Coord start = new Coord(this.gridSize);
 
 		do {
 
@@ -153,7 +157,7 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 	public Coord sendMissile() {
 
 		/* Send missiles only on 'white' coord of the board (like chess) */
-		Coord missileCoord = new Coord(this.mapSize);
+		Coord missileCoord = new Coord(this.gridSize);
 
 		int randomIndex;
 
@@ -174,8 +178,10 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 
 				missileCoord = this.listCoordWithLineColumnSameParity().get(
 						randomIndex);
-
-			} while (this.listCoordMissileSent.contains(missileCoord) || !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
+				
+				//System.out.println("not intersec " + this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
+				
+			} while (this.listCoordMissileSent.contains(missileCoord));
 		}
 
 		this.listCoordMissileSent.add(missileCoord);
@@ -191,9 +197,9 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		
 		boolean lineParity, columnParity, lineColumnSameParity;
 		
-		for (int line=1; line<=this.mapSize; line++){
+		for (int line=1; line<=this.gridSize; line++){
 			
-			for (int column=1; column<=this.mapSize; column++){
+			for (int column=1; column<=this.gridSize; column++){
 				
 				lineParity = (line % 2 == 0);
 
@@ -205,7 +211,7 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 				if (lineColumnSameParity){
 					
 					char col = (char)(column+64);
-					Coord c = new Coord(col, line, this.mapSize);
+					Coord c = new Coord(col, line, this.gridSize);
 					list.add(c);
 					
 				}
@@ -217,7 +223,7 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 
 	public Coord sendMissileAroundShipHit(Coord hit) {
 
-		Coord missileCoord = new Coord(this.mapSize);
+		Coord missileCoord = new Coord(this.gridSize);
 		int randomDirection;
 		char column;
 		boolean checkMissileCoord;
@@ -298,7 +304,7 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 					column--;
 					missileCoord.setColumn(column);
 					missileCoord.setLine(hit.getLine());
-
+				
 				} else if (randomDirection == 11) {
 					missileCoord.setColumn(hit.getColumn());
 					missileCoord.setLine(hit.getLine() + 3);
@@ -336,10 +342,12 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 				} 
 				
 				checkMissileCoord = missileCoord.checkCoord();
+				//System.out.println("not intersec " + this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
 
+				
 			} while (!(checkMissileCoord)
-					|| this.listCoordMissileSent.contains(missileCoord)
-					|| !this.checkCoordIsNotInIntersectionOfMissiles(missileCoord));
+					|| this.listCoordMissileSent.contains(missileCoord));
+			
 		}
 		this.listCoordMissileSent.add(missileCoord);
 		return missileCoord;
@@ -367,21 +375,25 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		
 		/* checks if the coord is not between 4 missiles sent (right, left, top, bottom) */
 		
-		Coord c2 = new Coord(this.mapSize);
+		Coord c2 = new Coord(this.gridSize);
 		
-		boolean check =true;
+		boolean checkCoordTop = true;
+		boolean checkCoordBottom = true;
+		boolean checkCoordLeft = true;
+		boolean checkCoordRight = true;
+		boolean check = false;
 		
 		c2.setColumn(c.getColumn());
 		c2.setLine(c.getLine()+1);
 		
-		if (this.getListCoordMissileSentNotHit().contains(c2)){
-			check = false;
+		if (!c2.checkCoord() || this.getListCoordMissileSentNotHit().contains(c2)){
+			checkCoordBottom = false;
 		}
 		
 		c2.setLine(c.getLine()-1);
 		
-		if (this.getListCoordMissileSentNotHit().contains(c2)){
-			check = false;
+		if (!c2.checkCoord() || this.getListCoordMissileSentNotHit().contains(c2)){
+			checkCoordTop = false;
 		}
 		
 		c2.setLine(c.getLine());
@@ -389,17 +401,23 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 		char column = c.getColumn();
 		column++;
 		c2.setColumn(column);
-		if (this.getListCoordMissileSentNotHit().contains(c2)){
-			check = false;
+		
+		if (!c2.checkCoord() || this.getListCoordMissileSentNotHit().contains(c2)){
+			checkCoordRight = false;
 		}
 		
 		column = c.getColumn();
 		column--;
 		c2.setColumn(column);
-		if (this.getListCoordMissileSentNotHit().contains(c2)){
-			check = false;
+		
+		if (!c2.checkCoord() || this.getListCoordMissileSentNotHit().contains(c2)){
+			checkCoordLeft = false;
 		}
 		
+		if (checkCoordBottom || checkCoordLeft || checkCoordRight || checkCoordTop){
+			check = true ;
+		}
+
 		return check;	
 	}
 	
@@ -407,7 +425,7 @@ public class ArtificialPlayer2 extends Player implements ArtificialIntelligence 
 	public boolean checkDontTouchAShip(Ship s) {
 
 		boolean check = true;
-		Coord c = new Coord(this.mapSize);
+		Coord c = new Coord(this.gridSize);
 		char column;
 
 		if (s.isVertical()) {
