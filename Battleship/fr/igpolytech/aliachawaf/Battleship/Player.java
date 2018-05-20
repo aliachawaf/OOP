@@ -10,10 +10,10 @@ public abstract class Player {
 	protected Display boardAttack;
 
 	// constructor
-	public Player(int mapSize) {
+	public Player(int gridSize) {
 		this.playerShips = new ArrayList<Ship>();
-		this.boardGame = new Display(mapSize);
-		this.boardAttack = new Display(mapSize);
+		this.boardGame = new Display(gridSize);
+		this.boardAttack = new Display(gridSize);
 	}
 
 	// getters & setters

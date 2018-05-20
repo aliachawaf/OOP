@@ -1,26 +1,27 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
+
 public class Coord {
 
 	private char column;
 	private int line;
-	private int mapSize;
+	private int gridSize;
 
 	// constructors
-	public Coord(char column, int line, int mapSize) {
+	public Coord(char column, int line, int gridSize) {
 		this.column = Character.toUpperCase(column);
 		this.line = line;
-		this.mapSize = mapSize;
+		this.gridSize = gridSize;
 	}
 
-	public Coord(String coord, int mapSize) {
+	public Coord(String coord, int gridSize) {
 		this.column = Character.toUpperCase(coord.charAt(0));
 		this.line = Integer.parseInt(coord.substring(1));
-		this.mapSize = mapSize;
+		this.gridSize = gridSize;
 	}
 	
-	public Coord(int mapSize) {
-		this.mapSize = mapSize;
+	public Coord(int gridSize) {
+		this.gridSize = gridSize;
 	}
 
 	// getters & setters
@@ -40,12 +41,12 @@ public class Coord {
 		this.line = line;
 	}
 
-	public int getMapSize() {
-		return mapSize;
+	public int getGridSize() {
+		return gridSize;
 	}
 
-	public void setMapSize(int mapSize) {
-		this.mapSize = mapSize;
+	public void setGridSize(int gridSize) {
+		this.gridSize = gridSize;
 	}
 
 	// methods
@@ -77,7 +78,7 @@ public class Coord {
 	
 	public void interchangeCoord(Coord c) {
 
-		Coord i = new Coord(this.getColumn(), this.getLine(), this.mapSize);
+		Coord i = new Coord(this.getColumn(), this.getLine(), this.gridSize);
 
 		this.setColumn(c.getColumn());
 		this.setLine(c.getLine());
@@ -103,13 +104,15 @@ public class Coord {
 	}
 	
 	
+	
+	
 	// checking
 	public boolean checkColumn() {
 
 		boolean check = false;
 
 		for (char i = 'A'; i < Character
-				.toUpperCase((char)(this.mapSize + 65)); i++) {
+				.toUpperCase((char)(this.gridSize + 65)); i++) {
 			if (this.column == i) {
 				check = true;
 			}
@@ -121,7 +124,7 @@ public class Coord {
 
 		boolean check = false;
 
-		for (int i = 1; i <= this.mapSize; i++) {
+		for (int i = 1; i <= this.gridSize; i++) {
 			if (this.line == i) {
 				check = true;
 			}

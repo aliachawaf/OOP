@@ -4,18 +4,18 @@ import java.util.List;
 
 public class AI0vsAI1 {
 
-	public static String main(List<Ship> player0_ships, List<Ship> player1_ships,
+	public static String playBattleship(List<Ship> player0_ships, List<Ship> player1_ships,
 			int currentPlayer) {
 
-		int mapSize = 10;
+		int gridSize = 10;
 		boolean hit = false;
 		boolean destroyed = false;
-		Coord missileCoord = new Coord(mapSize);
-		Coord missileCoordHit = new Coord(mapSize);
+		Coord missileCoord = new Coord(gridSize);
+		Coord missileCoordHit = new Coord(gridSize);
 
 		/* set up 2 players */
-		ArtificialPlayer0 player0 = new ArtificialPlayer0(mapSize);
-		ArtificialPlayer1 player1 = new ArtificialPlayer1(mapSize);
+		ArtificialPlayer0 player0 = new ArtificialPlayer0(gridSize);
+		ArtificialPlayer1 player1 = new ArtificialPlayer1(gridSize);
 
 		/* set up a game */
 		Game game = new Game(player0, player1);
@@ -38,7 +38,7 @@ public class AI0vsAI1 {
 		player1.placeAllShips(player1_ships);
 
 		// ********* ATTACK *********//
-		// System.out.println("game not ended : " + game.NotEnded());
+		
 		while (game.NotEnded()) {
 			if (game.getCurrentPlayer() == player0) {
 				missileCoord = player0.sendMissile();
@@ -54,9 +54,6 @@ public class AI0vsAI1 {
 					player1.getBoardGame().updateBoardAttack(missileCoord, 0);
 
 				}
-
-				// System.out.println("A0 attack : " + player0.getBoardAttack()
-				// );
 
 			} else {
 				if (hit && !destroyed) {
@@ -89,8 +86,6 @@ public class AI0vsAI1 {
 					player0.getBoardGame().updateBoardAttack(missileCoord, 0);
 
 				}
-				// System.out.println("A1 attack : " + player1.getBoardAttack()
-				// );
 			}
 			game.changePlayer();
 		}

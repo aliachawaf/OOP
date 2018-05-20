@@ -4,8 +4,8 @@ public class Display {
 	private char gameBoard[][];
 
 	// constructor
-	public Display(int mapSize) {
-		this.gameBoard = new char[mapSize + 1][mapSize + 2];
+	public Display(int gridSize) {
+		this.gameBoard = new char[gridSize + 1][gridSize + 2];
 		/*
 		 * we add one more line to display the letters ( on 1st line) we add 2
 		 * more columns to display line numbers (on 1st and 2nd columns)

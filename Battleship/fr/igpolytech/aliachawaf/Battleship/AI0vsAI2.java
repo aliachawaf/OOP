@@ -7,15 +7,15 @@ public class AI0vsAI2 {
 	public static String playBattleship(List<Ship> player0_ships, List<Ship> player1_ships,
 			int currentPlayer) {
 
-		int mapSize = 10;
+		int gridSize = 10;
 		boolean hit = false;
 		boolean destroyed = false;
-		Coord missileCoord = new Coord(mapSize);
-		Coord missileCoordHit = new Coord(mapSize);
+		Coord missileCoord = new Coord(gridSize);
+		Coord missileCoordHit = new Coord(gridSize);
 
 		/* set up 2 players */
-		ArtificialPlayer0 player0 = new ArtificialPlayer0(mapSize);
-		ArtificialPlayer2 player2 = new ArtificialPlayer2(mapSize);
+		ArtificialPlayer0 player0 = new ArtificialPlayer0(gridSize);
+		ArtificialPlayer2 player2 = new ArtificialPlayer2(gridSize);
 
 		/* set up a game */
 		Game game = new Game(player0, player2);
@@ -56,10 +56,9 @@ public class AI0vsAI2 {
 					player2.getBoardGame().updateBoardAttack(missileCoord, 0);
 
 				}
-				
-				//System.out.println("AI0 " + player0.boardAttack);
 
 			} else {
+				
 				if (hit && !destroyed) {
 					missileCoord = player2
 							.sendMissileAroundShipHit(missileCoordHit);
@@ -75,6 +74,9 @@ public class AI0vsAI2 {
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 1);
 					player0.getBoardGame().updateBoardAttack(missileCoord, 1);
 					
+					//player2.getListCoordMissileSentHit().add(missileCoord);
+					//System.out.println("list hit : " + player2.getListCoordMissileSentHit());
+					
 					missileCoordHit = missileCoord;
 
 					hit = true;
@@ -88,9 +90,11 @@ public class AI0vsAI2 {
 					/* update and display board attack */
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 0);
 					player0.getBoardGame().updateBoardAttack(missileCoord, 0);
-
+					
+					player2.getListCoordMissileSentNotHit().add(missileCoord);
+					//System.out.println("list not hit : " + player2.getListCoordMissileSentNotHit());
 				}
-				
+				//System.out.println("list sent : " + player2.getListCoordMissileSent());
 				//System.out.println("AI2 " + player2.boardAttack);
 			}
 			game.changePlayer();

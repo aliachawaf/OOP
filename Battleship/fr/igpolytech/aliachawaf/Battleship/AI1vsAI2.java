@@ -7,20 +7,20 @@ public class AI1vsAI2 {
 	public static String playBattleship(List<Ship> player1_ships, List<Ship> player2_ships,
 			int currentPlayer) {
 
-		int mapSize = 10;
-		Coord missileCoord = new Coord(mapSize);
+		int gridSize = 10;
+		Coord missileCoord = new Coord(gridSize);
 		
 		boolean hitPlayer1 = false;
 		boolean destroyedPlayer1 = false;
-		Coord missileCoordHitPlayer1 = new Coord(mapSize);
+		Coord missileCoordHitPlayer1 = new Coord(gridSize);
 		
 		boolean hitPlayer2 = false;
 		boolean destroyedPlayer2 = false;
-		Coord missileCoordHitPlayer2 = new Coord(mapSize);
+		Coord missileCoordHitPlayer2 = new Coord(gridSize);
 
 		/* set up 2 players */
-		ArtificialPlayer1 player1 = new ArtificialPlayer1(mapSize);
-		ArtificialPlayer2 player2 = new ArtificialPlayer2(mapSize);
+		ArtificialPlayer1 player1 = new ArtificialPlayer1(gridSize);
+		ArtificialPlayer2 player2 = new ArtificialPlayer2(gridSize);
 
 		/* set up a game */
 		Game game = new Game(player1, player2);
@@ -98,6 +98,9 @@ public class AI1vsAI2 {
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 1);
 					player1.getBoardGame().updateBoardAttack(missileCoord, 1);
 					
+					//Coord m = new Coord(missileCoord.getColumn(), missileCoord.getLine(), gridSize);
+					//player2.getListCoordMissileSentHit().add(m);
+					
 					missileCoordHitPlayer2 = missileCoord;
 
 					hitPlayer2 = true;
@@ -108,6 +111,11 @@ public class AI1vsAI2 {
 					}
 
 				} else {
+					
+					player2.getListCoordMissileSentNotHit().add(missileCoord);
+					//System.out.println("list not hit : " + player2.getListCoordMissileSentNotHit());
+					//System.out.println("list sent : " + player2.getListCoordMissileSent());
+					
 					/* update and display board attack */
 					player2.getBoardAttack().updateBoardAttack(missileCoord, 0);
 					player1.getBoardGame().updateBoardAttack(missileCoord, 0);

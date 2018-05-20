@@ -8,7 +8,7 @@ public class HumanVSArtificial0 {
 
 	private static Scanner scanner;
 
-	public static void playBattleship(int mapSize, List<Ship> player1_ships,
+	public static void playBattleship(int gridSize, List<Ship> player1_ships,
 			List<Ship> player2_ships, int currentPlayer) {
 
 		boolean checkNotException = false;
@@ -29,9 +29,9 @@ public class HumanVSArtificial0 {
 		String name;
 		System.out.print("\nEnter your name : ");
 		name = scanner.nextLine();
-		Player player1 = new HumanPlayer(name, mapSize);
+		Player player1 = new HumanPlayer(name, gridSize);
 
-		ArtificialPlayer0 player2 = new ArtificialPlayer0(mapSize);
+		ArtificialPlayer0 player2 = new ArtificialPlayer0(gridSize);
 
 		/* set up a game */
 		Game game = new Game(player1, player2);
@@ -154,8 +154,8 @@ public class HumanVSArtificial0 {
 					try {
 						start = scanner.nextLine();
 						end = scanner.nextLine();
-						startCoord = new Coord(start, mapSize);
-						endCoord = new Coord(end, mapSize);
+						startCoord = new Coord(start, gridSize);
+						endCoord = new Coord(end, gridSize);
 
 						checkNotException = true;
 
@@ -271,7 +271,7 @@ public class HumanVSArtificial0 {
 					while (!checkNotException) {
 						try {
 							missile = scanner.nextLine();
-							missileCoord = new Coord(missile, mapSize);
+							missileCoord = new Coord(missile, gridSize);
 
 							checkNotException = true;
 
@@ -387,10 +387,10 @@ public class HumanVSArtificial0 {
 			
 			if (currentPlayer == 1) {
 				currentPlayer = 2;
-				HumanVSArtificial1.playBattleship(mapSize, p1, p2, currentPlayer);
+				HumanVSArtificial1.playBattleship(gridSize, p1, p2, currentPlayer);
 			} else {
 				currentPlayer = 1;
-				HumanVSArtificial1.playBattleship(mapSize, p1, p2, currentPlayer);
+				HumanVSArtificial1.playBattleship(gridSize, p1, p2, currentPlayer);
 			}
 		}
 

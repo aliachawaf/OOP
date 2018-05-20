@@ -51,7 +51,7 @@ public class Game {
 
 	public boolean NotEnded() {
 
-		if (this.getCurrentPlayer().listShipDestroyed().size() >= 5) {
+		if (this.getCurrentPlayer().listShipDestroyed().size() == this.getCurrentPlayer().getPlayerShips().size()) {
 			return false;
 		} else {
 			return true;
@@ -59,7 +59,7 @@ public class Game {
 	}
 
 	public Player winnerEndGame() {
-
+		
 		if (this.player1.listShipDestroyed().size() == this.player1.getPlayerShips().size()) {
 			return this.player2;
 		} else {

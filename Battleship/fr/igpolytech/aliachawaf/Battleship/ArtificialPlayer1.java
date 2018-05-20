@@ -7,12 +7,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ArtificialPlayer1 extends Player implements ArtificialIntelligence {
 
-	private int mapSize;
+	private int gridSize;
 	private List<Coord> listCoordMissileSent;
 
-	public ArtificialPlayer1(int mapSize) {
-		super(mapSize);
-		this.mapSize = mapSize;
+	public ArtificialPlayer1(int gridSize) {
+		super(gridSize);
+		this.gridSize = gridSize;
 		this.listCoordMissileSent = new ArrayList<Coord>();
 	}
 
@@ -25,22 +25,22 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 		this.listCoordMissileSent = listCoordMissileSent;
 	}
 
-	public int getMapSize() {
-		return mapSize;
+	public int getGridSize() {
+		return gridSize;
 	}
 
 	public Coord choseOneCoord() {
 		// chose randomly a column and a line
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String columnsBoard = alphabet.substring(0, this.mapSize);
+		String columnsBoard = alphabet.substring(0, this.gridSize);
 		Random random = new Random();
 		char randomColumn = columnsBoard.charAt(random.nextInt(columnsBoard
 				.length()));
 
 		int randomLine = ThreadLocalRandom.current().nextInt(1,
-				this.mapSize + 1);
+				this.gridSize + 1);
 
-		return new Coord(randomColumn, randomLine, this.mapSize);
+		return new Coord(randomColumn, randomLine, this.gridSize);
 	}
 
 	public void placeOneShip(Ship s) {
@@ -56,8 +56,8 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 		boolean checkEndCoord;
 		char column;
 
-		Coord start = new Coord(this.mapSize);
-		Coord endCoord = new Coord(this.mapSize);
+		Coord start = new Coord(this.gridSize);
+		Coord endCoord = new Coord(this.gridSize);
 
 
 		do {
@@ -156,7 +156,7 @@ public class ArtificialPlayer1 extends Player implements ArtificialIntelligence 
 
 	public Coord sendMissileAroundShipHit(Coord hit) {
 
-		Coord missileCoord = new Coord(this.mapSize);
+		Coord missileCoord = new Coord(this.gridSize);
 		int randomDirection;
 		char column;
 		boolean checkMissileCoord;

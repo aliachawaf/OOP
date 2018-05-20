@@ -8,9 +8,19 @@ public class HumanVSHuman {
 
 	private static Scanner scanner;
 
-	public static void playBattleship(int mapSize, List<Ship> player1_ships, List<Ship> player2_ships, int currentPlayer) {
+	public static void playBattleship(int gridSize, List<Ship> player1_ships, List<Ship> player2_ships, int currentPlayer) {
 			
 		boolean checkNotException = false;
+		
+		/*
+		 * we save players's ships in case they want to play again at the end of
+		 * this game
+		 */
+		List<Ship> p1 = new ArrayList<Ship>();
+		List<Ship> p2 = new ArrayList<Ship>();
+
+		p1.addAll(player1_ships);
+		p2.addAll(player2_ships);
 		
 		scanner = new Scanner(System.in);
 
@@ -18,11 +28,11 @@ public class HumanVSHuman {
 		String name;
 		System.out.print("Player 1, enter your name : ");
 		name = scanner.nextLine();
-		Player player1 = new HumanPlayer(name, mapSize);
+		Player player1 = new HumanPlayer(name, gridSize);
 		
 		System.out.print("Player 2, enter your name : ");
 		name = scanner.nextLine();
-		Player player2 = new HumanPlayer(name, mapSize);
+		Player player2 = new HumanPlayer(name, gridSize);
 
 		/* set up a game */
 		Game game = new Game(player1, player2); 
@@ -157,8 +167,8 @@ public class HumanVSHuman {
 						try {
 							start = scanner.nextLine();
 							end = scanner.nextLine();
-							startCoord = new Coord(start, mapSize);
-							endCoord = new Coord(end, mapSize);
+							startCoord = new Coord(start, gridSize);
+							endCoord = new Coord(end, gridSize);
 
 							checkNotException = true;
 
@@ -272,7 +282,7 @@ public class HumanVSHuman {
 				while (!checkNotException) {
 					try {
 						missile = scanner.nextLine();
-						missileCoord = new Coord(missile, mapSize);
+						missileCoord = new Coord(missile, gridSize);
 
 						checkNotException = true;
 
@@ -361,10 +371,10 @@ public class HumanVSHuman {
 			
 			if (currentPlayer == 1) {
 				currentPlayer = 2;
-				HumanVSHuman.playBattleship(mapSize, p1, p2, currentPlayer);
+				HumanVSHuman.playBattleship(gridSize, p1, p2, currentPlayer);
 			} else {
 				currentPlayer = 1;
-				HumanVSHuman.playBattleship(mapSize, p1, p2, currentPlayer);
+				HumanVSHuman.playBattleship(gridSize, p1, p2, currentPlayer);
 			}
 		}
 

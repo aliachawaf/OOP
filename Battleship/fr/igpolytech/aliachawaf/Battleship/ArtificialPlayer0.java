@@ -6,33 +6,33 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ArtificialPlayer0 extends Player implements ArtificialIntelligence {
 
-	protected int mapSize;
+	protected int gridSize;
 
-	public ArtificialPlayer0(int mapSize) {
-		super(mapSize);
-		this.mapSize = mapSize;
+	public ArtificialPlayer0(int gridSize) {
+		super(gridSize);
+		this.gridSize = gridSize;
 	}
 
 	// getters & setters
-	public int getMapSize() {
-		return mapSize;
+	public int getGridSize() {
+		return gridSize;
 	}
 
-	public void setMapSize(int mapSize) {
-		this.mapSize = mapSize;
+	public void setGridSize(int gridSize) {
+		this.gridSize = gridSize;
 	}
 
 	// methods
 	public Coord choseOneCoord() {
 		// chose randomly a column and a line
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String columnsGrid = alphabet.substring(0, this.mapSize);
+		String columnsGrid = alphabet.substring(0, this.gridSize);
 		Random random = new Random();
 		char randomColumn = columnsGrid.charAt(random.nextInt(columnsGrid.length()));
 		
-		int randomLine = ThreadLocalRandom.current().nextInt(1, this.mapSize + 1);
+		int randomLine = ThreadLocalRandom.current().nextInt(1, this.gridSize + 1);
 
-		return new Coord(randomColumn, randomLine, this.mapSize);
+		return new Coord(randomColumn, randomLine, this.gridSize);
 	}
 	
 	public void placeOneShip(Ship ship) {
@@ -46,7 +46,7 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 		boolean checkEndCoord;
 		char column;
 
-		Coord endCoord = new Coord(this.mapSize);
+		Coord endCoord = new Coord(this.gridSize);
 
 		do {
 			
@@ -62,7 +62,7 @@ public class ArtificialPlayer0 extends Player implements ArtificialIntelligence 
 			} while (!(checkCoordIsFree));
 			
 			/* to avoid losing startCoord value */
-			Coord start = new Coord(this.mapSize);
+			Coord start = new Coord(this.gridSize);
 			start.setColumn(startCoord.getColumn());
 			start.setLine(startCoord.getLine());
 			

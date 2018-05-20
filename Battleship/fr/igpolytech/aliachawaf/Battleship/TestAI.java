@@ -78,7 +78,7 @@ public class TestAI {
 				currentPlayer=0;
 			}
 		}
-	
+		
 		int score2 = 0;
 		int score3 = 0;
 		currentPlayer = 0;
@@ -86,7 +86,7 @@ public class TestAI {
 		for (i = 0; i < 100; i++) {
 			
 			winner = AI0vsAI2.playBattleship(player0_ships, player2_ships, currentPlayer);
-			
+			System.out.println(i + " " + winner);
 			/* update scores */
 			if (winner.matches("Hard AI")){
 				score3++;
@@ -111,7 +111,7 @@ public class TestAI {
 		for (i = 0; i < 100; i++) {
 			
 			winner = AI1vsAI2.playBattleship(player1_ships, player2_ships, currentPlayer);
-			
+			System.out.println(i + " " + winner);
 			/* update scores */
 			if (winner.matches("Hard AI")){
 				score5++;
@@ -129,7 +129,7 @@ public class TestAI {
 		
 		try {
 			FileWriter file = new FileWriter("ai_proof.csv");
-			file.append("AI NAME; score; AI NAME2; score2\n");
+			file.append("AI NAME1; score1; AI NAME2; score2\n");
 			file.append("AI Level Beginner; " + score0 + "; Level Medium; " + score1 + "\n" );
 			file.append("AI Level Beginner; " + score2 + "; Level Hard; " + score3 + "\n");
 			file.append("AI Level Medium; " + score4 + "; Level Medium; " + score5 + "\n");

@@ -97,7 +97,7 @@ public class Ship {
 					.getLine(); i++) {
 
 				Coord c = new Coord(this.startCoord.getColumn(), i,
-						this.startCoord.getMapSize());
+						this.startCoord.getGridSize());
 				list.add(c);
 			}
 		} else {
@@ -105,7 +105,7 @@ public class Ship {
 					.getColumn(); i++) {
 
 				Coord c = new Coord(i, this.startCoord.getLine(),
-						this.startCoord.getMapSize());
+						this.startCoord.getGridSize());
 				list.add(c);
 			}
 		}

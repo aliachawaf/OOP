@@ -18,25 +18,25 @@ public class PlayBattleship {
 
 		int game = scanner.nextInt();
 
-		/* input mapSize */
-		int mapSize = 10;
+		/* input gridSize */
+		int gridSize = 10;
 		boolean checkNotException = false;
 
 		System.out
-				.print("\nEnter the map size you want between 10-25 (ex : enter 10 to have a map 10x10) : ");
+				.print("\nEnter the grid size you want between 10-25 (ex : enter 10 to have a grid 10x10) : ");
 
 		while (!checkNotException) {
 			try {
 				do {
-					mapSize = scanner.nextInt();
+					gridSize = scanner.nextInt();
 					scanner.nextLine();
 
-					if (mapSize < 10 || mapSize > 25) {
+					if (gridSize < 10 || gridSize > 25) {
 						System.out
 								.print("\nThe size you've entered is not between 10 and 25 ! Re-enter it : ");
 					}
 
-				} while (mapSize < 10 || mapSize > 25);
+				} while (gridSize < 10 || gridSize > 25);
 
 				checkNotException = true;
 
@@ -45,7 +45,7 @@ public class PlayBattleship {
 						.print("\nThe size you've entered is not a number ! Re-enter it : ");
 				scanner.nextLine();
 			} catch (StringIndexOutOfBoundsException e) {
-				System.out.print("Map size is missing. Re-enter it :");
+				System.out.print("grid size is missing. Re-enter it :");
 				scanner.nextLine();
 			}
 		}
@@ -139,7 +139,7 @@ public class PlayBattleship {
 		int level;
 
 		if (game == 1) {
-			HumanVSHuman.playBattleship(mapSize, player1_ships, player2_ships);
+			HumanVSHuman.playBattleship(gridSize, player1_ships, player2_ships, 1);
 		} else if (game == 2) {
 
 			System.out.println("\n 0 : easy \n 1 : medium \n 2 : hard\n");
@@ -149,13 +149,13 @@ public class PlayBattleship {
 			level = scanner.nextInt();
 
 			if (level == 0) {
-				HumanVSArtificial0.playBattleship(mapSize, player1_ships,
+				HumanVSArtificial0.playBattleship(gridSize, player1_ships,
 						player2_ships, 1);
 			} else if (level == 1) {
-				HumanVSArtificial1.playBattleship(mapSize, player1_ships,
+				HumanVSArtificial1.playBattleship(gridSize, player1_ships,
 						player2_ships, 1);
 			} else {
-				HumanVSArtificial2.playBattleship(mapSize, player1_ships,
+				HumanVSArtificial2.playBattleship(gridSize, player1_ships,
 						player2_ships, 1);
 			}
 		}
