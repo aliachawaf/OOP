@@ -1,5 +1,7 @@
 package fr.igpolytech.aliachawaf.Battleship;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,71 +53,70 @@ public class TestAI {
 
 		/* play artificial players game */
 
-		int scoreAI0 = 0;
-		int scoreAI1 = 0;
-		int scoreAI2 = 0;
 		int currentPlayer = 0;
 		int i;
 		String winner;
 		
-//		for( i = 0; i < 100; i++) {
-//			
-//			winner = AI0vsAI1.playBattleship(player0_ships, player1_ships, currentPlayer);
-//			
-//			/* update scores */
-//			if (winner.matches("Medium AI")){
-//				scoreAI1++;
-//			} else {
-//				scoreAI0++;
-//			}
-//			
-//			/* change first player for next game */
-//			if (currentPlayer==0){
-//				currentPlayer=1;
-//			} else {
-//				currentPlayer=0;
-//			}
-//		}
-//		
-//		System.out.println(scoreAI0 + " " + scoreAI1);
-//		
-//		scoreAI0 = 0;
-//		currentPlayer = 0;
-//		
-//		for (i = 0; i < 100; i++) {
-//			
-//			winner = AI0vsAI2.playBattleship(player0_ships, player2_ships, currentPlayer);
-//			
-//			/* update scores */
-//			if (winner.matches("Hard AI")){
-//				scoreAI2++;
-//			} else {
-//				scoreAI0++;
-//			}
-//			
-//			/* change first player for next game */
-//			if (currentPlayer==0){
-//				currentPlayer=2;
-//			} else {
-//				currentPlayer=0;
-//			}
-//		}
-//		
-//		System.out.println(scoreAI0 + " " + scoreAI2);
+		int score0 = 0;
+		int score1 = 0;
 		
-		scoreAI0 = 0;
+		for( i = 0; i < 100; i++) {
+			
+			winner = AI0vsAI1.playBattleship(player0_ships, player1_ships, currentPlayer);
+			
+			/* update scores */
+			if (winner.matches("Medium AI")){
+				score1++;
+			} else {
+				score0++;
+			}
+			
+			/* change first player for next game */
+			if (currentPlayer==0){
+				currentPlayer=1;
+			} else {
+				currentPlayer=0;
+			}
+		}
+	
+		int score2 = 0;
+		int score3 = 0;
+		currentPlayer = 0;
+		
+		for (i = 0; i < 100; i++) {
+			
+			winner = AI0vsAI2.playBattleship(player0_ships, player2_ships, currentPlayer);
+			
+			/* update scores */
+			if (winner.matches("Hard AI")){
+				score3++;
+			} else {
+				score2++;
+			}
+			
+			/* change first player for next game */
+			if (currentPlayer==0){
+				currentPlayer=2;
+			} else {
+				currentPlayer=0;
+			}
+		}
+		
+		
 		currentPlayer = 1;
+
+		int score4 = 0;
+		int score5 = 0;
 		
 		for (i = 0; i < 100; i++) {
 			
 			winner = AI1vsAI2.playBattleship(player1_ships, player2_ships, currentPlayer);
-			System.out.println(i + " " + winner);
 			
 			/* update scores */
 			if (winner.matches("Hard AI")){
-				scoreAI2++;
+				score5++;
 			} else {
-				scoreAI1++;
+				score4++;
 			}
 			
 			/* change first player for next game */
@@ -126,7 +127,16 @@ public class TestAI {
 			}
 		}
 		
-		System.out.println(scoreAI1 + " " + scoreAI2);
+		try {
+			FileWriter file = new FileWriter("ai_proof.csv");
+			file.append("AI NAME; score; AI NAME2; score2\n");
+			file.append("AI Level Beginner; " + score0 + "; Level Medium; " + score1 + "\n" );
+			file.append("AI Level Beginner; " + score2 + "; Level Hard; " + score3 + "\n");
+			file.append("AI Level Medium; " + score4 + "; Level Medium; " + score5 + "\n");
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
