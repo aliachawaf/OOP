@@ -23,12 +23,38 @@ public class Battleship {
 				.println(" 1 : Human VS Human \n 2 : Human VS ArtificialPlayer \n");
 		System.out.print("Enter the number of the game you want to play : ");
 
-		int game = scanner.nextInt();
+		boolean checkNotException = false;
+		int game = 2;
+
+		while (!checkNotException) {
+			try {
+				do {
+					game = scanner.nextInt();
+					scanner.nextLine();
+
+					if (game<1 || game>2) {
+						System.out.print("\nThe game number you've entered is diffrent of 1 and 2 ! Re-enter it : ");
+					}
+
+				} while (game < 1 || game > 2);
+
+				checkNotException = true;
+
+			} catch (java.util.InputMismatchException e) {
+				System.out.print("\nThe game number you've entered is not a number ! Re-enter it : ");
+				scanner.nextLine();
+
+			} 
+		}		
+
+
+
 
 		/* input gridSize */
 
 		int gridSize = 10;
-		boolean checkNotException = false;
+
+		checkNotException = false;
 
 		System.out.print("\nEnter the grid size you want between 10-25 (ex : enter 10 to have a grid 10x10) : ");
 
@@ -50,10 +76,7 @@ public class Battleship {
 				System.out.print("\nThe size you've entered is not a number ! Re-enter it : ");
 				scanner.nextLine();
 
-			} catch (StringIndexOutOfBoundsException e) {
-				System.out.print("Grid size is missing. Re-enter it :");
-				scanner.nextLine();
-			}
+			} 
 		}
 
 		/* set up 5 ships for each player */
